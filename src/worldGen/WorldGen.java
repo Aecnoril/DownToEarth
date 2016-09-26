@@ -6,6 +6,7 @@
 package worldGen;
 
 import gameUtil.Coordinate;
+import worldGen.OpenSimplexNoise;
 
 /**
  *
@@ -14,22 +15,20 @@ import gameUtil.Coordinate;
 public class WorldGen {
     
      private Coordinate size;
+     private OpenSimplexNoise generator;
      
      private int[][] map;
      
      public WorldGen(Coordinate size){
          
          this.size = size;
+         this.generator = new OpenSimplexNoise();
      }
      
      public void GenerateMatrix()
      {
          map = new int[size.getXint()][size.getYint()];
-         
-         
-         
-         
-         
+         map = generator.eval((double)size.getX(), size.getY())
      }
     
 }
