@@ -11,13 +11,15 @@ import org.newdawn.slick.SlickException;
 
 public class DownToEarth extends BasicGame {
 
+    worldGen.WorldGen worldGen = new worldGen.WorldGen(new gameUtil.Coordinate(128, 128));
+    
 	public DownToEarth(String gamename) {
 		super(gamename);
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-            
+            worldGen.GenerateMatrix();
 	}
 
 	@Override

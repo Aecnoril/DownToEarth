@@ -17,7 +17,7 @@ public class WorldGen {
      private Coordinate size;
      private SimplexNoise generator;
      
-     private int[][] map;
+     private double[][] map;
      
      public WorldGen(Coordinate size){
          
@@ -27,8 +27,16 @@ public class WorldGen {
      
      public void GenerateMatrix()
      {
-         map = new int[size.getXint()][size.getYint()];
+         map = new double[size.getXint()][size.getYint()];
+         SimplexNoise simpNoise = new SimplexNoise();
          
+         for(int i=0;i<size.getXint();i++){
+        for(int j=0;j<size.getYint();j++){
+            int x=(int)(0+i*((500-0)/size.getXint()));
+            int y=(int)(0+j*((500-0)/size.getYint()));
+            map[i][j]=0.5*(1+simpNoise.noise(x, y));
+        }
+    }
      }
     
 }
