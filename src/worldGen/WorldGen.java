@@ -28,7 +28,7 @@ public class WorldGen {
      public void GenerateMatrix()
      {
          map = new int[size.getXint()][size.getYint()];
-         map = generator.eval((double)size.getX(), size.getY())
+         
      }
     
 }
