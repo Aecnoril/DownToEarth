@@ -11,17 +11,19 @@ import enums.ItemType;
  *
  * @author Demian
  */
-public class Armor extends Item{
-    
-    private double damageReduction;
-    
-    public Armor(String name, ItemType type, double durability, double breakChange) {
+public class Consumable extends Item{
+
+    public Consumable(String name, ItemType type, double durability, double breakChange) {
         super(name, type, durability, breakChange);
     }
 
     @Override
     public void drop() {
         //TODO: implement
+    }
+    
+    public void eat(){
+        //TODO: implement 
     }
     
 }

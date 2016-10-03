@@ -32,24 +32,12 @@ public abstract class Item{
         return type;
     }
     
-    public void setType(ItemType type){
-        this.type = type;
-    }
-    
     public double getDurability(){
         return durability;
     }
     
-    public void setDurability(double durability){
-        this.durability = durability;
-    }
-    
     public double getBreakChange(){
         return breakChange;
-    }
-    
-    public void setBreakChange(double breakChange){
-        this.breakChange = breakChange;
     }
     
     //</editor-fold>
@@ -60,4 +48,6 @@ public abstract class Item{
         this.durability = durability;
         this.breakChange = breakChange;
     }
+    
+    public abstract void drop();
 }
