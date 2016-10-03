@@ -11,6 +11,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 import enums.*;
 import Items.*;
+import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -138,5 +139,11 @@ public class Player extends Entity{
     public Player(String name, SpriteSheet sprite, Point location, int hitPoints) {
         super(name, sprite, location, hitPoints);
     }
-    
+
+    @Override
+    public void render(Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
+
