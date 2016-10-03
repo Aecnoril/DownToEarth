@@ -1,11 +1,8 @@
 package Entities;
 
 import Items.Item;
-<<<<<<< HEAD
 import org.newdawn.slick.Graphics;
-=======
 import java.util.ArrayList;
->>>>>>> 4ab133069ed7c202a4695fe1fee87d3375df8e80
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
