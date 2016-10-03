@@ -49,7 +49,7 @@ public abstract class Item{
         SpriteLocation sl = ItemType.getSpriteLocation(type);
         int spritex = sl.getSpriteX();
         int spritey = sl.getSpriteY();
-        sprite.getSprite(spritex, spritey, xpos, ypos);
+        sprite.drawSprite(spritex, spritey, xpos, ypos);
     }
     
     public abstract void drop();

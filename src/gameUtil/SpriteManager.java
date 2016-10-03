@@ -23,9 +23,9 @@ public class SpriteManager {
         sprites = new SpriteSheet(spritesheet, resolution, resolution);
     }
     
-    public void getSprite(int x, int y, int xpos, int ypos){
+    public void drawSprite(int spriteX, int spriteY, int xpos, int ypos){
         sprites.startUse();
-        sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, size, size);
+        sprites.getSubImage(spriteX, spriteY).drawEmbedded(xpos, ypos, size, size);
         sprites.endUse();
     }
 }
