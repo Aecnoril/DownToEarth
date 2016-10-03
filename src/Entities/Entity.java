@@ -13,13 +13,14 @@ import org.newdawn.slick.geom.Point;
 public abstract class Entity {
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
-    private String name;
-    private SpriteSheet sprite;
-    private Point location;
-    private int hitPoints;  
-    private ArrayList<Item> inventory;
+
+    protected String name;
+    protected SpriteSheet sprite;
+    protected Point location;
+    protected int hitPoints;  
+    protected ArrayList<Item> inventory;
     
-    private final int maxBagSize = 20; 
+    protected final int bagSize = 20;
     
     /**
      * Get the value of name
