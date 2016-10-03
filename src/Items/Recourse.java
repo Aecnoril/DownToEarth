@@ -22,4 +22,9 @@ public class Recourse extends Item {
         //TODO: implement
     }
     
+    @Override
+    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+        //TODO: implement
+    }
+    
 }
