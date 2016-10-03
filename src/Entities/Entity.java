@@ -1,6 +1,7 @@
 package Entities;
 
 import Items.Item;
+import java.util.ArrayList;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
@@ -16,9 +17,9 @@ public abstract class Entity {
     private SpriteSheet sprite;
     private Point location;
     private int hitPoints;  
-    private Item[] inventory;
+    private ArrayList<Item> inventory;
     
-    private final int bagSize = 20; 
+    private final int maxBagSize = 20; 
     
     /**
      * Get the value of name
@@ -97,7 +98,7 @@ public abstract class Entity {
      *
      * @return the value of inventory
      */
-    public Item[] getInventory() {
+    public ArrayList<Item> getInventory() {
         return inventory;
     }
 
@@ -106,7 +107,7 @@ public abstract class Entity {
      *
      * @param inventory new value of inventory
      */
-    public void setInventory(Item[] inventory) {
+    public void setInventory(ArrayList<Item> inventory) {
         this.inventory = inventory;
     }
     
@@ -117,6 +118,6 @@ public abstract class Entity {
         this.sprite = sprite;
         this.location = location;
         this.hitPoints = hitPoints;
-        this.inventory = new Item[bagSize];
+        this.inventory = new ArrayList<Item>();
     }
 }
