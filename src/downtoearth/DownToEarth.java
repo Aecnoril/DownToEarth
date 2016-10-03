@@ -17,10 +17,6 @@ import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 
 public class DownToEarth extends BasicGame {
-
-    private static Item i;
-    private static Item i2;
-    private static ItemType type = ItemType.Steel;
     
     public DownToEarth(String gamename) {
         super(gamename);
@@ -42,9 +38,10 @@ public class DownToEarth extends BasicGame {
     }
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        try {
+        try {   
             AppGameContainer appgc;
             appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));
+            appgc.setDisplayMode(1920, 1080, false);
             appgc.setTargetFrameRate(60);
             appgc.start();
         } catch (SlickException ex) {
