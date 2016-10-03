@@ -14,17 +14,18 @@ import org.newdawn.slick.SpriteSheet;
  * @author Demian
  */
 public class SpriteManager {
-    private final int width = 32, height = 32;
+    private final int resolution = 16;
+    private final int size = 64;
     private SpriteSheet sprites;
     
     public SpriteManager(String path) throws SlickException{
         Image spritesheet = new Image(path); 
-        sprites = new SpriteSheet(spritesheet, 32, 32);
+        sprites = new SpriteSheet(spritesheet, resolution, resolution);
     }
     
     public void getSprite(int x, int y, int xpos, int ypos){
         sprites.startUse();
-        sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, width, height);
+        sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, size, size);
         sprites.endUse();
     }
 }

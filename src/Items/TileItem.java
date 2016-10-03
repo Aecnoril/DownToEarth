@@ -6,6 +6,7 @@
 package Items;
 
 import enums.ItemType;
+import enums.SpriteLocation;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -14,7 +15,7 @@ import org.newdawn.slick.SlickException;
  */
 public class TileItem extends Item{
     
-    public TileItem(String name, ItemType type, double durability, double breakChange) {
+    public TileItem(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
     
@@ -28,8 +29,10 @@ public class TileItem extends Item{
     }
     
     @Override
-    public void render(int xpos, int ypos, String path, int spritex, int spritey) throws SlickException {
-        super.setSprite(path);
-        super.getSprite().getSprite(spritex, spritey, xpos, ypos);
+    public void render(int xpos, int ypos) throws SlickException {
+        SpriteLocation sl = ItemType.getSpriteLocation(type);
+        int spritex = sl.getSpriteX();
+        int spritey = sl.getSpriteY();
+        sprite.getSprite(spritex, spritey, xpos, ypos);
     }
 }

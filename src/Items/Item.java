@@ -17,11 +17,14 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class Item{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    private String name;
-    private ItemType type;
-    private double durability;
-    private double breakChange;
-    private SpriteManager sprite;
+    private final String PATH = "resources/TestItems.png";
+    
+    protected String name;
+    protected byte type;
+    protected double durability;
+    protected double breakChange;
+    protected SpriteManager sprite;
+    
     
     public String getName(){
         return name;
@@ -31,36 +34,18 @@ public abstract class Item{
         this.name = name;
     }
     
-    public ItemType getType(){
-        return type;
-    }
-    
-    public double getDurability(){
-        return durability;
-    }
-    
-    public double getBreakChange(){
-        return breakChange;
-    }
-    
-    public SpriteManager getSprite(){
-        return this.sprite;
-    }
-    
-    public void setSprite(String path) throws SlickException{
-        this.sprite = new SpriteManager(path);
-    }
-    
     //</editor-fold>
     
-    public Item(String name, ItemType type, double durability, double breakChange){
+    public Item(String name, byte type, double durability, double breakChange) throws SlickException{
         this.name = name;
         this.type = type;
+
         this.durability = durability;
         this.breakChange = breakChange;
+        sprite = new SpriteManager(PATH);    
     }
     
     public abstract void drop();
     
-    public abstract void render(int xpos, int ypos, String path, int spritex, int spritey) throws SlickException;
+    public abstract void render(int xpos, int ypos) throws SlickException;
 }
