@@ -7,6 +7,7 @@ package Entities;
 
 import Items.Item;
 import enums.MobType;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
@@ -61,7 +62,10 @@ public class NPC extends Entity {
     
     //</editor-fold>
     
-    
+    @Override
+    public void render(Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public void move(){
         throw new UnsupportedOperationException("Not supported yet.");
