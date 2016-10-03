@@ -15,12 +15,30 @@ import enums.ItemType;
 public class Tool extends Item{
     
     private int damage;
-    private int 
+    private int environmentDamage;
+    private int attackSpeed;
     
-    
-    
-    public Tool(String name, ItemType type, double durability, double breakChange) {
-        super(name, type, durability, breakChange);
+    public int getDamage(){
+        return damage;
     }
     
+    public int getEnvironmentDamage(){
+        return environmentDamage;
+    }
+    
+    public int getAttackSpeed(){
+        return attackSpeed;
+    }
+    
+    public Tool(String name, ItemType type, double durability, double breakChange, int damage, int environmentDamage, int attackSpeed) {
+        super(name, type, durability, breakChange);
+        this.damage = damage;
+        this.environmentDamage = environmentDamage;
+        this.attackSpeed = attackSpeed;
+    }
+    
+    @Override
+    public void drop(){
+        //TODO: implement
+    }
 }

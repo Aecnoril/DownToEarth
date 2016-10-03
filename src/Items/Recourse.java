@@ -11,11 +11,9 @@ import enums.ItemType;
  *
  * @author Demian
  */
-public class Armor extends Item{
-    
-    private double damageReduction;
-    
-    public Armor(String name, ItemType type, double durability, double breakChange) {
+public class Recourse extends Item {
+
+    public Recourse(String name, ItemType type, double durability, double breakChange) {
         super(name, type, durability, breakChange);
     }
 
