@@ -1,6 +1,7 @@
 package Entities;
 
 import Items.Item;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
@@ -119,4 +120,6 @@ public abstract class Entity {
         this.hitPoints = hitPoints;
         this.inventory = new Item[bagSize];
     }
+    
+    public abstract void render(Graphics g);
 }
