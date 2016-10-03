@@ -5,6 +5,9 @@
  */
 package crafting;
 
+import Items.Item;
+import java.util.ArrayList;
+
 /**
  *
  * @author Sanko
