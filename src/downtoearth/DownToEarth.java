@@ -1,5 +1,8 @@
 package downtoearth;
 
+import Items.Item;
+import Items.TileItem;
+import enums.ItemType;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -15,6 +18,10 @@ import org.newdawn.slick.SlickException;
 
 public class DownToEarth extends BasicGame {
 
+    private static Item i;
+    private static Item i2;
+    private static ItemType type = ItemType.Steel;
+    
     public DownToEarth(String gamename) {
         super(gamename);
     }
@@ -35,8 +42,6 @@ public class DownToEarth extends BasicGame {
     }
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        File clipFile = new File("C:\\Users\\Ruud\\Documents\\NetBeansProjects\\DownToEarth\\src\\downtoearth\\Sounds\\Korg-01W-Tech-Bass-C2.wav");
-        soundLogic.playClip(clipFile);
         try {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));

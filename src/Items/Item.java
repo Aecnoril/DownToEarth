@@ -8,6 +8,8 @@ package Items;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 import enums.*;
+import gameUtil.SpriteManager;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -19,6 +21,7 @@ public abstract class Item{
     private ItemType type;
     private double durability;
     private double breakChange;
+    private SpriteManager sprite;
     
     public String getName(){
         return name;
@@ -40,6 +43,14 @@ public abstract class Item{
         return breakChange;
     }
     
+    public SpriteManager getSprite(){
+        return this.sprite;
+    }
+    
+    public void setSprite(String path) throws SlickException{
+        this.sprite = new SpriteManager(path);
+    }
+    
     //</editor-fold>
     
     public Item(String name, ItemType type, double durability, double breakChange){
@@ -50,4 +61,6 @@ public abstract class Item{
     }
     
     public abstract void drop();
+    
+    public abstract void render(int xpos, int ypos, String path, int spritex, int spritey) throws SlickException;
 }

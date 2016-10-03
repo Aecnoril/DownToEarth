@@ -20,10 +20,17 @@ public class Consumable extends Item{
     @Override
     public void drop() {
         //TODO: implement
-    }
-    
+    }    
+        
     public void eat(){
         //TODO: implement 
     }
+    
+    @Override
+    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+        //TODO: implement
+    }
+
+    
     
 }

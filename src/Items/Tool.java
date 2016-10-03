@@ -41,4 +41,9 @@ public class Tool extends Item{
     public void drop(){
         //TODO: implement
     }
+    
+    @Override
+    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+        //TODO: implement
+    }
 }
