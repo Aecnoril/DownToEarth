@@ -42,9 +42,4 @@ public class Tool extends Item{
     public void drop(){
         //TODO: implement
     }
-    
-    @Override
-    public void render(int xpos, int ypos) {
-        //TODO: implement
-    }
 }

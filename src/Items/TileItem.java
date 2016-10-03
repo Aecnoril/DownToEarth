@@ -27,12 +27,4 @@ public class TileItem extends Item{
     public void drop(){
         //TODO: implement
     }
-    
-    @Override
-    public void render(int xpos, int ypos) throws SlickException {
-        SpriteLocation sl = ItemType.getSpriteLocation(type);
-        int spritex = sl.getSpriteX();
-        int spritey = sl.getSpriteY();
-        sprite.getSprite(spritex, spritey, xpos, ypos);
-    }
 }

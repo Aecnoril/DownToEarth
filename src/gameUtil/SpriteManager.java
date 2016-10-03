@@ -14,8 +14,8 @@ import org.newdawn.slick.SpriteSheet;
  * @author Demian
  */
 public class SpriteManager {
-    private final int resolution = 16;
-    private final int size = 64;
+    private final int resolution = 32;
+    private final int size = 32;
     private SpriteSheet sprites;
     
     public SpriteManager(String path) throws SlickException{

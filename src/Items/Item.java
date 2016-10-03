@@ -45,7 +45,12 @@ public abstract class Item{
         sprite = new SpriteManager(PATH);    
     }
     
-    public abstract void drop();
+    public void render(int xpos, int ypos) throws SlickException{
+        SpriteLocation sl = ItemType.getSpriteLocation(type);
+        int spritex = sl.getSpriteX();
+        int spritey = sl.getSpriteY();
+        sprite.getSprite(spritex, spritey, xpos, ypos);
+    }
     
-    public abstract void render(int xpos, int ypos) throws SlickException;
+    public abstract void drop();
 }

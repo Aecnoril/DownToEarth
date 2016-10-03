@@ -6,6 +6,7 @@
 package Items;
 
 import enums.ItemType;
+import enums.SpriteLocation;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -21,11 +22,5 @@ public class Recourse extends Item {
     @Override
     public void drop() {
         //TODO: implement
-    }
-    
-    @Override
-    public void render(int xpos, int ypos) {
-        //TODO: implement
-    }
-    
+    }   
 }
