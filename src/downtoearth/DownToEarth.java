@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -34,10 +36,8 @@ public class DownToEarth extends BasicGame {
 
     }
 
-    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        File clipFile = new File("C:\\Users\\Ruud\\Documents\\NetBeansProjects\\DownToEarth\\src\\downtoearth\\Sounds\\Korg-01W-Tech-Bass-C2.wav");
-        soundLogic.playClip(clipFile);
-        try {
+    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException, SlickException {
+       try {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));
             appgc.setTargetFrameRate(60);
