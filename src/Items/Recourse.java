@@ -6,6 +6,7 @@
 package Items;
 
 import enums.ItemType;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -13,7 +14,7 @@ import enums.ItemType;
  */
 public class Recourse extends Item {
 
-    public Recourse(String name, ItemType type, double durability, double breakChange) {
+    public Recourse(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
 
@@ -23,7 +24,7 @@ public class Recourse extends Item {
     }
     
     @Override
-    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+    public void render(int xpos, int ypos) {
         //TODO: implement
     }
     

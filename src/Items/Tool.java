@@ -7,6 +7,7 @@ package Items;
 
 import Items.Item;
 import enums.ItemType;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Tool extends Item{
         return attackSpeed;
     }
     
-    public Tool(String name, ItemType type, double durability, double breakChange, int damage, int environmentDamage, int attackSpeed) {
+    public Tool(String name, byte type, double durability, double breakChange, int damage, int environdamage, int attackSpeed) throws SlickException {
         super(name, type, durability, breakChange);
         this.damage = damage;
         this.environmentDamage = environmentDamage;
@@ -43,7 +44,7 @@ public class Tool extends Item{
     }
     
     @Override
-    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+    public void render(int xpos, int ypos) {
         //TODO: implement
     }
 }

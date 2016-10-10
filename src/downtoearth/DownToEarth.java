@@ -46,9 +46,10 @@ public class DownToEarth extends BasicGame {
     }
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        try {
+        try {   
             AppGameContainer appgc;
             appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));
+            appgc.setDisplayMode(1920, 1080, false);
             appgc.setTargetFrameRate(60);
             appgc.start();
         } catch (SlickException ex) {

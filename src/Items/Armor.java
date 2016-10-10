@@ -6,6 +6,7 @@
 package Items;
 
 import enums.ItemType;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -15,8 +16,9 @@ public class Armor extends Item{
     
     private double damageReduction;
     
-    public Armor(String name, ItemType type, double durability, double breakChange) {
+    public Armor(String name, byte type, double durability, double breakChange, double damageReduction) throws SlickException {
         super(name, type, durability, breakChange);
+        this.damageReduction = damageReduction;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class Armor extends Item{
     }
     
     @Override
-    public void render(int xpos, int ypos, String path, int spritex, int spritey) {
+    public void render(int xpos, int ypos) {
         //TODO: implement
     }
 }
