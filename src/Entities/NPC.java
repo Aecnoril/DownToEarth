@@ -29,8 +29,8 @@ public class NPC extends LivingEntity {
     
     //</editor-fold>
     
-    public NPC(String name, SpriteSheet sprite, Point location, int hitPoints, MobType type, String path) throws SlickException {
-        super(name, sprite, location, hitPoints, path);
+    public NPC(String name, Point location, int hitPoints, MobType type, String path) throws SlickException {
+        super(name, location, hitPoints, path);
         this.type = type;
     }
 }

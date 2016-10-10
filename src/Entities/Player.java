@@ -40,8 +40,8 @@ public class Player extends LivingEntity{
 
     //</editor-fold>
     
-    public Player(String name, SpriteSheet sprite, Point location, int hitPoints, String path) throws SlickException {
-        super(name, sprite, location, hitPoints, path);
+    public Player(String name, Point location, int hitPoints, String path) throws SlickException {
+        super(name, location, hitPoints, path);
     }
     
     public void useItem(Item item){

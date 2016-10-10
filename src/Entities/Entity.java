@@ -1,6 +1,7 @@
 package Entities;
 
 import Items.Item;
+import enums.DirectionType;
 import gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
@@ -118,14 +119,13 @@ public abstract class Entity {
     
     //</editor-fold>
     
-    public Entity(String name, SpriteSheet sprite, Point location, int hitPoints, String path) throws SlickException{
+    public Entity(String name, Point location, int hitPoints, String path) throws SlickException{
         this.name=name;
-        this.sprite = sprite;
         this.location = location;
         this.hitPoints = hitPoints;
         this.inventory = new ArrayList<Item>();
         this.spriteManager = new SpriteManager(path);
     }
     
-    public abstract void render() throws SlickException;
+    public abstract void render(DirectionType direction) throws SlickException;
 }

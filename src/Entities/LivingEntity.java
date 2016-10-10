@@ -52,30 +52,31 @@ public abstract class LivingEntity extends Entity {
     }
 
     //</editor-fold>
-    public LivingEntity(String name, SpriteSheet sprite, Point location, int hitPoints, String path) throws SlickException {
-        super(name, sprite, location, hitPoints, path);
+    public LivingEntity(String name, Point location, int hitPoints, String path) throws SlickException {
+        super(name, location, hitPoints, path);
+        this.spriteManager = new SpriteManager(path, 30, 59, 1, 0);
     }
 
     @Override
-    public void render() throws SlickException {
+    public void render(DirectionType direction) throws SlickException {
         switch (direction) {
             case North:
-                spriteManager.getSprite(64, 11, 50, 50);
+                spriteManager.getCharacterSprite(2, 0, (int)this.location.getX(), (int)this.location.getY());
                 break;
             case NorthEast:
                 break;
             case East:
-                spriteManager.getSprite(31, 0, 50, 50);
+                spriteManager.getCharacterSprite(1, 0, (int)this.location.getX(), (int)this.location.getY());
                 break;
             case SouthEast:
                 break;
             case South:
-                spriteManager.getSprite(0, 0, 50, 50);
+                spriteManager.getCharacterSprite(0, 0, (int)this.location.getX(), (int)this.location.getY());
                 break;
             case SouthWest:
                 break;
             case West:
-                spriteManager.getSprite(96, 11, 50, 50);
+                spriteManager.getCharacterSprite(3, 0, (int)this.location.getX(), (int)this.location.getY());
                 break;
             case NorthWest:
                 break;

@@ -18,13 +18,24 @@ public class SpriteManager {
     private SpriteSheet sprites;
     
     public SpriteManager(String path) throws SlickException{
-        Image spritesheet = new Image(path); 
+        Image spritesheet = new Image(path);
         sprites = new SpriteSheet(spritesheet, 32, 32);
+    }
+    
+    public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
+        Image spritesheet = new Image(path);
+        sprites = new SpriteSheet(spritesheet, width, height, spacing, margin);
     }
     
     public void getSprite(int x, int y, int xpos, int ypos){
         sprites.startUse();
         sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, width, height);
+        sprites.endUse();
+    }
+    
+    public void getCharacterSprite(int x, int y, int xpos, int ypos){
+        sprites.startUse();
+        sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, 29, 58);
         sprites.endUse();
     }
 }
