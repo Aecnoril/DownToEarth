@@ -1,8 +1,12 @@
 package downtoearth;
 
+import Entities.NPC;
 import Items.Item;
 import Items.TileItem;
 import enums.Tooltype;
+import enums.DirectionType;
+import enums.ItemType;
+import enums.MobType;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,8 +21,15 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Point;
 
 public class DownToEarth extends BasicGame {
+
+    private static Item i;
+    private static Item i2;
+    private static ItemType type = ItemType.Steel;
+    private NPC npc;
     
     private static Item i;
     private static Item i2;
@@ -64,7 +75,6 @@ public class DownToEarth extends BasicGame {
         i3.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2, 200);
         i2.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2);
         i.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2);
-
     }
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
