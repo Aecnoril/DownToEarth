@@ -53,6 +53,15 @@ public class Coordinate {
         this.x = x;
         this.y = y;
     }
+    
+    public static float distance (Coordinate pos1, Coordinate pos2)
+    {
+        return (float)(Math.sqrt((pos1.x-pos2.x)*(pos1.x-pos2.x) + (pos1.y-pos2.y)*(pos1.y-pos2.y)));
+    }
+    
+    public static Coordinate Origin() {
+        return new Coordinate(0, 0);
+    }
 
 
     
