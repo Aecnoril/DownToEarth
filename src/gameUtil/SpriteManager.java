@@ -17,6 +17,7 @@ public class SpriteManager {
     private final int resolution = 32;
     private final int size = 32;
     private SpriteSheet sprites;
+    private float rotation = 0;
     
     public SpriteManager(String path) throws SlickException{
         Image spritesheet = new Image(path); 
@@ -25,7 +26,27 @@ public class SpriteManager {
     
     public void drawSprite(int spriteX, int spriteY, int xpos, int ypos){
         sprites.startUse();
+        sprites.getSubImage(spriteX, spriteY).drawEmbedded(xpos, ypos, this.size, this.size);
+        sprites.endUse();
+    }
+    
+    public void scaleSprite(int spriteX, int spriteY, int xpos, int ypos, int size){
+        sprites.startUse();
         sprites.getSubImage(spriteX, spriteY).drawEmbedded(xpos, ypos, size, size);
         sprites.endUse();
+    }
+    
+    public void rotateSprite(int spriteX, int spriteY, int xpos, int ypos, float rotation){
+        sprites.startUse();
+        Image i = sprites.getSubImage(spriteX, spriteY);
+        sprites.endUse();
+        i.startUse();
+        i.setCenterOfRotation(200, 200);
+        if(this.rotation != rotation){ 
+            i.rotate(rotation);
+            this.rotation = rotation;
+        }
+        i.draw(xpos, ypos, this.size, this.size);
+        i.endUse();
     }
 }

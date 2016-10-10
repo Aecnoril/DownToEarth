@@ -9,7 +9,7 @@ package enums;
  *
  * @author Demian
  */
-public class ItemType {
+public class Tooltype {
     
     //swords
     public static final byte WOODENSWORD    = 1;
@@ -40,24 +40,6 @@ public class ItemType {
     public static final byte STONEPICKAXE   = 18;
     public static final byte STEELPICKAXE   = 19;
     public static final byte GEMPICKAXE     = 20;
-    
-    //armor
-    public static final byte WOODENARMOR    = 21;
-    public static final byte STONEARMOR     = 22;
-    public static final byte STEELARMOR     = 23;
-    public static final byte GEMARMOR       = 24;
-    
-    //recourses
-    public static final byte COWHIDE        = 25;
-    public static final byte WOOL           = 26;
-    public static final byte GRAVEL         = 27;
-    public static final byte SAND           = 28;
-    public static final byte STONE          = 29;
-    public static final byte WOOD           = 30;
-    public static final byte COAL           = 31;
-    public static final byte STEEL          = 32;
-    public static final byte GEMSTONE       = 33;
-    public static final byte BUCKET         = 34;
 
     public static SpriteLocation getSpriteLocation(byte index){
         switch(index){
@@ -100,35 +82,7 @@ public class ItemType {
             case STEELPICKAXE:
                 return new SpriteLocation(2,2);
             case GEMPICKAXE:
-                return new SpriteLocation(3,2);
-            case WOODENARMOR:
-                return new SpriteLocation(4,2);
-            case STONEARMOR:
-                return new SpriteLocation(5,2);
-            case STEELARMOR:
-                return new SpriteLocation(6,2);
-            case GEMARMOR:
-                return new SpriteLocation(7,2);
-            case COWHIDE:
-                return new SpriteLocation(0,3);
-            case WOOL:
-                return new SpriteLocation(1,3);
-            case GRAVEL:
-                return new SpriteLocation(2,3);
-            case SAND:
-                return new SpriteLocation(3,3);
-            case STONE:
-                return new SpriteLocation(4,3);
-            case WOOD:
-                return new SpriteLocation(5,3);
-            case COAL:
-                return new SpriteLocation(6,3);
-            case STEEL:
-                return new SpriteLocation(7,3);
-            case GEMSTONE:
-                return new SpriteLocation(0,4);
-            case BUCKET:
-                return new SpriteLocation(1,4);        
+                return new SpriteLocation(3,2);     
         }
         return null;
     }

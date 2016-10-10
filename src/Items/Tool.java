@@ -6,7 +6,7 @@
 package Items;
 
 import Items.Item;
-import enums.ItemType;
+import enums.Tooltype;
 import org.newdawn.slick.SlickException;
 
 /**

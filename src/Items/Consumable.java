@@ -5,7 +5,7 @@
  */
 package Items;
 
-import enums.ItemType;
+import enums.Tooltype;
 import enums.SpriteLocation;
 import org.newdawn.slick.SlickException;
 

@@ -5,8 +5,6 @@
  */
 package Items;
 
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Point;
 import enums.*;
 import gameUtil.SpriteManager;
 import org.newdawn.slick.SlickException;
@@ -17,13 +15,15 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class Item{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    private final String PATH = "resources/TestItems.png";
+    private final String PATH = "resources/testspritesheet.png";
     
     protected String name;
     protected byte type;
     protected double durability;
     protected double breakChange;
-    protected SpriteManager sprite;
+    protected SpriteManager manager;
+    
+    private int spritex = Integer.MIN_VALUE, spritey = Integer.MIN_VALUE;
     
     
     public String getName(){
@@ -42,14 +42,38 @@ public abstract class Item{
 
         this.durability = durability;
         this.breakChange = breakChange;
-        sprite = new SpriteManager(PATH);    
+        manager = new SpriteManager(PATH);    
     }
     
+    //normal draw
     public void render(int xpos, int ypos) throws SlickException{
-        SpriteLocation sl = ItemType.getSpriteLocation(type);
-        int spritex = sl.getSpriteX();
-        int spritey = sl.getSpriteY();
-        sprite.drawSprite(spritex, spritey, xpos, ypos);
+        if(spritex == Integer.MIN_VALUE){
+            SpriteLocation sl = Tooltype.getSpriteLocation(type);
+            spritex = sl.getSpriteX();
+            spritey = sl.getSpriteY(); 
+        }
+        manager.drawSprite(spritex, spritey, xpos, ypos);
+    }
+    
+    //scale draw
+    public void render(int xpos, int ypos, int size) throws SlickException{
+        if(spritex == Integer.MIN_VALUE){
+            SpriteLocation sl = Tooltype.getSpriteLocation(type);
+            spritex = sl.getSpriteX();
+            spritey = sl.getSpriteY(); 
+        }
+        manager.scaleSprite(spritex, spritey, xpos, ypos, size);
+    }
+    
+    //rotate draw
+    public void render(int xpos, int ypos, float rotation) throws SlickException{
+        if(spritex == Integer.MIN_VALUE){
+            SpriteLocation sl = Tooltype.getSpriteLocation(type);
+            spritex = sl.getSpriteX();
+            spritey = sl.getSpriteY(); 
+        }
+        
+        manager.rotateSprite(spritex, spritey, xpos, ypos, rotation);
     }
     
     public abstract void drop();
