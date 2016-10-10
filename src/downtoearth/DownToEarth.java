@@ -62,7 +62,7 @@ public class DownToEarth extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
         g.setBackground(Color.white);
         i3.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2, 200);
-        i2.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2, rotate);
+        i2.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2);
         i.render(gc.getScreenWidth()/2, gc.getScreenHeight()/2);
 
     }
