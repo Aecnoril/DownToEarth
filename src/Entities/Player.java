@@ -34,15 +34,6 @@ public class Player extends Entity{
     public int getThirst() {
         return thirst;
     }
-
-    /**
-     * Set the value of thirst
-     *
-     * @param thirst new value of thirst
-     */
-    public void setThirst(int thirst) {
-        this.thirst = thirst;
-    }
     
     /**
      * Get the value of hunger
@@ -51,15 +42,6 @@ public class Player extends Entity{
      */
     public int getHunger() {
         return hunger;
-    }
-
-    /**
-     * Set the value of hunger
-     *
-     * @param hunger new value of hunger
-     */
-    public void setHunger(int hunger) {
-        this.hunger = hunger;
     }
     
     /**
@@ -70,21 +52,6 @@ public class Player extends Entity{
     public Item getRightHand() {
         return rightHand;
     }
-
-    /**
-     * Set the value of hunger
-     *
-     * @param hunger new value of hunger
-     */
-    public boolean setRightHand(Item item) {
-        if(item instanceof Tool){
-            this.rightHand = item;
-            return true;
-        }
-        else{
-            return false;
-        }                
-    }
     
     /**
      * Get the value of hunger
@@ -94,21 +61,6 @@ public class Player extends Entity{
     public Item getLeftHand() {
         return leftHand;
     }
-
-    /**
-     * Set the value of leftHand
-     *
-     * @param item new object of leftHand
-     */
-    public boolean setLeftHand(Item item) {
-        if(item instanceof Tool){
-            this.leftHand = item;
-            return true;
-        }
-        else{
-            return false;
-        } 
-    }
     
     /**
      * Get the value of hunger
@@ -117,21 +69,6 @@ public class Player extends Entity{
      */
     public Item getArmorSet() {
         return armorSet;
-    }
-
-    /**
-     * Set the armorSet of hunger
-     *
-     * @param item new object of armorSet
-     */
-    public boolean setArmorSet(Item item) {
-        if(item instanceof Armor){
-            this.armorSet = item;
-            return true;
-        }
-        else{
-            return false;
-        } 
     }
 
     //</editor-fold>
@@ -144,6 +81,21 @@ public class Player extends Entity{
     public void render(Graphics g) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    public void move(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void attack(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void useItem(Item item){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void loseHP(int damage){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 
