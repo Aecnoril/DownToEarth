@@ -15,7 +15,7 @@ import worldGen.SimplexNoise;
 public class WorldGen {
 
     private Coordinate size;
-    private SimplexNoise generator;
+    private SimplexNoise noise;
 
     public float[][] map;
 
@@ -35,24 +35,30 @@ public class WorldGen {
 
     public WorldGen(Coordinate size) {
         this.size = size;
-        this.generator = new SimplexNoise();
+        this.noise = new SimplexNoise();
     }
 
     public void GenerateMatrix() {
         map = new float[size.getXint()][size.getYint()];
-        SimplexNoise simpNoise = new SimplexNoise();
         double total = 0.0;
-        float freq = 3.0f / size.getXint();
+        int octaves = 8;
+        float roughness = 0.4f;
+        float layerFreq = 0.003f;
+        float layerWeight = 1;
+        float weightSum = 0;
 
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-
-                total = simpNoise.noise(i * freq, j * freq);
-                total = (total + 1) /2;
-
-                map[i][j] = (float) total;
+        for (int octave = 0; octave < octaves; octave++) {
+            for (int i = 0; i < map.length; i++) {
+                for (int j = 0; j < map[i].length; j++) {
+                    map[i][j] += noise.noise(i * layerFreq, j * layerFreq) * layerWeight;
+                }
             }
+        layerFreq *= 2;
+        weightSum += layerWeight;
+        layerWeight *= roughness;
         }
+
+
     }
 
     private float[][] generateGradient(float[][] radiatedMatrix) {

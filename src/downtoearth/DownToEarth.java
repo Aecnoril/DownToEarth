@@ -46,14 +46,36 @@ public class DownToEarth extends BasicGame {
             for (int i = 0; i < worldGen.map.length; i++) {
                 for (int j = 0; j < worldGen.map.length; j++) {
                     float a = worldGen.map[i][j];
-                    Color Greenish = new Color(0, 124, 32);
-                    Color Blueish = new Color(0, 32, 124);
-                    if (a > 0.6f) {
-                        bImage.setRGB(j, i, Greenish.getRGB());
+                    Color sea = new Color(20, 90, 156);
+                    Color shore = new Color(36, 119, 170);
+                    Color beach = new Color(226, 198, 83);
+                    Color land = new Color(95, 150, 40);
+                    Color rock = new Color(116, 113, 116);
+                    Color mountain = new Color(148, 149, 151);
+                    Color top = new Color(225, 226, 225);
+                    
+                    if (a < 0.45f) {
+                        bImage.setRGB(j, i, sea.getRGB());
                     }
-                    else {
-                        bImage.setRGB(j, i, Blueish.getRGB());
+                    if (a > 0.45f) {
+                        bImage.setRGB(j, i, shore.getRGB());
                     }
+                    if (a > 0.5f) {
+                        bImage.setRGB(j, i, beach.getRGB());
+                    }
+                    if (a > 0.55f) {
+                        bImage.setRGB(j, i, land.getRGB());
+                    }
+                    if (a > 0.8f) {
+                        bImage.setRGB(j, i, rock.getRGB());
+                    }
+                    if (a > 0.82f) {
+                        bImage.setRGB(j, i, mountain.getRGB());
+                    }
+                    if (a > 0.9f) {
+                        bImage.setRGB(j, i, top.getRGB());
+                    }
+                    
 
                 }
             }
