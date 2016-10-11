@@ -5,6 +5,9 @@
  */
 package crafting;
 
+import java.util.ArrayList;
+import org.newdawn.slick.tests.xml.Item;
+
 /**
  *
  * @author Sanko

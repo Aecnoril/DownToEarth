@@ -10,23 +10,24 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class DownToEarth extends BasicGame {
-
-    public DownToEarth(String gamename) {
+    private static soundLogic sL;
+    public DownToEarth(String gamename) throws SlickException {
         super(gamename);
+        sL = new soundLogic();
     }
 
     @Override
     public void init(GameContainer gc) throws SlickException {
-
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-
     }
 
     @Override
@@ -34,9 +35,12 @@ public class DownToEarth extends BasicGame {
 
     }
 
-    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-        File clipFile = new File("C:\\Users\\Ruud\\Documents\\NetBeansProjects\\DownToEarth\\src\\downtoearth\\Sounds\\Korg-01W-Tech-Bass-C2.wav");
-        soundLogic.playClip(clipFile);
+    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException, SlickException {
+        File clipFile = new File("C:\\Users\\Tomt\\Documents\\GitHub\\DownToEarth\\src\\downtoearth\\Sounds\\treeFallingA.wav");
+        soundLogic.readFile();
+        File test;
+        test = new File(soundLogic.paths.get(0));
+        soundLogic.playClip(test);
         try {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));
@@ -45,6 +49,5 @@ public class DownToEarth extends BasicGame {
         } catch (SlickException ex) {
             Logger.getLogger(DownToEarth.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }
