@@ -24,8 +24,7 @@ public class DownToEarth extends BasicGame {
     private static Item i2;
     private static Item i3;
     private static Item i4;
-    private int rotateint = 40;
-    private float rotate = (float) Math.toRadians(rotateint);
+    private float rotate = 125;
     
     public DownToEarth(String gamename) {
         super(gamename);
@@ -42,19 +41,11 @@ public class DownToEarth extends BasicGame {
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
         if(Mouse.isButtonDown(0)){
-            rotateint += 40;
-            if(rotateint >= 180){
-                rotateint = 0;
-            }
-            rotate = (float) Math.toRadians(rotateint);
+            rotate = 125;
         }
         
         if(Mouse.isButtonDown(1)){
-            rotateint -= 40;
-            if(rotateint <= 0){
-                rotateint = 180;
-            }
-            rotate = (float) -Math.toRadians(rotateint);
+            rotate = 45;
         }
     }
 
@@ -70,7 +61,7 @@ public class DownToEarth extends BasicGame {
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
         try {   
             AppGameContainer appgc;
-            appgc = new AppGameContainer(new DownToEarth("Simple Slick Game"));
+            appgc = new AppGameContainer(new DownToEarth("DownToEarth"));
             appgc.setDisplayMode(1920, 1080, false);
             appgc.setTargetFrameRate(60);
             appgc.start();

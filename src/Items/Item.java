@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class Item{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    private final String PATH = "resources/testspritesheet.png";
+    private final String PATH = "resources/TestItems.png";
     
     protected String name;
     protected byte type;
@@ -66,14 +66,14 @@ public abstract class Item{
     }
     
     //rotate draw
-    public void render(int xpos, int ypos, float rotation) throws SlickException{
+    public void render(float xpos, float ypos, float rotation) throws SlickException{
         if(spritex == Integer.MIN_VALUE){
             SpriteLocation sl = Tooltype.getSpriteLocation(type);
             spritex = sl.getSpriteX();
             spritey = sl.getSpriteY(); 
         }
         
-        manager.rotateSprite(spritex, spritey, xpos, ypos, rotation);
+        manager.rotateSprite(spritex, spritey, xpos, ypos, (int)rotation);
     }
     
     public abstract void drop();
