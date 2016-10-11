@@ -10,12 +10,12 @@ package enums;
  * @author Sanko
  */
 public enum DirectionType {
-    N,
-    NO,
-    O,
-    ZO,
-    Z,
-    ZW,
-    W,
-    NW
+    North,
+    NorthEast,
+    East,
+    SouthEast,
+    South,
+    SouthWest,
+    West,
+    NorthWest
 }

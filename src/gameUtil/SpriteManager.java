@@ -22,8 +22,13 @@ public class SpriteManager {
         Image spritesheet = new Image(path); 
         sprites = new SpriteSheet(spritesheet, resolution, resolution);
     }
+
+    public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
+        Image spritesheet = new Image(path);
+        sprites = new SpriteSheet(spritesheet, width, height, spacing, margin);
+    }
     
-    public void drawSprite(int spriteX, int spriteY, float xpos, float ypos){
+    public void getSprite(int x, int y, int xpos, int ypos){
         sprites.startUse();
         System.out.println("posX: " + xpos + " posY: " + ypos);
         sprites.getSubImage(spriteX, spriteY).drawEmbedded(xpos, ypos, this.size, this.size);
@@ -45,6 +50,12 @@ public class SpriteManager {
         System.out.println("posX: " + xpos + " posY: " + ypos);
         i.draw((int)xpos, (int)ypos);
         i.setRotation((int)-rotation);
+        sprites.endUse();
+    }
+    
+    public void getCharacterSprite(int x, int y, int xpos, int ypos){
+        sprites.startUse();
+        sprites.getSubImage(x, y).drawEmbedded(xpos, ypos, 29, 58);
         sprites.endUse();
     }
 }

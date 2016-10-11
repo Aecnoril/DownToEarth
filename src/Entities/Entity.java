@@ -1,8 +1,11 @@
 package Entities;
 
 import Items.Item;
+import enums.DirectionType;
+import gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
 
@@ -20,6 +23,7 @@ public abstract class Entity {
     protected Point location;
     protected int hitPoints;  
     protected ArrayList<Item> inventory;
+    protected SpriteManager spriteManager;
     
     protected final int bagSize = 20;
     
@@ -115,13 +119,13 @@ public abstract class Entity {
     
     //</editor-fold>
     
-    public Entity(String name, SpriteSheet sprite, Point location, int hitPoints){
+    public Entity(String name, Point location, int hitPoints, String path) throws SlickException{
         this.name=name;
-        this.sprite = sprite;
         this.location = location;
         this.hitPoints = hitPoints;
         this.inventory = new ArrayList<Item>();
+        this.spriteManager = new SpriteManager(path);
     }
     
-    public abstract void render(Graphics g);
+    public abstract void render(DirectionType direction) throws SlickException;
 }
