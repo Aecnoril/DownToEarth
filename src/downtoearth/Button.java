@@ -1,40 +1,22 @@
-package downtoearth;
-
-
-import org.newdawn.slick.Color;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package downtoearth;
+
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
 
 /**
  *
  * @author Ruud
  */
-public class Rect {
-    
-    private Color color;
+public class Button {
 
-    /**
-     * Get the value of color
-     *
-     * @return the value of color
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * Set the value of color
-     *
-     * @param color new value of color
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private int x;
 
     /**
@@ -115,12 +97,55 @@ public class Rect {
         this.height = height;
     }
 
-    public Rect(int x, int y, int width, int height, Color color) {
+    private Image image;
+
+    /**
+     * Get the value of image
+     *
+     * @return the value of image
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * Set the value of image
+     *
+     * @param image new value of image
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    //</editor-fold>
+
+    public Button(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.color = color;
     }
 
+    public Button(int x, int y, int width, int height, Image image) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.image = image;
+    }
+
+    public boolean detectMouse(Circle mouseBall) {
+        if (mouseBall.getCenterX() >= this.getX() && mouseBall.getCenterX() <= this.getX() + this.getWidth()) {
+            if (mouseBall.getCenterY() >= this.getY() && mouseBall.getCenterY() <= this.getY() + this.getHeight()) {
+                //collides = true;
+                if (Mouse.isButtonDown(0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void render(Graphics g) {
+        g.drawImage(this.getImage(), this.getX(), this.getY());
+    }
 }

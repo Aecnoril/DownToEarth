@@ -1,4 +1,3 @@
-//setupclass
 package downtoearth;
 
 /*
@@ -34,6 +33,5 @@ public class SetupClass extends StateBasedGame{
     public void initStatesList(GameContainer container) throws SlickException {
         this.addState(new MenuState());
         this.addState(new DownToEarth());
-    }
-    
+    }    
 }
