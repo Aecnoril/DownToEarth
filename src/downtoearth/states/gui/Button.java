@@ -57,11 +57,11 @@ public class Button {
         return false;
     }
     
-    public void render(boolean hover , Graphics g){
+    public void render(boolean hover){
         if(hover)
-            g.drawImage(sprite, point.getXint(), point.getYint(), new Color(1,1,1,0.4f));
+            sprite.draw(point.getXint(), point.getYint(), new Color(1,1,1,0.4f));
         else
-            g.drawImage(sprite, point.getXint(), point.getYint());
+            sprite.draw(point.getXint(), point.getYint());
     }
     
 }

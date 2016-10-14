@@ -39,8 +39,8 @@ public class OptionState extends BasicGameState{
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawString("State 2: Option", 10, 30);
-        play.render(play.hover(container.getInput()), g);
-        stop.render(stop.hover(container.getInput()), g);
+        play.render(play.hover(container.getInput()));
+        stop.render(stop.hover(container.getInput()));
     }
 
     @Override
