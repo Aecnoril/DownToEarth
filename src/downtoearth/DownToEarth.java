@@ -2,7 +2,13 @@ package downtoearth;
 
 import downtoearth.states.*;
 import org.newdawn.slick.AppGameContainer;
+import downtoearth.Items.Item;
+import java.util.ArrayList;
+import java.util.ListIterator;
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -11,6 +17,12 @@ public class DownToEarth extends StateBasedGame {
     public DownToEarth(String name){
         super(name);
     }
+
+    private static final int number = 200;
+    private boolean inventory = false;
+    private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
+    private ArrayList<Item> Items = new ArrayList<Item>();
+    private inventorySlot selectedSlot = null;
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer appgc = new AppGameContainer(new DownToEarth("DownToEarth"));
@@ -36,14 +48,24 @@ public class DownToEarth extends StateBasedGame {
 //                x -= 1000;
 //            }
 //            if (i == 30) {
-//                y += 150;
+//                y += 180;
 //                x -= 1000;
 //            }
-//            Rect r = new Rect(x + 12, y + 25, 75, 75, new Color(58, 55, 55));
-//            this.rects.add(r);
+//            int leftborder = 25;
+//            int topborder = 25;
+//            inventorySlot r = new inventorySlot(x + leftborder, y + topborder, 75, 75, new Color(58, 55, 55));
+//            this.inventorySlots.add(r);
 //
 //            x += 100;
 //        }
+//
+//        int i = 1;
+//        for (Item it : Items) {
+//            inventorySlot r = inventorySlots.get(inventorySlots.size() - i);
+//            if (r.getItem() == null) {
+//                r.setItem(it);
+//            }
+//            i++;
+//        }
 //    }
 }
-

@@ -1,20 +1,42 @@
 package downtoearth;
 
-
+import downtoearth.Items.Item;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Circle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Ruud
  */
-public class Rect {
-    
+public class inventorySlot {
+
+    //<editor-fold defaultstate="collapsed" desc="Fields & properties">
+    private Item item;
+
+    /**
+     * Get the value of item
+     *
+     * @return the value of item
+     */
+    public Item getItem() {
+        return item;
+    }
+
+    /**
+     * Set the value of item
+     *
+     * @param hasItem new value of item
+     */
+    public void setItem(Item hasItem) {
+        this.item = hasItem;
+    }
+
     private Color color;
 
     /**
@@ -114,13 +136,23 @@ public class Rect {
     public void setHeight(int height) {
         this.height = height;
     }
+    //</editor-fold>
 
-    public Rect(int x, int y, int width, int height, Color color) {
+    public inventorySlot(int x, int y, int width, int height, Color color) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
+    }
+
+    public boolean detectMouse(Circle mouseBall) {
+        if (mouseBall.getCenterX() >= this.getX() && mouseBall.getCenterX() <= this.getX() + this.getWidth()) {
+            if (mouseBall.getCenterY() >= this.getY() && mouseBall.getCenterY() <= this.getY() + this.getHeight()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
