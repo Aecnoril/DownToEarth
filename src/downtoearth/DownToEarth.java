@@ -22,8 +22,6 @@ public class DownToEarth extends StateBasedGame {
         AppGameContainer appgc = new AppGameContainer(new DownToEarth("DownToEarth"));
         appgc.setDisplayMode(1080, 720, false);
         appgc.setTargetFrameRate(60);
-        appgc.setMaximumLogicUpdateInterval(100);
-        appgc.setMinimumLogicUpdateInterval(50);
         appgc.start();
     }
     

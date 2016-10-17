@@ -94,7 +94,7 @@ public class GameState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         c.move(gc);
-        if(gc.getInput().isKeyDown(Input.KEY_E)){
+        if(gc.getInput().isKeyPressed(Input.KEY_E)){
             if(invOpen){
                 invOpen = false;
             }else{
