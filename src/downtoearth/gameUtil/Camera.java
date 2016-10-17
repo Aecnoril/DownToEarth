@@ -10,8 +10,6 @@ import org.newdawn.slick.Input;
 
 public class Camera {
     
-    private final float SPEED = 0.5f;
-    
     private Coordinate c;
     private int width, height;
     
@@ -19,21 +17,6 @@ public class Camera {
         this.width= width;
         this.height = height;
         c = new Coordinate(500,950);
-    }
-    
-    public void move(GameContainer gc){
-        if(gc.getInput().isKeyDown(Input.KEY_DOWN)){
-            c.setY(c.getY() + SPEED);
-        }
-        if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-            c.setX(c.getX() + SPEED);
-        }
-        if(gc.getInput().isKeyDown(Input.KEY_UP)){
-            c.setY(c.getY() - SPEED);
-        }
-        if(gc.getInput().isKeyDown(Input.KEY_LEFT)){
-            c.setX(c.getX() - SPEED);
-        }
     }
     
     public Coordinate getCoordinate(){

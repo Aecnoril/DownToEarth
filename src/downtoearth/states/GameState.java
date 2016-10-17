@@ -40,7 +40,6 @@ public class GameState extends BasicGameState{
     
     private boolean invOpen;
     
-    private static Camera c;
     private static World w;
     
     private static int mapSize = 5012;
@@ -60,8 +59,6 @@ public class GameState extends BasicGameState{
 
         w = new World(new Coordinate(mapSize, mapSize));
         
-        c = new Camera(0,0);
-        
         Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
         Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
         Items.add(new TileItem("jopie", Tooltype.STEELSWORD, 10, 10));
@@ -72,7 +69,7 @@ public class GameState extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
         try {
-            w.draw(c.getCoordinate(), gc.getWidth(), gc.getHeight(), g);
+            w.draw(gc.getWidth(), gc.getHeight(), gc);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,7 +90,7 @@ public class GameState extends BasicGameState{
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        c.move(gc);
+        w.getPlayer().move(gc.getInput());
         if(gc.getInput().isKeyPressed(Input.KEY_E)){
             if(invOpen){
                 invOpen = false;
