@@ -7,6 +7,11 @@ package downtoearth.states;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
+import downtoearth.entities.LivingEntity;
+import downtoearth.entities.NPC;
+import downtoearth.entities.Player;
+import downtoearth.enums.DirectionType;
+import downtoearth.enums.MobType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
@@ -23,6 +28,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -37,8 +44,11 @@ public class GameState extends BasicGameState{
     private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
     private ArrayList<Item> Items = new ArrayList<Item>();
     private inventorySlot selectedSlot = null;
+    private LivingEntity player;
+    private LivingEntity npc;
     
     private boolean invOpen;
+    private boolean playerAttack = false;
     
     private static Camera c;
     private static World w;
@@ -61,6 +71,10 @@ public class GameState extends BasicGameState{
         w = new World(new Coordinate(mapSize, mapSize));
         
         c = new Camera(0,0);
+        player = new Player("Player", new Point(0,0), 10, "Assets/SpriteSheets/NinjaBob2.png");
+        player.setDirection(DirectionType.South);
+        
+        npc = new NPC("NPC", new Point(0, 70), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
         
         Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
         Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
@@ -77,7 +91,6 @@ public class GameState extends BasicGameState{
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        
         if(invOpen){
             g.setColor(new Color(122, 118, 118));
             g.fillRect(200, 400, 1025, 500);
@@ -88,6 +101,48 @@ public class GameState extends BasicGameState{
                     r.getItem().render(r.getX(), r.getY(), r.getWidth());
                 }
             }  
+        }
+        if(playerAttack)
+        {
+            float x = player.getLocation().getX();
+            float y= player.getLocation().getY();
+            g.setColor(Color.red);
+            Rectangle rect = new Rectangle(x, y, 70, 1);
+            switch(player.getDirection())
+            {
+                case North:
+                    rect.setLocation(x, y-4);
+                break;
+            case NorthEast:
+                rect.setLocation(x+4, y-4);
+                break;
+            case East:
+                rect.setLocation(x+4, y);
+                break;
+            case SouthEast:
+                rect.setLocation(x+4, y+4);
+                break;
+            case South:
+                rect.setLocation(x, y+100);
+                if(rect.intersects(npc.getRect()))
+                {
+                    System.out.println("Yay hit");
+                }
+                break;
+            case SouthWest:
+                rect.setLocation(x-4, y+4);
+                break;
+            case West:
+                rect.setLocation(x-4, y);
+                break;
+            case NorthWest:
+                rect.setLocation(x-4, y-4);
+                break;
+            default:
+                System.out.println("Error no direction");
+                break;
+            }
+            //g.draw(rect);
         }
     }
 
@@ -100,6 +155,10 @@ public class GameState extends BasicGameState{
             }else{
                 invOpen = true;
             }
+        }
+        if(gc.getInput().isMousePressed(Input.MOUSE_RIGHT_BUTTON) )
+        {
+            playerAttack = true;
         }
     }
     

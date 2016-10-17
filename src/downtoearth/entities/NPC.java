@@ -9,6 +9,7 @@ import downtoearth.enums.MobType;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -26,6 +27,7 @@ public class NPC extends LivingEntity {
     public MobType getType() {
         return type;
     }
+    
     
     //</editor-fold>
     

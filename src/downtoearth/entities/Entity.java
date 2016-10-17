@@ -124,7 +124,7 @@ public abstract class Entity {
         this.location = location;
         this.hitPoints = hitPoints;
         this.inventory = new ArrayList<Item>();
-        this.spriteManager = new SpriteManager(path);
+        //this.spriteManager = new SpriteManager(path);
     }
     
     public abstract void render(DirectionType direction) throws SlickException;

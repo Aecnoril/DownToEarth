@@ -8,9 +8,11 @@ package downtoearth.entities;
 import downtoearth.Items.Item;
 import downtoearth.enums.DirectionType;
 import downtoearth.gameUtil.SpriteManager;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -23,6 +25,19 @@ public abstract class LivingEntity extends Entity {
     protected Item rightHand;
     protected Item armorSet;
     protected DirectionType direction;
+    protected Rectangle rect;
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public void setDirection(DirectionType direction) {
+        this.direction = direction;
+    }
+
+    public DirectionType getDirection() {
+        return direction;
+    }
 
     /**
      * gets the item currently equipped in the left hand
@@ -55,6 +70,7 @@ public abstract class LivingEntity extends Entity {
     public LivingEntity(String name, Point location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.spriteManager = new SpriteManager(path, 30, 59, 1, 0);
+                this.rect = new Rectangle(location.getX(), location.getY(), 30, 60);
     }
 
     @Override
@@ -94,7 +110,7 @@ public abstract class LivingEntity extends Entity {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void attack() {
+    public void attack(GameContainer gc) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
