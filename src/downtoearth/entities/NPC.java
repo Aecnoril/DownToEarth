@@ -6,6 +6,7 @@
 package downtoearth.entities;
 
 import downtoearth.enums.MobType;
+import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
@@ -31,7 +32,7 @@ public class NPC extends LivingEntity {
     
     //</editor-fold>
     
-    public NPC(String name, Point location, int hitPoints, MobType type, String path) throws SlickException {
+    public NPC(String name, Coordinate location, int hitPoints, MobType type, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.type = type;
     }

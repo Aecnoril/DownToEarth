@@ -2,6 +2,7 @@ package downtoearth.entities;
 
 import downtoearth.Items.Item;
 import downtoearth.enums.DirectionType;
+import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public abstract class Entity {
 
     protected String name;
     protected SpriteSheet sprite;
-    protected Point location;
+    protected Coordinate location;
     protected int hitPoints;  
     protected ArrayList<Item> inventory;
     protected SpriteManager spriteManager;
@@ -68,7 +69,7 @@ public abstract class Entity {
      *
      * @return the value of location
      */
-    public Point getLocation() {
+    public Coordinate getLocation() {
         return location;
     }
 
@@ -77,7 +78,7 @@ public abstract class Entity {
      *
      * @param location new value of location
      */
-    public void setLocation(Point location) {
+    public void setLocation(Coordinate location) {
         this.location = location;
     }
 
@@ -119,7 +120,7 @@ public abstract class Entity {
     
     //</editor-fold>
     
-    public Entity(String name, Point location, int hitPoints, String path) throws SlickException{
+    public Entity(String name, Coordinate location, int hitPoints, String path) throws SlickException{
         this.name=name;
         this.location = location;
         this.hitPoints = hitPoints;

@@ -6,6 +6,7 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.SlickException;
@@ -41,7 +42,7 @@ public class Player extends LivingEntity{
 
     //</editor-fold>
     
-    public Player(String name, Point location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
     }
     

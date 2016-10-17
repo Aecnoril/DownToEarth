@@ -71,10 +71,9 @@ public class GameState extends BasicGameState{
         w = new World(new Coordinate(mapSize, mapSize));
         
         c = new Camera(0,0);
-        player = new Player("Player", new Point(0,0), 10, "Assets/SpriteSheets/NinjaBob2.png");
-        player.setDirection(DirectionType.South);
+        //player = new Player("Player", new Point(0,0), 10, "Assets/SpriteSheets/NinjaBob2.png");
+        //player.setDirection(DirectionType.South);
         
-        npc = new NPC("NPC", new Point(0, 70), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
         
         Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
         Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
@@ -106,21 +105,22 @@ public class GameState extends BasicGameState{
         {
             float x = player.getLocation().getX();
             float y= player.getLocation().getY();
+            
             g.setColor(Color.red);
             Rectangle rect = new Rectangle(x, y, 70, 1);
             switch(player.getDirection())
             {
                 case North:
-                    rect.setLocation(x, y-4);
+                    rect.setLocation(x, y-100);
                 break;
             case NorthEast:
-                rect.setLocation(x+4, y-4);
+                rect.setLocation(x+100, y-100);
                 break;
             case East:
-                rect.setLocation(x+4, y);
+                rect.setLocation(x+100, y);
                 break;
             case SouthEast:
-                rect.setLocation(x+4, y+4);
+                rect.setLocation(x+100, y+100);
                 break;
             case South:
                 rect.setLocation(x, y+100);
@@ -130,18 +130,19 @@ public class GameState extends BasicGameState{
                 }
                 break;
             case SouthWest:
-                rect.setLocation(x-4, y+4);
+                rect.setLocation(x-100, y+100);
                 break;
             case West:
-                rect.setLocation(x-4, y);
+                rect.setLocation(x-100, y);
                 break;
             case NorthWest:
-                rect.setLocation(x-4, y-4);
+                rect.setLocation(x-100, y-100);
                 break;
             default:
                 System.out.println("Error no direction");
                 break;
             }
+            playerAttack = false;
             //g.draw(rect);
         }
     }

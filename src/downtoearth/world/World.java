@@ -2,6 +2,8 @@ package downtoearth.world;
 
 import downtoearth.entities.Player;
 import downtoearth.Items.*;
+import downtoearth.entities.LivingEntity;
+import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
@@ -19,7 +21,16 @@ public class World implements Serializable {
     
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
-    private final Player testPlayer;
+    private final LivingEntity testPlayer;
+    private final LivingEntity testNPC;
+
+    public LivingEntity getTestNPC() {
+        return testNPC;
+    }
+
+    public LivingEntity getTestPlayer() {
+        return testPlayer;
+    }
     
     float[][] heightMap;
     
@@ -65,7 +76,8 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        testPlayer = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        testPlayer = new Player("henk", new Coordinate(540,460), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        testNPC = new NPC("NPC", new Coordinate(540, 600), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
 
     }
     
@@ -81,7 +93,8 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        testPlayer = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        testPlayer = new Player("henk", new Coordinate(540,460), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        testNPC = new NPC("NPC", new Coordinate(540, 600), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
 
     }
     
@@ -93,5 +106,6 @@ public class World implements Serializable {
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         testPlayer.render(DirectionType.South);
+        testNPC.render(DirectionType.South);
     }
 }
