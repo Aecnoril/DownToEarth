@@ -5,14 +5,16 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Inventory;
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
-import downtoearth.inventorySlot;
+import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
+import java.awt.TextField;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,22 +32,15 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Demian
  */
-public class GameState extends BasicGameState{
+public class GameState extends BasicGameState {
 
     private static final int number = 200;
-    private boolean inventory = false;
-    private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
-    private ArrayList<Item> Items = new ArrayList<Item>();
-    private inventorySlot selectedSlot = null;
-    
-    private boolean invOpen;
-    
     private static Camera c;
     private static World w;
-    
+    private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -57,16 +52,10 @@ public class GameState extends BasicGameState{
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
         w = new World(new Coordinate(mapSize, mapSize));
-        
-        c = new Camera(0,0);
-        
-        Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.STEELSWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.GEMSWORD, 10, 10));
-        this.generateInventory();
+        c = new Camera(0, 0);
+        inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
+
     }
 
     @Override
@@ -77,61 +66,14 @@ public class GameState extends BasicGameState{
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        
-        if(invOpen){
-            g.setColor(new Color(122, 118, 118));
-            g.fillRect(200, 400, 1025, 500);
-            for (inventorySlot r : this.inventorySlots) {
-                g.setColor(r.getColor());
-                g.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-                if (r.getItem() != null) {
-                    r.getItem().render(r.getX(), r.getY(), r.getWidth());
-                }
-            }  
+        if (this.inv.isInvOpen()) {
+            this.inv.render(g);
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         c.move(gc);
-        if(gc.getInput().isKeyDown(Input.KEY_E)){
-            if(invOpen){
-                invOpen = false;
-            }else{
-                invOpen = true;
-            }
-        }
+        inv.ePressed(gc);
     }
-    
-    public void generateInventory() {
-        int x = 200;
-        int y = 400;
-
-        for (int i = 0; i < 40; i++) {
-            if (i == 10 || i == 20) {
-                y += 100;
-                x -= 1000;
-            }
-            if (i == 30) {
-                y += 180;
-                x -= 1000;
-            }
-            int leftborder = 25;
-            int topborder = 25;
-            inventorySlot r = new inventorySlot(x + leftborder, y + topborder, 75, 75, new Color(58, 55, 55));
-            this.inventorySlots.add(r);
-
-            x += 100;
-        }
-
-        int i = 1;
-        for (Item it : Items) {
-            inventorySlot r = inventorySlots.get(inventorySlots.size() - i);
-            if (r.getItem() == null) {
-                r.setItem(it);
-            }
-            i++;
-        }
-    }
-    
 }
