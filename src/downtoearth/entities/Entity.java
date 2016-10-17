@@ -127,6 +127,4 @@ public abstract class Entity {
         this.inventory = new ArrayList<Item>();
         //this.spriteManager = new SpriteManager(path);
     }
-    
-    public abstract void render(DirectionType direction) throws SlickException;
 }

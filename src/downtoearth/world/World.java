@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -21,16 +22,7 @@ public class World implements Serializable {
     
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
-    private final LivingEntity testPlayer;
-    private final LivingEntity testNPC;
-
-    public LivingEntity getTestNPC() {
-        return testNPC;
-    }
-
-    public LivingEntity getTestPlayer() {
-        return testPlayer;
-    }
+    private final Player p;
     
     float[][] heightMap;
     
@@ -39,6 +31,10 @@ public class World implements Serializable {
     Coordinate size;
     Image map;
     Image shader;
+    
+    public Player getPlayer(){
+        return this.p;
+    }
     
     public Coordinate getCoordinate() {
         return size;
@@ -76,8 +72,7 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        testPlayer = new Player("henk", new Coordinate(540,460), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        testNPC = new NPC("NPC", new Coordinate(540, 600), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
 
     }
     
@@ -93,19 +88,17 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        testPlayer = new Player("henk", new Coordinate(540,460), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        testNPC = new NPC("NPC", new Coordinate(540, 600), 10, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
 
     }
     
-    public void draw(Coordinate c, int width, int height, Graphics g) throws IOException, SlickException{
+    public void draw(int width, int height, GameContainer con) throws IOException, SlickException{
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
-        Image img = map.getSubImage(c.getXint(), c.getYint(), width / zoom, height / zoom);
-        Image shd = shader.getSubImage(c.getXint(), c.getYint(), width / zoom, height / zoom);
+        Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
+        Image shd = shader.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
         img.setFilter(Image.FILTER_NEAREST);
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
-        testPlayer.render(DirectionType.South);
-        testNPC.render(DirectionType.South);
+        p.render(con);
     }
 }

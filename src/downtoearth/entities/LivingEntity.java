@@ -74,35 +74,6 @@ public abstract class LivingEntity extends Entity {
                 this.rect = new Rectangle(location.getX(), location.getY(), 30, 60);
     }
 
-    @Override
-    public void render(DirectionType direction) throws SlickException {
-        switch (direction) {
-            case North:
-                spriteManager.getCharacterSprite(2, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case NorthEast:
-                break;
-            case East:
-                spriteManager.getCharacterSprite(1, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case SouthEast:
-                break;
-            case South:
-                spriteManager.getCharacterSprite(0, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case SouthWest:
-                break;
-            case West:
-                spriteManager.getCharacterSprite(3, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case NorthWest:
-                break;
-            default:
-                System.out.println("Error no direction");
-                break;
-        }
-    }
-
     public void loseHp(int damage) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

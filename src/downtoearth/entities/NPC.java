@@ -5,6 +5,7 @@
  */
 package downtoearth.entities;
 
+import downtoearth.enums.DirectionType;
 import downtoearth.enums.MobType;
 import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;

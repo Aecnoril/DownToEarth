@@ -6,8 +6,14 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.enums.DirectionType;
+import downtoearth.enums.SpriteLocation;
+import downtoearth.gameUtil.AnimationManager;
+import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
@@ -19,8 +25,17 @@ import org.newdawn.slick.geom.Point;
 public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
+    
+    public static final float SPEED = 0.5f;
+    
     private int thirst;
     private int hunger;
+    private byte dir;
+    private Camera cam;
+    private boolean moving;
+    
+    private AnimationManager aManager;
+    private SpriteManager sManager;
 
     /**
      * Get the value of thirst
@@ -39,11 +54,83 @@ public class Player extends LivingEntity{
     public int getHunger() {
         return hunger;
     }
+    
+    public Camera getCamera(){
+        return this.cam;
+    }
 
     //</editor-fold>
     
     public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
+        this.aManager = new AnimationManager("res/playeranimation.png", 32 ,32);
+        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.cam = new Camera(0,0);
+        this.dir = DirectionType.NORTH;
+        this.moving = false;
+    }
+    
+    public void move(Input input){     
+        
+        if(input.isKeyDown(Input.KEY_W) && input.isKeyDown(Input.KEY_D)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
+            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
+            dir = DirectionType.NORTHEAST;
+            moving = true;
+        }
+        else if(input.isKeyDown(Input.KEY_W)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
+            dir = DirectionType.NORTH;
+            moving = true;
+        }
+        
+        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
+            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
+            dir = DirectionType.SOUTHEAST;
+            moving = true;
+        }
+        else if(input.isKeyDown(Input.KEY_D)){
+            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
+            dir = DirectionType.EAST;
+            moving = true;
+        }
+        
+        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
+            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
+            dir = DirectionType.SOUTHWEST;
+            moving = true;
+        }
+        else if(input.isKeyDown(Input.KEY_S)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
+            dir = DirectionType.SOUTH;
+            moving = true;
+        }
+        
+        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W)){
+            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
+            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
+            dir = DirectionType.NORTHWEST;
+            moving = true;
+        }
+        else if(input.isKeyDown(Input.KEY_A)){
+            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
+            dir = DirectionType.WEST;
+            moving = true;
+        }  
+        else{
+            moving = false;
+        }
+    }
+    
+    public void render(GameContainer con) throws SlickException{
+        if(moving){
+            aManager.DrawAnimation(this.dir, con);
+        }else{
+            SpriteLocation pos = DirectionType.getStandingSprite(dir);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2, con.getHeight() / 2);
+        }
     }
     
     public void useItem(Item item){
