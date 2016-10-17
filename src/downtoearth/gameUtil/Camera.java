@@ -38,7 +38,4 @@ public class Camera {
     public int getCenterPosY(){
         return (int)c.getY() + height / 2;
     }
-    
-    
-    
 }
