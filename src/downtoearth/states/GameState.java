@@ -37,7 +37,7 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Demian
  */
-public class GameState extends BasicGameState{
+public class GameState extends BasicGameState {
 
     private static final int number = 200;
     private boolean inventory = false;
@@ -46,15 +46,15 @@ public class GameState extends BasicGameState{
     private inventorySlot selectedSlot = null;
     private LivingEntity player;
     private LivingEntity npc;
-    
+
     private boolean invOpen;
     private boolean playerAttack = false;
-    
+
     private static World w;
-    
+
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -78,12 +78,12 @@ public class GameState extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
         try {
-            w.draw(gc.getWidth(), gc.getHeight(), gc);
+            w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        if(invOpen){
+        if (invOpen) {
             g.setColor(new Color(122, 118, 118));
             g.fillRect(200, 400, 1025, 500);
             for (inventorySlot r : this.inventorySlots) {
@@ -92,48 +92,44 @@ public class GameState extends BasicGameState{
                 if (r.getItem() != null) {
                     r.getItem().render(r.getX(), r.getY(), r.getWidth());
                 }
-            }  
+            }
         }
-        if(playerAttack)
-        {
+        if (playerAttack) {
             float x = player.getLocation().getX();
-            float y= player.getLocation().getY();
-            
+            float y = player.getLocation().getY();
             g.setColor(Color.red);
             Rectangle rect = new Rectangle(x, y, 70, 1);
-            switch(player.getDirection())
-            {
-                case North:
-                    rect.setLocation(x, y-100);
-                break;
-            case NorthEast:
-                rect.setLocation(x+100, y-100);
-                break;
-            case East:
-                rect.setLocation(x+100, y);
-                break;
-            case SouthEast:
-                rect.setLocation(x+100, y+100);
-                break;
-            case South:
-                rect.setLocation(x, y+100);
-                if(rect.intersects(npc.getRect()))
-                {
-                    System.out.println("Yay hit");
-                }
-                break;
-            case SouthWest:
-                rect.setLocation(x-100, y+100);
-                break;
-            case West:
-                rect.setLocation(x-100, y);
-                break;
-            case NorthWest:
-                rect.setLocation(x-100, y-100);
-                break;
-            default:
-                System.out.println("Error no direction");
-                break;
+            switch (player.getDir()) {
+                case DirectionType.NORTH:
+                    rect.setLocation(x, y - 100);
+                    break;
+                case DirectionType.NORTHEAST:
+                    rect.setLocation(x + 100, y - 100);
+                    break;
+                case DirectionType.EAST:
+                    rect.setLocation(x + 100, y);
+                    break;
+                case DirectionType.SOUTHEAST:
+                    rect.setLocation(x + 100, y + 100);
+                    break;
+                case DirectionType.SOUTH:
+                    rect.setLocation(x, y + 100);
+                    if (rect.intersects(npc.getRect())) {
+                        System.out.println("Yay hit");
+                    }
+                    break;
+                case DirectionType.SOUTHWEST:
+                    rect.setLocation(x - 100, y + 100);
+                    break;
+                case DirectionType.WEST:
+                    rect.setLocation(x - 100, y);
+                    break;
+                case DirectionType.NORTHWEST:
+                    rect.setLocation(x - 100, y - 100);
+                    break;
+                default:
+                    System.out.println("Error no direction");
+                    break;
             }
             playerAttack = false;
             //g.draw(rect);
@@ -143,19 +139,18 @@ public class GameState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.getPlayer().move(gc.getInput());
-        if(gc.getInput().isKeyPressed(Input.KEY_E)){
-            if(invOpen){
+        if (gc.getInput().isKeyPressed(Input.KEY_E)) {
+            if (invOpen) {
                 invOpen = false;
-            }else{
+            } else {
                 invOpen = true;
             }
         }
-        if(gc.getInput().isMousePressed(Input.MOUSE_RIGHT_BUTTON) )
-        {
+        if (gc.getInput().isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
             playerAttack = true;
         }
     }
-    
+
     public void generateInventory() {
         int x = 200;
         int y = 400;
@@ -186,5 +181,5 @@ public class GameState extends BasicGameState{
             i++;
         }
     }
-    
+
 }

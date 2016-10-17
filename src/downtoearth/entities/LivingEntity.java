@@ -25,19 +25,15 @@ public abstract class LivingEntity extends Entity {
     protected Item leftHand;
     protected Item rightHand;
     protected Item armorSet;
-    protected DirectionType direction;
+    protected Byte dir;
     protected Rectangle rect;
 
     public Rectangle getRect() {
         return rect;
     }
 
-    public void setDirection(DirectionType direction) {
-        this.direction = direction;
-    }
-
-    public DirectionType getDirection() {
-        return direction;
+    public Byte getDir() {
+        return dir;
     }
 
     /**

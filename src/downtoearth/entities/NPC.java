@@ -7,7 +7,11 @@ package downtoearth.entities;
 
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.MobType;
+import downtoearth.enums.SpriteLocation;
+import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.gameUtil.SpriteManager;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
@@ -21,6 +25,9 @@ public class NPC extends LivingEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private MobType type;
+    private AnimationManager aManager;
+    private SpriteManager sManager;
+    private boolean moving;
 
     /**
      * Gets the value of the mob type
@@ -36,5 +43,17 @@ public class NPC extends LivingEntity {
     public NPC(String name, Coordinate location, int hitPoints, MobType type, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.type = type;
+        this.aManager = new AnimationManager("res/playeranimation.png", 32 ,32);
+        this.sManager = new SpriteManager("res/playerSprite.png");
+        dir = DirectionType.SOUTH;
+    }
+    
+        public void render(GameContainer con) throws SlickException{
+        if(moving){
+            aManager.DrawAnimation(this.dir, con);
+        }else{
+            SpriteLocation pos = DirectionType.getStandingSprite(dir);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2, con.getHeight() / 2);
+        }
     }
 }

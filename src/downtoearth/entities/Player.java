@@ -13,6 +13,7 @@ import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.SlickException;
@@ -59,6 +60,7 @@ public class Player extends LivingEntity{
         return this.cam;
     }
 
+    
     //</editor-fold>
     
     public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
@@ -122,14 +124,16 @@ public class Player extends LivingEntity{
         else{
             moving = false;
         }
+        this.location = cam.getCoordinate();
     }
     
-    public void render(GameContainer con) throws SlickException{
+    public void render(GameContainer con, Graphics g) throws SlickException{
         if(moving){
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2, con.getHeight() / 2);
+            g.translate(this.getLocation().x, this.getLocation().y);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (int)this.getLocation().x, (int)this.getLocation().y);
         }
     }
     
@@ -140,32 +144,7 @@ public class Player extends LivingEntity{
     @Override
     public void attack(GameContainer gc)
     {
-        switch(direction)
-        {
-            case North:
-                
-                break;
-            case NorthEast:
-                break;
-            case East:
-                spriteManager.getCharacterSprite(1, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case SouthEast:
-                break;
-            case South:
-                spriteManager.getCharacterSprite(0, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case SouthWest:
-                break;
-            case West:
-                spriteManager.getCharacterSprite(3, 0, (int)this.location.getX(), (int)this.location.getY());
-                break;
-            case NorthWest:
-                break;
-            default:
-                System.out.println("Error no direction");
-                break;
-        }
+        
     }
  }
 
