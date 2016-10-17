@@ -38,10 +38,6 @@ import org.newdawn.slick.GameContainer;
           this.dir = DirectionType.NORTH;
       }
   
-      public void Animate(int nrOfFrames, byte dir) throws SlickException {
-
-      }
-  
       public void DrawAnimation(byte dir, GameContainer con) throws SlickException {
           if(dir == DirectionType.NORTH){
               northAnim.draw(con.getWidth() / 2, con.getHeight() / 2);

@@ -7,6 +7,8 @@ import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,6 +23,7 @@ public class World implements Serializable {
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
     private final Player p;
+    private List<Tile> tiles;
     
     float[][] heightMap;
     
@@ -57,6 +60,15 @@ public class World implements Serializable {
     
     public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
         
+        this.tiles = new ArrayList<Tile>();
+        
+        tiles.add(new Tile(600, 360, TileType.STONE));
+        tiles.add(new Tile(580, 340, TileType.COAL));
+        tiles.add(new Tile(580, 400, TileType.GEMSTONE));
+        tiles.add(new Tile(500, 320, TileType.TREE));
+        tiles.add(new Tile(510, 420, TileType.TREE));
+        tiles.add(new Tile(540, 345, TileType.TREE));
+                
         this.heightMap = heightMap;
         this.colorMap = colorMap;
         this.size = size;
@@ -75,6 +87,15 @@ public class World implements Serializable {
     }
     
     public World(Coordinate size) throws SlickException{
+        this.tiles = new ArrayList<Tile>();
+        
+        tiles.add(new Tile(600, 900, TileType.STONE));
+        tiles.add(new Tile(580, 870, TileType.COAL));
+        tiles.add(new Tile(580, 920, TileType.GEMSTONE));
+        tiles.add(new Tile(500, 910, TileType.TREE));
+        tiles.add(new Tile(510, 950, TileType.TREE));
+        tiles.add(new Tile(540, 990, TileType.TREE));
+        
         this.size = size;
         map = new Image("res/ColorMap.png");
         if(map != null){
@@ -98,5 +119,8 @@ public class World implements Serializable {
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con);
+        for(Tile t : tiles){
+            t.draw(p.getCamera());
+        }
     }
 }

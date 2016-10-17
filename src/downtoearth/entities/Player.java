@@ -68,7 +68,7 @@ public class Player extends LivingEntity{
         this.cam = new Camera(0,0);
         this.dir = DirectionType.NORTH;
         this.moving = false;
-        this.coordinate = new Coordinate(0,0);
+        this.coordinate = new Coordinate(540,360);
     }
     
     public void setSpawnPoint(int x, int y){
@@ -121,6 +121,8 @@ public class Player extends LivingEntity{
             dir = DirectionType.WEST;
             moving = true;
         }  
+        
+        System.out.println(cam.getCoordinate().getXint() + ", " + cam.getCoordinate().getYint());
     }
     
     public void render(GameContainer con) throws SlickException{

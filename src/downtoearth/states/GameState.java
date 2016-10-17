@@ -58,11 +58,6 @@ public class GameState extends BasicGameState{
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
 
         w = new World(new Coordinate(mapSize, mapSize));
-        
-        Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.STEELSWORD, 10, 10));
-        Items.add(new TileItem("jopie", Tooltype.GEMSWORD, 10, 10));
         this.generateInventory();
     }
 
