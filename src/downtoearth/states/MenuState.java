@@ -28,7 +28,7 @@ public class MenuState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         //Achtergrond en buttons
-        play = new Button(container.getWidth()/2, container.getHeight() / 2, "res/startbtn.png");
+        play = new Button(container.getWidth()/2, (container.getHeight() / 2) - 60, "res/startbtn.png");
         stop = new Button(container.getWidth()/2, (container.getHeight() / 2) + 60, "res/stopbtn.png");
     }
 
