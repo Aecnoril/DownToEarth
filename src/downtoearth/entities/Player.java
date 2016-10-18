@@ -121,8 +121,6 @@ public class Player extends LivingEntity{
             dir = DirectionType.WEST;
             moving = true;
         }  
-        
-        System.out.println(cam.getCoordinate().getXint() + ", " + cam.getCoordinate().getYint());
     }
     
     public void render(GameContainer con) throws SlickException{

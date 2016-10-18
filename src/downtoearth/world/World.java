@@ -13,6 +13,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.opengl.Texture;
@@ -32,6 +33,10 @@ public class World implements Serializable {
     Coordinate size;
     Image map;
     Image shader;
+    
+    public List<Tile> getTiles(){
+        return tiles;
+    }
     
     public Player getPlayer(){
         return this.p;
@@ -74,12 +79,12 @@ public class World implements Serializable {
         this.size = size;
         map = new Image("res/ColorMap.png");
         if(map != null){
-         System.out.println("image found!: " + map.getHeight());           
+            System.out.println("image found!: " + map.getHeight());           
         }
         
         shader = new Image("res/HeightMap.png");
         if(shader != null){
-         System.out.println("image found!: " + shader.getHeight());           
+            System.out.println("image found!: " + shader.getHeight());           
         }
         
         p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
@@ -99,12 +104,12 @@ public class World implements Serializable {
         this.size = size;
         map = new Image("res/ColorMap.png");
         if(map != null){
-         System.out.println("image found!: " + map.getHeight());           
+            System.out.println("image found!: " + map.getHeight());           
         }
         
         shader = new Image("res/HeightMap.png");
         if(shader != null){
-         System.out.println("image found!: " + shader.getHeight());           
+            System.out.println("image found!: " + shader.getHeight());           
         }
         
         p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
@@ -120,7 +125,27 @@ public class World implements Serializable {
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con);
         for(Tile t : tiles){
-            t.draw(p.getCamera());
+            if(t.getPosition().getX() >= 0 && t.getPosition().getX() <= 1080){
+                if(t.getPosition().getY() >= 0 && t.getPosition().getY() <= 720){
+                    t.draw(p.getCamera());
+                }
+            }
         }
+    }
+    
+    public void update(Input input){
+        if(!collision()){
+            this.p.move(input);
+            for(Tile t : this.tiles){
+                t.move(input);
+            }
+        }     
+    }
+    
+    public boolean collision(){
+        for(Tile t : this.tiles){
+            
+        }
+        return false;
     }
 }

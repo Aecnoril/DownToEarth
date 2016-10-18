@@ -11,6 +11,7 @@ import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.inventorySlot;
+import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -85,7 +86,7 @@ public class GameState extends BasicGameState{
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        w.getPlayer().move(gc.getInput());
+        w.update(gc.getInput());
         if(gc.getInput().isKeyPressed(Input.KEY_E)){
             if(invOpen){
                 invOpen = false;
