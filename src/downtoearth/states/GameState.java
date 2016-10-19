@@ -65,7 +65,7 @@ public class GameState extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
         try {
-            w.draw(gc.getWidth(), gc.getHeight(), gc);
+            w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }

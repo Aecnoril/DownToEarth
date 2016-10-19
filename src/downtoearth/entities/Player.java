@@ -12,10 +12,13 @@ import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
+import downtoearth.world.Tile;
+import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -33,6 +36,9 @@ public class Player extends LivingEntity{
     private Camera cam;
     private boolean moving;
     private Coordinate coordinate;
+    
+    private String blocked;
+    private boolean collision;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -58,6 +64,14 @@ public class Player extends LivingEntity{
     public Camera getCamera(){
         return this.cam;
     }
+    
+    public Coordinate getCoordinate(){
+        return this.coordinate;
+    }
+    
+    public Rectangle getBounds(){
+        return new Rectangle( 542, 362, 28, 28);
+    }
 
     //</editor-fold>
     
@@ -65,7 +79,7 @@ public class Player extends LivingEntity{
         super(name, location, hitPoints, path);
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
-        this.cam = new Camera(0,0);
+        this.cam = new Camera(1080, 720);
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
@@ -76,7 +90,7 @@ public class Player extends LivingEntity{
         this.coordinate.setY(y);
     }
     
-    public void move(Input input){     
+    public void move(Input input, List<Tile> tiles){     
         
         if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W)){
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
@@ -131,6 +145,15 @@ public class Player extends LivingEntity{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
             sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2, con.getHeight() / 2);
         }
+    }
+    
+    public boolean Collision(List<Tile> tiles){
+        for(Tile t : tiles){
+            if(t.getBounds().contains(this.getBounds().getMaxX() + SPEED, t.getBounds().getY())){
+                
+            }
+        }
+        return false;
     }
     
     public void useItem(Item item){

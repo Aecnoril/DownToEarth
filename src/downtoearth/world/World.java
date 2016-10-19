@@ -16,6 +16,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
@@ -116,7 +117,7 @@ public class World implements Serializable {
 
     }
     
-    public void draw(int width, int height, GameContainer con) throws IOException, SlickException{
+    public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
         Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
         Image shd = shader.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
@@ -124,28 +125,22 @@ public class World implements Serializable {
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con);
+        g.draw(p.getBounds());
         for(Tile t : tiles){
-            if(t.getPosition().getX() >= 0 && t.getPosition().getX() <= 1080){
-                if(t.getPosition().getY() >= 0 && t.getPosition().getY() <= 720){
+            if(t.getPosition().getX() >= -32 && t.getPosition().getX() <= 1080){
+                if(t.getPosition().getY() >= -32 && t.getPosition().getY() <= 720){
                     t.draw(p.getCamera());
+                    g.setColor(Color.red);
+                    g.draw(t.getBounds());
                 }
             }
         }
     }
     
     public void update(Input input){
-        if(!collision()){
-            this.p.move(input);
+            this.p.move(input, this.tiles);
             for(Tile t : this.tiles){
                 t.move(input);
-            }
-        }     
-    }
-    
-    public boolean collision(){
-        for(Tile t : this.tiles){
-            
-        }
-        return false;
+            }    
     }
 }

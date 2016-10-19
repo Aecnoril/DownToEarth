@@ -36,7 +36,7 @@ public class Tile {
     }
     
     public Rectangle getBounds(){
-        return new Rectangle(position.getXint(), position.getYint(), 32, 32);
+        return new Rectangle(position.getXint() + 2, position.getYint() + 2, 28, 28);
     }
     
     public Tile(int xpos, int ypos, byte type) throws SlickException{
