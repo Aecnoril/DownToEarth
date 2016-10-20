@@ -40,16 +40,16 @@ import org.newdawn.slick.GameContainer;
   
       public void DrawAnimation(byte dir, GameContainer con) throws SlickException {
           if(dir == DirectionType.NORTH){
-              northAnim.draw(con.getWidth() / 2, con.getHeight() / 2);
+              northAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
           }
           if(dir == DirectionType.WEST){
-              westAnim.draw(con.getWidth() / 2, con.getHeight() / 2);
+              westAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
           }
           if(dir == DirectionType.EAST){
-              eastAnim.draw(con.getWidth() / 2, con.getHeight() / 2);
+              eastAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
           }
           if(dir == DirectionType.SOUTH){
-              southAnim.draw(con.getWidth() / 2, con.getHeight() / 2);
+              southAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
           }
       }
   }

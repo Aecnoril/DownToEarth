@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.java.games.input.Component;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -70,6 +71,7 @@ public class GameState extends BasicGameState{
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
+        g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
         
         if(invOpen){
             g.setColor(new Color(122, 118, 118));

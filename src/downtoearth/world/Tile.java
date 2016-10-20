@@ -30,20 +30,26 @@ public class Tile {
     private Coordinate position;
     private byte type;
     private SpriteManager manager;
+    private String name;
     
     public Coordinate getPosition(){
         return position;
+    }
+    
+    public String getName(){
+        return name;
     }
     
     public Rectangle getBounds(){
         return new Rectangle(position.getXint() + 2, position.getYint() + 2, 28, 28);
     }
     
-    public Tile(int xpos, int ypos, byte type) throws SlickException{
+    public Tile(int xpos, int ypos, byte type, String name) throws SlickException{
         this.random = new Random();
         this.position = new Coordinate(xpos, ypos);
         this.manager = new SpriteManager("res/tiles.png");
         this.type = type;
+        this.name = name;
     }
     
     public void move(Input input){     
@@ -81,10 +87,11 @@ public class Tile {
         }  
     }
     
-    public void draw(Camera c){
+    public void draw(){
         SpriteLocation sl = TileType.getSpritePosition(this.type);
         spritex = sl.getSpriteX();
         spritey = sl.getSpriteY();
+        System.out.println(this.getName() + ": " + this.getPosition().getXint() + ", " + this.getPosition().getYint());
         manager.drawSprite(spritex, spritey, position.getXint(), position.getYint());
     }
 }

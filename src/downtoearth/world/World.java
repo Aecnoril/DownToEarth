@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -68,12 +69,12 @@ public class World implements Serializable {
         
         this.tiles = new ArrayList<Tile>();
         
-        tiles.add(new Tile(600, 360, TileType.STONE));
-        tiles.add(new Tile(580, 340, TileType.COAL));
-        tiles.add(new Tile(580, 400, TileType.GEMSTONE));
-        tiles.add(new Tile(500, 320, TileType.TREE));
-        tiles.add(new Tile(510, 420, TileType.TREE));
-        tiles.add(new Tile(540, 345, TileType.TREE));
+        tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
+        tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 320, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 420, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 345, TileType.TREE, "tree3"));
                 
         this.heightMap = heightMap;
         this.colorMap = colorMap;
@@ -95,12 +96,12 @@ public class World implements Serializable {
     public World(Coordinate size) throws SlickException{
         this.tiles = new ArrayList<Tile>();
         
-        tiles.add(new Tile(600, 900, TileType.STONE));
-        tiles.add(new Tile(580, 870, TileType.COAL));
-        tiles.add(new Tile(580, 920, TileType.GEMSTONE));
-        tiles.add(new Tile(500, 910, TileType.TREE));
-        tiles.add(new Tile(510, 950, TileType.TREE));
-        tiles.add(new Tile(540, 990, TileType.TREE));
+        tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
+        tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 920, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 910, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 950, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 990, TileType.TREE, "tree3"));
         
         this.size = size;
         map = new Image("res/ColorMap.png");
@@ -126,10 +127,11 @@ public class World implements Serializable {
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con);
         g.draw(p.getBounds());
+        g.draw(p.getColLine());
         for(Tile t : tiles){
-            if(t.getPosition().getX() >= -32 && t.getPosition().getX() <= 1080){
-                if(t.getPosition().getY() >= -32 && t.getPosition().getY() <= 720){
-                    t.draw(p.getCamera());
+            if(t.getPosition().getX() >= -16 && t.getPosition().getX() <= 1080){
+                if(t.getPosition().getY() >= -16 && t.getPosition().getY() <= 720){
+                    t.draw();
                     g.setColor(Color.red);
                     g.draw(t.getBounds());
                 }
