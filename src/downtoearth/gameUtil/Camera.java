@@ -13,10 +13,10 @@ public class Camera {
     private Coordinate c;
     private int width, height;
     
-    public Camera(int width, int height){
+    public Camera(int width, int height, Coordinate c){
         this.width= width;
         this.height = height;
-        c = new Coordinate(500,950);
+        this.c = c;
     }
     
     public Coordinate getCoordinate(){

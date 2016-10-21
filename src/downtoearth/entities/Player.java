@@ -67,7 +67,7 @@ public class Player extends LivingEntity{
         super(name, location, hitPoints, path);
         this.aManager = new AnimationManager("res/playeranimation.png", 32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
-        this.cam = new Camera(0,0);
+        this.cam = new Camera(0,0, location);
         this.dir = DirectionType.NORTH;
         this.moving = false;
     }

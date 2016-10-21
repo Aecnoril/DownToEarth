@@ -82,6 +82,21 @@ public class GameState extends BasicGameState {
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int cameraX = w.getPlayer().getCamera().getX();
+        int cameraY = w.getPlayer().getCamera().getY();
+        int startX = cameraX - (gc.getWidth() / 2);
+        int startY = cameraY - (gc.getHeight() / 2);
+        int stopX = cameraX + (gc.getWidth() / 2);
+        int stopY = cameraY + (gc.getHeight() / 2);
+        
+        for (LivingEntity m : w.getMobs())
+        {
+            if(m.getLocation().x < startX && m.getLocation().x > stopX && m.getLocation().y < startY && m.getLocation().y > stopY  )
+            {
+                ((NPC)m).render(gc, cameraX, cameraY);
+            }
+            
+        }
         g.drawString("State 3: Game", 10, 30);
         if (invOpen) {
             g.setColor(new Color(122, 118, 118));

@@ -50,6 +50,12 @@ public class World implements Serializable {
     public int[][] getColorMap() {
         return colorMap;
     }
+
+    public List<LivingEntity> getMobs() {
+        return Mobs;
+    }
+    
+    
     
     public static boolean checkMap() throws SlickException{
         Image test = new Image("src/resources/ColorMap.png");
@@ -100,12 +106,13 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540,1060), 100, "Assets/SpriteSheets/NinjaBob2.png");
         Mobs.add(new NPC("henk", new Coordinate(520,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(420,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(320,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(220,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(120,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(120,460), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
     }
    
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{
@@ -116,13 +123,5 @@ public class World implements Serializable {
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con, g);
-        for(LivingEntity npc : Mobs)
-        {
-            if(npc instanceof NPC)
-            {
-               ((NPC)npc).render(con);
-            }
-
-        }
     }
 }
