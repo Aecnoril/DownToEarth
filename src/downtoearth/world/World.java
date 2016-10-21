@@ -92,7 +92,7 @@ public class World implements Serializable {
          System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540,1060), 100, "Assets/SpriteSheets/NinjaBob2.png");
         Mobs.add(new NPC("henk", new Coordinate(520,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(420,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         Mobs.add(new NPC("henk", new Coordinate(320,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
@@ -126,12 +126,12 @@ public class World implements Serializable {
         }
         
         p = new Player("henk", new Coordinate(540,1060), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        Mobs.add(new NPC("henk", new Coordinate(520,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(420,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(320,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(220,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(120,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(120,460), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(520,1060), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(420,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(320,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(220,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(120,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        Mobs.add(new NPC("henk", new Coordinate(120,1460), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
     }
    
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{
