@@ -122,7 +122,7 @@ public class Player extends LivingEntity{
         }
         this.location = cam.getCoordinate();
         
-        System.out.println(cam.getCoordinate().getXint() + ", " + cam.getCoordinate().getYint());
+        //System.out.println(cam.getCoordinate().getXint() + ", " + cam.getCoordinate().getYint());
     }
     
     public void render(GameContainer con) throws SlickException{

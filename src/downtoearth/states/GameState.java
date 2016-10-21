@@ -84,7 +84,7 @@ public class GameState extends BasicGameState {
         int startY = cameraY - (gc.getHeight() / 2);
         int stopX = cameraX + (gc.getWidth() / 2);
         int stopY = cameraY + (gc.getHeight() / 2);
-        
+        System.out.println(startX + " " + startY + " : " + stopX + " " + stopY);
         for (LivingEntity m : w.getMobs())
         {
             if(m.getLocation().x < startX && m.getLocation().x > stopX && m.getLocation().y < startY && m.getLocation().y > stopY  )
