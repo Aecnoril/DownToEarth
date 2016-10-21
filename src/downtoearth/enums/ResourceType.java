@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -22,6 +22,7 @@ public class ResourceType {
     public static final byte STEEL          = 8;
     public static final byte GEMSTONE       = 9;
     public static final byte BUCKET         = 10;
+    public static final byte STICK          = 11;
     
     public static SpriteLocation getSpriteLocation(byte index){
         switch(index){
@@ -45,6 +46,8 @@ public class ResourceType {
                 return new SpriteLocation(0,4);
             case BUCKET:
                 return new SpriteLocation(1,4);  
+            case STICK:
+                return new SpriteLocation(0, 0);
         }
         return null;
     }
