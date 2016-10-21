@@ -10,6 +10,7 @@ import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
+import downtoearth.gameUtil.CollisionCheck;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.world.Tile;
@@ -38,6 +39,7 @@ public class Player extends LivingEntity{
     private Camera cam;
     private boolean moving;
     private Coordinate coordinate;
+    private CollisionCheck cCheck;
     
     private String blocked;
     private boolean collision;
@@ -79,6 +81,12 @@ public class Player extends LivingEntity{
         return this.colLine;
     }
 
+    public byte getDir() {
+        return dir;
+    }
+    
+    
+
     //</editor-fold>
     
     public Player(String name, Point location, int hitPoints, String path) throws SlickException {
@@ -90,6 +98,7 @@ public class Player extends LivingEntity{
         this.moving = false;
         this.colLine = new Line(540, 360, 540, 360 + 20);
         this.coordinate = new Coordinate(540,360);
+        this.cCheck = new CollisionCheck();
     }
     
     public void setSpawnPoint(int x, int y){
@@ -98,57 +107,58 @@ public class Player extends LivingEntity{
     }
     
     public void move(Input input, List<Tile> tiles){     
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W) && !collision(tiles, DirectionType.NORTHEAST)){
+        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
             this.colLine = new Line(540, 360, 540 + 20, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_W) && !collision(tiles, DirectionType.NORTH)){
+        else if(input.isKeyDown(Input.KEY_W) && !cCheck.isNorthCol()){
             this.colLine = new Line(540, 360, 540, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             dir = DirectionType.NORTH;
             moving = true;
         }
 
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S) && !collision(tiles, DirectionType.SOUTHEAST)){
+        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S) && !cCheck.isSouthEastCol()){
             this.colLine = new Line(540, 360, 540 + 20, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_D) && !collision(tiles, DirectionType.EAST)){
+        else if(input.isKeyDown(Input.KEY_D) && !cCheck.isEastCol()){
             this.colLine = new Line(540, 360, 540 + 20, 360);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             dir = DirectionType.EAST;
             moving = true;
         }
 
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A) && !collision(tiles, DirectionType.SOUTHWEST)){
+        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A) && !cCheck.isSouthWestCol()){
             this.colLine = new Line(540, 360, 540 - 20, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_S) && !collision(tiles, DirectionType.SOUTH)){
+        else if(input.isKeyDown(Input.KEY_S) && !cCheck.isSouthCol()){
             this.colLine = new Line(540, 360, 540, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             dir = DirectionType.SOUTH;
             moving = true;
         }
 
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W) && !collision(tiles, DirectionType.NORTHWEST)){
+        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
             this.colLine = new Line(540, 360, 540 - 20, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_A) && !collision(tiles, DirectionType.WEST)){
+        else if(input.isKeyDown(Input.KEY_A) && !cCheck.isEastCol()){
             this.colLine = new Line(540, 360, 540 - 20, 360);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             dir = DirectionType.WEST;
             moving = true;
-        }  
+        } 
+        cCheck.clearCol();
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -161,61 +171,51 @@ public class Player extends LivingEntity{
         }
     }
     
-    public boolean collision(List<Tile> tiles, byte dir){
-        boolean result = false;
-        for(Tile t : tiles){
+    public void collision(){
+        cCheck.clearCol();
             switch(dir){
                 case DirectionType.NORTH:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("North Collision");
-                        result = true;
+                        cCheck.setNorthCol(true);
                     }
-                    return false;
                 case DirectionType.NORTHEAST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("NorthEast Collision");
-                        result = true;
+                        cCheck.setNorthEastCol(true);
                     }
-                    return false;
                 case DirectionType.EAST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("East Collision");
-                        result = true;
+                        cCheck.setEastCol(true);
                     }
-                    return false;
                 case DirectionType.SOUTHEAST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("SouthEast Collision");
-                        result = true;
+                        cCheck.setSouthEastCol(true);
                     }
-                    return false;
                 case DirectionType.SOUTH:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("South Collision");
-                        result = true;
+                        cCheck.setSouthCol(true);
                     }
-                    return false;
                 case DirectionType.SOUTHWEST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("SouthWest Collision");
-                        result = true;
+                        cCheck.setSouthWestCol(true);
                     }
-                    return false;
                 case DirectionType.WEST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("West Collision");
-                        result = true;
+                        cCheck.setWestCol(true);
                     }
-                    return false;
                 case DirectionType.NORTHWEST:
-                    if(t.getBounds().intersects(this.getColLine())){
+                    {
                         System.out.println("NorthWest Collision");
-                        result = true;
+                        cCheck.setNorthWestCol(true);
                     }
             }
         }
-        return result;
-    }
     
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");

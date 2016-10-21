@@ -7,6 +7,7 @@ package downtoearth.states;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
+import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
@@ -25,6 +26,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -72,7 +74,13 @@ public class GameState extends BasicGameState{
         }
         g.drawString("State 3: Game", 10, 30);
         g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
-        
+        for(Tile t : w.getTiles())
+        {
+            if(t.getBounds().intersects(w.getPlayer().getColLine()))
+            {
+                w.getPlayer().collision();
+            }
+        }
         if(invOpen){
             g.setColor(new Color(122, 118, 118));
             g.fillRect(200, 400, 1025, 500);

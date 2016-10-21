@@ -26,7 +26,7 @@ public class Tile {
     public static final float SPEED = 0.3f;
     private int spritex, spritey;
     private Random random;
-    
+    private Rectangle bounds;
     private Coordinate position;
     private byte type;
     private SpriteManager manager;
@@ -41,7 +41,7 @@ public class Tile {
     }
     
     public Rectangle getBounds(){
-        return new Rectangle(position.getXint() + 2, position.getYint() + 2, 28, 28);
+        return this.bounds;
     }
     
     public Tile(int xpos, int ypos, byte type, String name) throws SlickException{
@@ -50,6 +50,7 @@ public class Tile {
         this.manager = new SpriteManager("res/tiles.png");
         this.type = type;
         this.name = name;
+        this.bounds = new Rectangle(position.getXint() + 2 , position.getYint() + 2, 28, 28);
     }
     
     public void move(Input input){     
@@ -84,7 +85,9 @@ public class Tile {
         }
         else if(input.isKeyDown(Input.KEY_A)){
             position.setX(position.getX() + (SPEED * 4));
-        }  
+        }
+        bounds.setX(position.getX()+2);
+        bounds.setY(position.getY()+2);
     }
     
     public void draw(){
