@@ -42,7 +42,7 @@ public class NPC extends LivingEntity {
     public NPC(String name, Coordinate location, int hitPoints, MobType type, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.type = type;
-        this.aManager = new AnimationManager("res/playeranimation.png", 32, 32);
+        this.aManager = new AnimationManager(32, 32);
         this.sManager = new SpriteManager("res/playerSprite.png");
         dir = DirectionType.SOUTH;
         moving = false;
