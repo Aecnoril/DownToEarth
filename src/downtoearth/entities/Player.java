@@ -89,7 +89,7 @@ public class Player extends LivingEntity{
 
     //</editor-fold>
     
-    public Player(String name, Point location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
@@ -97,7 +97,7 @@ public class Player extends LivingEntity{
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.colLine = new Line(540, 360, 540, 360 + 20);
-        this.coordinate = new Coordinate(540,360);
+        this.location = new Coordinate(540,360);
         this.cCheck = new CollisionCheck();
     }
     

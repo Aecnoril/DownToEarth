@@ -7,6 +7,7 @@ package downtoearth.entities;
 
 import downtoearth.Items.Item;
 import downtoearth.enums.DirectionType;
+import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -52,7 +53,7 @@ public abstract class LivingEntity extends Entity {
     }
 
     //</editor-fold>
-    public LivingEntity(String name, Point location, int hitPoints, String path) throws SlickException {
+    public LivingEntity(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.spriteManager = new SpriteManager(path, 30, 59, 1, 0);
     }

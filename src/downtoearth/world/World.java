@@ -2,6 +2,8 @@ package downtoearth.world;
 
 import downtoearth.entities.Player;
 import downtoearth.Items.*;
+import downtoearth.entities.LivingEntity;
+import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
@@ -27,6 +29,7 @@ public class World implements Serializable {
     private final float shaderTrans = 0.4f;
     private final Player p;
     private List<Tile> tiles;
+    private List<NPC> mobs;
     
     float[][] heightMap;
     
@@ -68,7 +71,7 @@ public class World implements Serializable {
     public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
         
         this.tiles = new ArrayList<Tile>();
-        
+        this.mobs = new ArrayList<NPC>();
         tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
         tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
         tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
@@ -89,12 +92,14 @@ public class World implements Serializable {
             System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
 
     }
     
     public World(Coordinate size) throws SlickException{
         this.tiles = new ArrayList<Tile>();
+        this.mobs = new ArrayList<NPC>();
         
         tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
         tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
@@ -114,7 +119,8 @@ public class World implements Serializable {
             System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
 
     }
     
@@ -137,12 +143,26 @@ public class World implements Serializable {
                 }
             }
         }
+        for(NPC n : mobs)
+        {
+            if(n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080){
+                if(n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720){
+                    n.draw();
+                    g.setColor(Color.red);
+                    g.draw(n.getBounds());
+                }
+            }
+        }
     }
     
     public void update(Input input){
             this.p.move(input);
             for(Tile t : this.tiles){
                 t.move(input);
-            }    
+            }
+            for(NPC n : this.mobs)
+            {
+                n.move(input);
+            }
     }
 }
