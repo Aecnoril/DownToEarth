@@ -7,6 +7,7 @@ package downtoearth.states;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
+import downtoearth.entities.NPC;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
@@ -34,21 +35,21 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Demian
  */
-public class GameState extends BasicGameState{
+public class GameState extends BasicGameState {
 
     private static final int number = 200;
     private boolean inventory = false;
     private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
     private ArrayList<Item> Items = new ArrayList<Item>();
     private inventorySlot selectedSlot = null;
-    
+
     private boolean invOpen;
-    
+
     private static World w;
-    
+
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -74,14 +75,23 @@ public class GameState extends BasicGameState{
         }
         g.drawString("State 3: Game", 10, 30);
         g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
-        for(Tile t : w.getTiles())
-        {
-            if(t.getBounds().intersects(w.getPlayer().getColLine()))
-            {
+        for (Tile t : w.getTiles()) {
+            if (t.getBounds().intersects(w.getPlayer().getColLine())) {
                 w.getPlayer().collision();
             }
+            if (t.getBounds().intersects(w.getPlayer().getAttackColLine())) {
+                w.getPlayer().attack(t);
+            }
         }
-        if(invOpen){
+        for (NPC n : w.getMobs()) {
+            if (w.getPlayer().getAttack()) {
+                if (n.getBounds().intersects(w.getPlayer().getAttackColLine())) {
+                    w.getPlayer().attack(n);
+                }
+            }
+
+        }
+        if (invOpen) {
             g.setColor(new Color(122, 118, 118));
             g.fillRect(200, 400, 1025, 500);
             for (inventorySlot r : this.inventorySlots) {
@@ -90,22 +100,25 @@ public class GameState extends BasicGameState{
                 if (r.getItem() != null) {
                     r.getItem().render(r.getX(), r.getY(), r.getWidth());
                 }
-            }  
+            }
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
-        if(gc.getInput().isKeyPressed(Input.KEY_E)){
-            if(invOpen){
+        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            w.getPlayer().attackCollision();
+        }
+        if (gc.getInput().isKeyPressed(Input.KEY_E)) {
+            if (invOpen) {
                 invOpen = false;
-            }else{
+            } else {
                 invOpen = true;
             }
         }
     }
-    
+
     public void generateInventory() {
         int x = 200;
         int y = 400;
@@ -136,5 +149,5 @@ public class GameState extends BasicGameState{
             i++;
         }
     }
-    
+
 }

@@ -44,6 +44,10 @@ public class Tile {
         return this.bounds;
     }
     
+    public byte getType(){
+        return this.type;
+    }
+    
     public Tile(int xpos, int ypos, byte type, String name) throws SlickException{
         this.random = new Random();
         this.position = new Coordinate(xpos, ypos);
@@ -94,7 +98,7 @@ public class Tile {
         SpriteLocation sl = TileType.getSpritePosition(this.type);
         spritex = sl.getSpriteX();
         spritey = sl.getSpriteY();
-        System.out.println(this.getName() + ": " + this.getPosition().getXint() + ", " + this.getPosition().getYint());
+        //System.out.println(this.getName() + ": " + this.getPosition().getXint() + ", " + this.getPosition().getYint());
         manager.drawSprite(spritex, spritey, position.getXint(), position.getYint());
     }
 }

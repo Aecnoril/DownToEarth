@@ -6,8 +6,11 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.Items.Resource;
 import downtoearth.enums.DirectionType;
+import downtoearth.enums.ResourceType;
 import downtoearth.enums.SpriteLocation;
+import downtoearth.enums.TileType;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.CollisionCheck;
@@ -36,10 +39,12 @@ public class Player extends LivingEntity{
     private int hunger;
     private byte dir;
     private Line colLine;
+    private Line attackColLine;
     private Camera cam;
     private boolean moving;
     private Coordinate coordinate;
     private CollisionCheck cCheck;
+    private boolean attack;
     
     private String blocked;
     private boolean collision;
@@ -80,6 +85,17 @@ public class Player extends LivingEntity{
     public Line getColLine(){
         return this.colLine;
     }
+    
+    public Line getAttackColLine(){
+        return this.attackColLine;
+    }
+    
+    public boolean setAttack(){
+        return false;
+    }
+    public boolean getAttack(){
+        return this.attack;
+    }
 
     public byte getDir() {
         return dir;
@@ -97,6 +113,7 @@ public class Player extends LivingEntity{
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.colLine = new Line(540, 360, 540, 360 + 20);
+        this.attackColLine = null;
         this.location = new Coordinate(540,360);
         this.cCheck = new CollisionCheck();
     }
@@ -172,7 +189,7 @@ public class Player extends LivingEntity{
     }
     
     public void collision(){
-       // cCheck.clearCol();
+       cCheck.clearCol();
             switch(dir){
                 case DirectionType.NORTH:
                     {
@@ -217,6 +234,98 @@ public class Player extends LivingEntity{
             }
         }
     
+    public void attackCollision()
+    {
+        attack = true;
+       // cCheck.clearCol();
+            switch(dir){
+                case DirectionType.NORTH:
+                    {
+                        this.attackColLine = new Line(540, 360, 540, 360 - 40);
+                        
+                    }
+                case DirectionType.NORTHEAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360 - 40);
+                        
+                    }
+                case DirectionType.EAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360);
+                        
+                        
+                    }
+                case DirectionType.SOUTHEAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360 + 40);
+                        
+                        
+                    }
+                case DirectionType.SOUTH:
+                    {
+                        this.attackColLine = new Line(540, 360, 540, 360 + 40);
+                        
+                        
+                    }
+                case DirectionType.SOUTHWEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360 + 40);
+                        
+                        
+                    }
+                case DirectionType.WEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360);
+                        
+                        
+                    }
+                case DirectionType.NORTHWEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360 - 40);
+                        
+                    }
+            }
+            this.attackColLine = new Line(540, 360);
+        }
+    
+    public void attack(NPC n)
+    {
+        if(attack)
+        {
+                    n.setHitPoints(n.hitPoints - 10);
+        System.out.println(n.hitPoints);
+                attack = false;
+        }
+
+
+    }
+    
+    public void attack(Tile t) throws SlickException
+    {
+        switch(t.getType())
+        {
+            case TileType.COAL:
+            {
+                Resource coal = new Resource("Coal", ResourceType.COAL, 100, 0);
+                this.inventory.add(coal);
+            }
+            case TileType.GEMSTONE:
+            {   
+                Resource gem = new Resource("Gemstone", ResourceType.GEMSTONE, 100, 0);
+                this.inventory.add(gem);
+            }
+            case TileType.STONE:
+            {
+                Resource stone = new Resource("Stone", ResourceType.STONE, 100, 0);
+                this.inventory.add(stone);
+            }
+            case TileType.TREE:
+            {
+                Resource wood = new Resource("Wood", ResourceType.WOOD, 100, 0);
+                this.inventory.add(wood);
+            }
+        }
+    }
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
     }

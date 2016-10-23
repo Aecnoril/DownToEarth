@@ -104,7 +104,7 @@ public class NPC extends LivingEntity {
 
     public void draw() {
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
-        System.out.println(this.getName() + ": " + this.getLocation().getXint() + ", " + this.getLocation().getYint());
+        //System.out.println(this.getName() + ": " + this.getLocation().getXint() + ", " + this.getLocation().getYint());
         sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint(), location.getYint());
     }
 }

@@ -43,6 +43,11 @@ public class World implements Serializable {
         return tiles;
     }
     
+    public List<NPC> getMobs()
+    {
+        return mobs;
+    }
+    
     public Player getPlayer(){
         return this.p;
     }
