@@ -5,22 +5,25 @@
  */
 package downtoearth.Items;
 
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.Tooltype;
 import downtoearth.enums.SpriteLocation;
+import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /**
  *
  * @author Demian
  */
-public class Recourse extends Item {
+public class Resource extends Item {
 
-    public Recourse(String name, byte type, double durability, double breakChange) throws SlickException {
+    public Resource(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
 
     @Override
-    public void drop() {
-        //TODO: implement
-    }   
+    public void drop(Point coord) throws SlickException {
+        ItemEntity droppedEnt = new ItemEntity(name, coord, type, name);
+    }
 }

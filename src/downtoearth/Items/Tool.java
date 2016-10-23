@@ -7,7 +7,9 @@ package downtoearth.Items;
 
 import downtoearth.Items.Item;
 import downtoearth.enums.Tooltype;
+import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -39,7 +41,7 @@ public class Tool extends Item{
     }
     
     @Override
-    public void drop(){
+    public void drop(Point coord) {
         //TODO: implement
     }
 }

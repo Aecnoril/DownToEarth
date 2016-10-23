@@ -7,8 +7,10 @@ package downtoearth.Items;
 
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
+import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -66,5 +68,5 @@ public abstract class Item{
         manager.scaleSprite(spritex, spritey, xpos, ypos, size);
     }
     
-    public abstract void drop();
+    public abstract void drop(Point coord) throws SlickException;
 }

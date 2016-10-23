@@ -7,7 +7,9 @@ package downtoearth.Items;
 
 import downtoearth.enums.Tooltype;
 import downtoearth.enums.SpriteLocation;
+import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -20,9 +22,9 @@ public class Consumable extends Item{
     }
 
     @Override
-    public void drop() {
+    public void drop(Point coord) {
         //TODO: implement
-    }    
+    }  
         
     public void eat(){
         //TODO: implement 
