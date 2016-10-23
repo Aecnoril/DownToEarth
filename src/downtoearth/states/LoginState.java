@@ -71,19 +71,19 @@ public class LoginState extends BasicGameState {
         login.render(login.hover(container.getInput()));
         register.render(register.hover(container.getInput()));
 
-        g.drawString("Username", loginUsername.getX(), loginUsername.getY() - 20);
+        g.drawString("Username", loginUsername.getX(), loginUsername.getY() - (float)20);
         loginUsername.render(container, g);
 
-        g.drawString("Password", loginPassword.getX(), loginPassword.getY() - 20);
+        g.drawString("Password", loginPassword.getX(), loginPassword.getY() - (float)20);
         loginPassword.render(container, g);
 
-        g.drawString("Email", registerEmail.getX(), registerEmail.getY() - 20);
+        g.drawString("Email", registerEmail.getX(), registerEmail.getY() - (float)20);
         registerEmail.render(container, g);
 
-        g.drawString("Username", registerUsername.getX(), registerUsername.getY() - 20);
+        g.drawString("Username", registerUsername.getX(), registerUsername.getY() - (float)20);
         registerUsername.render(container, g);
 
-        g.drawString("Password", registerPassword.getX(), registerPassword.getY() - 20);
+        g.drawString("Password", registerPassword.getX(), registerPassword.getY() - (float)20);
         registerPassword.render(container, g);
 
     }

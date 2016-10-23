@@ -35,6 +35,7 @@ public class PasswordTextField extends TextField {
         super(container, font, x, y, width, height);
     }
     
+    @Override
     public void render(GUIContext container, Graphics g) {
         if (lastKey != -1) {
             if (input.isKeyDown(lastKey)) {
@@ -87,6 +88,7 @@ public class PasswordTextField extends TextField {
         return passwordVisible;
     }
     
+    @Override
     public void keyPressed(int key, char c) {
         if (hasFocus()) {
             if (lastKey != key) {

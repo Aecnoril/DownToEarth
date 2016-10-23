@@ -13,7 +13,7 @@ import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
-import downtoearth.inventorySlot;
+import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.Tile;
 import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
@@ -49,8 +49,6 @@ public class GameState extends BasicGameState {
     private boolean invOpen;
 
     private static World w;
-    private static Camera c;
-    private static World w;
     private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
@@ -67,7 +65,6 @@ public class GameState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         w = new World(new Coordinate(mapSize, mapSize));
-        //this.generateInventory();
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
@@ -89,10 +86,8 @@ public class GameState extends BasicGameState {
             }
         }
         for (NPC n : w.getMobs()) {
-            if (w.getPlayer().getAttack()) {
-                if (n.getBounds().intersects(w.getPlayer().getAttackColLine())) {
+            if (w.getPlayer().getAttack() && n.getBounds().intersects(w.getPlayer().getAttackColLine())) {
                     w.getPlayer().attack(n);
-                }
             }
 
         }
@@ -108,4 +103,5 @@ public class GameState extends BasicGameState {
             w.getPlayer().attackCollision();
         }
         inv.ePressed(gc);
+    }
 }

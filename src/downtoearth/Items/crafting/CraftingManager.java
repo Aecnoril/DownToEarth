@@ -70,8 +70,8 @@ public class CraftingManager {
     }
 
     public Item craft(List<Item> items, Item result) {
-        CraftingRecipe recipe = null;
-        List<Item> itemsneeded = null;
+        CraftingRecipe recipe = new CraftingRecipe(null, 0, null);
+        List<Item> itemsneeded = new ArrayList<Item>();
         
         for(CraftingRecipe r : this.recipes){
             if(r.getResult() == result){

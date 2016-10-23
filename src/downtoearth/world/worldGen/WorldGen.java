@@ -91,7 +91,7 @@ public class WorldGen {
         try {
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map.length; j++) {
-                    int grey = Math.round(((map[i][j])) * 100);
+                    int grey = Math.round((map[i][j]) * 100);
                     if (grey < 0) {
                         grey = 0;
                     }

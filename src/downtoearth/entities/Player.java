@@ -175,7 +175,7 @@ public class Player extends LivingEntity{
             dir = DirectionType.WEST;
             moving = true;
         } 
-        //cCheck.clearCol();
+        cCheck.clearCol();
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -195,97 +195,111 @@ public class Player extends LivingEntity{
                     {
                         System.out.println("North Collision");
                         cCheck.setNorthCol(true);
+                        break;
                     }
                 case DirectionType.NORTHEAST:
                     {
                         System.out.println("NorthEast Collision");
                         cCheck.setNorthEastCol(true);
+                        break;
                     }
                 case DirectionType.EAST:
                     {
                         System.out.println("East Collision");
                         cCheck.setEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHEAST:
                     {
                         System.out.println("SouthEast Collision");
                         cCheck.setSouthEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTH:
                     {
                         System.out.println("South Collision");
                         cCheck.setSouthCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHWEST:
                     {
                         System.out.println("SouthWest Collision");
                         cCheck.setSouthWestCol(true);
+                        break;
                     }
                 case DirectionType.WEST:
                     {
                         System.out.println("West Collision");
                         cCheck.setWestCol(true);
+                        break;
                     }
                 case DirectionType.NORTHWEST:
                     {
                         System.out.println("NorthWest Collision");
                         cCheck.setNorthWestCol(true);
+                        break;
                     }
+                default :
+                {
+                    cCheck.clearCol();
+                }
             }
         }
     
     public void attackCollision()
     {
         attack = true;
-       // cCheck.clearCol();
             switch(dir){
                 case DirectionType.NORTH:
                     {
                         this.attackColLine = new Line(540, 360, 540, 360 - 40);
+                        break;
                         
                     }
                 case DirectionType.NORTHEAST:
                     {
                         this.attackColLine = new Line(540, 360, 540 + 40, 360 - 40);
+                        break;
                         
                     }
                 case DirectionType.EAST:
                     {
                         this.attackColLine = new Line(540, 360, 540 + 40, 360);
+                        break;
                         
                         
                     }
                 case DirectionType.SOUTHEAST:
                     {
                         this.attackColLine = new Line(540, 360, 540 + 40, 360 + 40);
-                        
+                        break;
                         
                     }
                 case DirectionType.SOUTH:
                     {
                         this.attackColLine = new Line(540, 360, 540, 360 + 40);
-                        
+                        break;
                         
                     }
                 case DirectionType.SOUTHWEST:
                     {
                         this.attackColLine = new Line(540, 360, 540 - 40, 360 + 40);
-                        
+                        break;
                         
                     }
                 case DirectionType.WEST:
                     {
                         this.attackColLine = new Line(540, 360, 540 - 40, 360);
-                        
+                        break;
                         
                     }
                 case DirectionType.NORTHWEST:
                     {
                         this.attackColLine = new Line(540, 360, 540 - 40, 360 - 40);
-                        
+                        break;
                     }
             }
-            this.attackColLine = new Line(540, 360);
+            //this.attackColLine = new Line(540, 360);
         }
     
     public void attack(NPC n)
@@ -296,36 +310,47 @@ public class Player extends LivingEntity{
         System.out.println(n.hitPoints);
                 attack = false;
         }
+        this.attackColLine = new Line(540, 360);
 
 
     }
     
     public void attack(Tile t) throws SlickException
     {
-        switch(t.getType())
+        if(attack)
+        {
+            switch(t.getType())
         {
             case TileType.COAL:
             {
                 Resource coal = new Resource("Coal", ResourceType.COAL, 100, 0);
                 this.inventory.add(coal);
                 System.out.println("Added Coal");
+                break;
             }
             case TileType.GEMSTONE:
             {   
                 Resource gem = new Resource("Gemstone", ResourceType.GEMSTONE, 100, 0);
                 this.inventory.add(gem);
+                break;
             }
             case TileType.STONE:
             {
                 Resource stone = new Resource("Stone", ResourceType.STONE, 100, 0);
                 this.inventory.add(stone);
+                break;
             }
             case TileType.TREE:
             {
                 Resource wood = new Resource("Wood", ResourceType.WOOD, 100, 0);
                 this.inventory.add(wood);
+                break;
             }
         }
+        attack = false;
+        }
+        this.attackColLine = new Line(540, 360);
+        
     }
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
