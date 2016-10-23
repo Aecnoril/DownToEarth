@@ -7,15 +7,12 @@ package downtoearth.states;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
-import downtoearth.entities.LivingEntity;
-import downtoearth.entities.NPC;
-import downtoearth.entities.Player;
 import downtoearth.enums.DirectionType;
-import downtoearth.enums.MobType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.inventorySlot;
+import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -23,12 +20,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.java.games.input.Component;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -37,24 +34,21 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Demian
  */
-public class GameState extends BasicGameState {
+public class GameState extends BasicGameState{
 
     private static final int number = 200;
     private boolean inventory = false;
     private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
     private ArrayList<Item> Items = new ArrayList<Item>();
     private inventorySlot selectedSlot = null;
-    private LivingEntity player;
-    private LivingEntity npc;
-
+    
     private boolean invOpen;
-    private boolean playerAttack = false;
-
+    
     private static World w;
-
+    
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-
+    
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -78,23 +72,16 @@ public class GameState extends BasicGameState {
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int cameraX = w.getPlayer().getCamera().getX();
-        int cameraY = w.getPlayer().getCamera().getY();
-        int startX = cameraX - (gc.getWidth() / 2);
-        int startY = cameraY - (gc.getHeight() / 2);
-        int stopX = cameraX + (gc.getWidth() / 2);
-        int stopY = cameraY + (gc.getHeight() / 2);
-        System.out.println(startX + " " + startY + " : " + stopX + " " + stopY);
-        for (LivingEntity m : w.getMobs())
-        {
-            if(m.getLocation().x < startX && m.getLocation().x > stopX && m.getLocation().y < startY && m.getLocation().y > stopY  )
-            {
-                ((NPC)m).render(gc, cameraX, cameraY);
-            }
-            
-        }
         g.drawString("State 3: Game", 10, 30);
-        if (invOpen) {
+        g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
+        for(Tile t : w.getTiles())
+        {
+            if(t.getBounds().intersects(w.getPlayer().getColLine()))
+            {
+                w.getPlayer().collision();
+            }
+        }
+        if(invOpen){
             g.setColor(new Color(122, 118, 118));
             g.fillRect(200, 400, 1025, 500);
             for (inventorySlot r : this.inventorySlots) {
@@ -103,65 +90,22 @@ public class GameState extends BasicGameState {
                 if (r.getItem() != null) {
                     r.getItem().render(r.getX(), r.getY(), r.getWidth());
                 }
-            }
-        }
-        if (playerAttack) {
-            float x = player.getLocation().getX();
-            float y = player.getLocation().getY();
-            g.setColor(Color.red);
-            Rectangle rect = new Rectangle(x, y, 70, 1);
-            switch (player.getDir()) {
-                case DirectionType.NORTH:
-                    rect.setLocation(x, y - 100);
-                    break;
-                case DirectionType.NORTHEAST:
-                    rect.setLocation(x + 100, y - 100);
-                    break;
-                case DirectionType.EAST:
-                    rect.setLocation(x + 100, y);
-                    break;
-                case DirectionType.SOUTHEAST:
-                    rect.setLocation(x + 100, y + 100);
-                    break;
-                case DirectionType.SOUTH:
-                    rect.setLocation(x, y + 100);
-                    if (rect.intersects(npc.getRect())) {
-                        System.out.println("Yay hit");
-                    }
-                    break;
-                case DirectionType.SOUTHWEST:
-                    rect.setLocation(x - 100, y + 100);
-                    break;
-                case DirectionType.WEST:
-                    rect.setLocation(x - 100, y);
-                    break;
-                case DirectionType.NORTHWEST:
-                    rect.setLocation(x - 100, y - 100);
-                    break;
-                default:
-                    System.out.println("Error no direction");
-                    break;
-            }
-            playerAttack = false;
-            //g.draw(rect);
+            }  
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        w.getPlayer().move(gc.getInput());
-        if (gc.getInput().isKeyPressed(Input.KEY_E)) {
-            if (invOpen) {
+        w.update(gc.getInput());
+        if(gc.getInput().isKeyPressed(Input.KEY_E)){
+            if(invOpen){
                 invOpen = false;
-            } else {
+            }else{
                 invOpen = true;
             }
         }
-        if (gc.getInput().isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-            playerAttack = true;
-        }
     }
-
+    
     public void generateInventory() {
         int x = 200;
         int y = 400;
@@ -192,5 +136,5 @@ public class GameState extends BasicGameState {
             i++;
         }
     }
-
+    
 }

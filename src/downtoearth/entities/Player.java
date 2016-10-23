@@ -10,13 +10,17 @@ import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
+import downtoearth.gameUtil.CollisionCheck;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
+import downtoearth.world.Tile;
+import java.util.List;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -31,9 +35,14 @@ public class Player extends LivingEntity{
     private int thirst;
     private int hunger;
     private byte dir;
+    private Line colLine;
     private Camera cam;
     private boolean moving;
     private Coordinate coordinate;
+    private CollisionCheck cCheck;
+    
+    private String blocked;
+    private boolean collision;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -59,70 +68,97 @@ public class Player extends LivingEntity{
     public Camera getCamera(){
         return this.cam;
     }
-
     
+    public Coordinate getCoordinate(){
+        return this.coordinate;
+    }
+    
+    public Rectangle getBounds(){
+        return new Rectangle( 542 - 16, 362 - 16, 28, 28);
+    }
+    
+    public Line getColLine(){
+        return this.colLine;
+    }
+
+    public byte getDir() {
+        return dir;
+    }
+    
+    
+
     //</editor-fold>
     
-    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Point location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
-        this.cam = new Camera(0,0, location);
+        this.cam = new Camera(1080, 720);
         this.dir = DirectionType.NORTH;
         this.moving = false;
+        this.colLine = new Line(540, 360, 540, 360 + 20);
+        this.coordinate = new Coordinate(540,360);
+        this.cCheck = new CollisionCheck();
+    }
+    
+    public void setSpawnPoint(int x, int y){
+        this.coordinate.setX(x);
+        this.coordinate.setY(y);
     }
     
     public void move(Input input){     
-        
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W)){
+        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
+            this.colLine = new Line(540, 360, 540 + 20, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_W)){
+        else if(input.isKeyDown(Input.KEY_W) && !cCheck.isNorthCol()){
+            this.colLine = new Line(540, 360, 540, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             dir = DirectionType.NORTH;
             moving = true;
         }
-        
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S)){
+
+        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S) && !cCheck.isSouthEastCol()){
+            this.colLine = new Line(540, 360, 540 + 20, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_D)){
+        else if(input.isKeyDown(Input.KEY_D) && !cCheck.isEastCol()){
+            this.colLine = new Line(540, 360, 540 + 20, 360);
             cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
             dir = DirectionType.EAST;
             moving = true;
         }
-        
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A)){
+
+        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A) && !cCheck.isSouthWestCol()){
+            this.colLine = new Line(540, 360, 540 - 20, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_S)){
+        else if(input.isKeyDown(Input.KEY_S) && !cCheck.isSouthCol()){
+            this.colLine = new Line(540, 360, 540, 360 + 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
             dir = DirectionType.SOUTH;
             moving = true;
         }
-        
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W)){
+
+        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
+            this.colLine = new Line(540, 360, 540 - 20, 360 - 20);
             cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             moving = true;
         }
-        else if(input.isKeyDown(Input.KEY_A)){
+        else if(input.isKeyDown(Input.KEY_A) && !cCheck.isEastCol()){
+            this.colLine = new Line(540, 360, 540 - 20, 360);
             cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
             dir = DirectionType.WEST;
             moving = true;
-        }  
-        else{
-            moving = false;
-        }
-        this.location = cam.getCoordinate();
-        
-        //System.out.println(cam.getCoordinate().getXint() + ", " + cam.getCoordinate().getYint());
+        } 
+        //cCheck.clearCol();
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -131,18 +167,58 @@ public class Player extends LivingEntity{
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2, con.getHeight() /2);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
         }
     }
+    
+    public void collision(){
+       // cCheck.clearCol();
+            switch(dir){
+                case DirectionType.NORTH:
+                    {
+                        System.out.println("North Collision");
+                        cCheck.setNorthCol(true);
+                    }
+                case DirectionType.NORTHEAST:
+                    {
+                        System.out.println("NorthEast Collision");
+                        cCheck.setNorthEastCol(true);
+                    }
+                case DirectionType.EAST:
+                    {
+                        System.out.println("East Collision");
+                        cCheck.setEastCol(true);
+                    }
+                case DirectionType.SOUTHEAST:
+                    {
+                        System.out.println("SouthEast Collision");
+                        cCheck.setSouthEastCol(true);
+                    }
+                case DirectionType.SOUTH:
+                    {
+                        System.out.println("South Collision");
+                        cCheck.setSouthCol(true);
+                    }
+                case DirectionType.SOUTHWEST:
+                    {
+                        System.out.println("SouthWest Collision");
+                        cCheck.setSouthWestCol(true);
+                    }
+                case DirectionType.WEST:
+                    {
+                        System.out.println("West Collision");
+                        cCheck.setWestCol(true);
+                    }
+                case DirectionType.NORTHWEST:
+                    {
+                        System.out.println("NorthWest Collision");
+                        cCheck.setNorthWestCol(true);
+                    }
+            }
+        }
     
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public void attack(GameContainer gc)
-    {
-        
-    }
- }
+}
 

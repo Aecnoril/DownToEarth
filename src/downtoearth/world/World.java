@@ -2,8 +2,6 @@ package downtoearth.world;
 
 import downtoearth.entities.Player;
 import downtoearth.Items.*;
-import downtoearth.entities.LivingEntity;
-import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
@@ -11,12 +9,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
@@ -25,7 +26,6 @@ public class World implements Serializable {
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    private final List<LivingEntity> Mobs;
     private List<Tile> tiles;
     
     float[][] heightMap;
@@ -35,6 +35,10 @@ public class World implements Serializable {
     Coordinate size;
     Image map;
     Image shader;
+    
+    public List<Tile> getTiles(){
+        return tiles;
+    }
     
     public Player getPlayer(){
         return this.p;
@@ -51,12 +55,6 @@ public class World implements Serializable {
     public int[][] getColorMap() {
         return colorMap;
     }
-
-    public List<LivingEntity> getMobs() {
-        return Mobs;
-    }
-    
-    
     
     public static boolean checkMap() throws SlickException{
         Image test = new Image("src/resources/ColorMap.png");
@@ -71,69 +69,55 @@ public class World implements Serializable {
         
         this.tiles = new ArrayList<Tile>();
         
-        tiles.add(new Tile(600, 360, TileType.STONE));
-        tiles.add(new Tile(580, 340, TileType.COAL));
-        tiles.add(new Tile(580, 400, TileType.GEMSTONE));
-        tiles.add(new Tile(500, 320, TileType.TREE));
-        tiles.add(new Tile(510, 420, TileType.TREE));
-        tiles.add(new Tile(540, 345, TileType.TREE));
+        tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
+        tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 320, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 420, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 345, TileType.TREE, "tree3"));
                 
         this.heightMap = heightMap;
         this.colorMap = colorMap;
         this.size = size;
-        this.Mobs = new ArrayList();
         map = new Image("res/ColorMap.png");
         if(map != null){
-         System.out.println("image found!: " + map.getHeight());           
+            System.out.println("image found!: " + map.getHeight());           
         }
         
         shader = new Image("res/HeightMap.png");
         if(shader != null){
-         System.out.println("image found!: " + shader.getHeight());           
+            System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Coordinate(540,1060), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        Mobs.add(new NPC("henk", new Coordinate(520,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(420,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(320,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(220,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(120,360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        
-        
+        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
 
     }
     
     public World(Coordinate size) throws SlickException{
         this.tiles = new ArrayList<Tile>();
         
-        tiles.add(new Tile(600, 900, TileType.STONE));
-        tiles.add(new Tile(580, 870, TileType.COAL));
-        tiles.add(new Tile(580, 920, TileType.GEMSTONE));
-        tiles.add(new Tile(500, 910, TileType.TREE));
-        tiles.add(new Tile(510, 950, TileType.TREE));
-        tiles.add(new Tile(540, 990, TileType.TREE));
+        tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
+        tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 920, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 910, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 950, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 990, TileType.TREE, "tree3"));
         
         this.size = size;
-        this.Mobs = new ArrayList();
         map = new Image("res/ColorMap.png");
         if(map != null){
-         System.out.println("image found!: " + map.getHeight());           
+            System.out.println("image found!: " + map.getHeight());           
         }
         
         shader = new Image("res/HeightMap.png");
         if(shader != null){
-         System.out.println("image found!: " + shader.getHeight());           
+            System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Coordinate(540,1060), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        Mobs.add(new NPC("henk", new Coordinate(520,1060), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(420,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(320,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(220,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(120,1360), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-        Mobs.add(new NPC("henk", new Coordinate(120,1460), 100,MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+
     }
-   
+    
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
         Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
@@ -142,8 +126,23 @@ public class World implements Serializable {
         img.getScaledCopy(width, height).draw(0, 0);
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
         p.render(con);
+        g.draw(p.getBounds());
+        g.draw(p.getColLine());
         for(Tile t : tiles){
-            t.draw(p.getCamera());
+            if(t.getPosition().getX() >= -16 && t.getPosition().getX() <= 1080){
+                if(t.getPosition().getY() >= -16 && t.getPosition().getY() <= 720){
+                    t.draw();
+                    g.setColor(Color.red);
+                    g.draw(t.getBounds());
+                }
+            }
         }
+    }
+    
+    public void update(Input input){
+            this.p.move(input);
+            for(Tile t : this.tiles){
+                t.move(input);
+            }    
     }
 }
