@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Inventory;
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.entities.NPC;
@@ -14,8 +15,10 @@ import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.inventorySlot;
 import downtoearth.world.Tile;
+import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
+import java.awt.TextField;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -46,7 +49,9 @@ public class GameState extends BasicGameState {
     private boolean invOpen;
 
     private static World w;
-
+    private static Camera c;
+    private static World w;
+    private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
 
@@ -61,9 +66,9 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
         w = new World(new Coordinate(mapSize, mapSize));
-        this.generateInventory();
+        //this.generateInventory();
+        inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
     @Override
@@ -91,16 +96,8 @@ public class GameState extends BasicGameState {
             }
 
         }
-        if (invOpen) {
-            g.setColor(new Color(122, 118, 118));
-            g.fillRect(200, 400, 1025, 500);
-            for (inventorySlot r : this.inventorySlots) {
-                g.setColor(r.getColor());
-                g.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-                if (r.getItem() != null) {
-                    r.getItem().render(r.getX(), r.getY(), r.getWidth());
-                }
-            }
+        if (this.inv.isInvOpen()) {
+            this.inv.render(g);
         }
     }
 
@@ -110,44 +107,5 @@ public class GameState extends BasicGameState {
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             w.getPlayer().attackCollision();
         }
-        if (gc.getInput().isKeyPressed(Input.KEY_E)) {
-            if (invOpen) {
-                invOpen = false;
-            } else {
-                invOpen = true;
-            }
-        }
-    }
-
-    public void generateInventory() {
-        int x = 200;
-        int y = 400;
-
-        for (int i = 0; i < 40; i++) {
-            if (i == 10 || i == 20) {
-                y += 100;
-                x -= 1000;
-            }
-            if (i == 30) {
-                y += 180;
-                x -= 1000;
-            }
-            int leftborder = 25;
-            int topborder = 25;
-            inventorySlot r = new inventorySlot(x + leftborder, y + topborder, 75, 75, new Color(58, 55, 55));
-            this.inventorySlots.add(r);
-
-            x += 100;
-        }
-
-        int i = 1;
-        for (Item it : Items) {
-            inventorySlot r = inventorySlots.get(inventorySlots.size() - i);
-            if (r.getItem() == null) {
-                r.setItem(it);
-            }
-            i++;
-        }
-    }
-
+        inv.ePressed(gc);
 }
