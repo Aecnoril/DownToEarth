@@ -13,9 +13,9 @@ import org.newdawn.slick.SlickException;
  *
  * @author Demian
  */
-public class Recourse extends Item {
+public class Resource extends Item {
 
-    public Recourse(String name, byte type, double durability, double breakChange) throws SlickException {
+    public Resource(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
 

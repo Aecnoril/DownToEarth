@@ -42,10 +42,8 @@ public class Button {
     }
     
     public boolean clicked(Input input){
-        if(bounds.contains(input.getMouseX(), input.getMouseY())){
-            if(Mouse.isButtonDown(0)){
+        if(bounds.contains(input.getMouseX(), input.getMouseY()) && Mouse.isButtonDown(0)){
                 return true;
-            }
         }
         return false;
     }

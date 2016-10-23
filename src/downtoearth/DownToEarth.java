@@ -22,11 +22,13 @@ public class DownToEarth extends StateBasedGame {
         AppGameContainer appgc = new AppGameContainer(new DownToEarth("DownToEarth"));
         appgc.setDisplayMode(1080, 720, false);
         appgc.setTargetFrameRate(60);
+        appgc.setShowFPS(false);
         appgc.start();
     }
     
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        this.addState(new LoginState());
         this.addState(new MenuState());
         this.addState(new OptionState());
         this.addState(new GameState());
