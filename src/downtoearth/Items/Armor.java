@@ -5,9 +5,11 @@
  */
 package downtoearth.Items;
 
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.Tooltype;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.states.GameState;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
@@ -15,17 +17,19 @@ import org.newdawn.slick.geom.Point;
  *
  * @author Demian
  */
-public class Armor extends Item{
-    
+public class Armor extends Item {
+
     private double damageReduction;
-    
+
     public Armor(String name, byte type, double durability, double breakChange, double damageReduction) throws SlickException {
         super(name, type, durability, breakChange);
         this.damageReduction = damageReduction;
     }
 
     @Override
-    public void drop(Point coord) {
-        //TODO: implement
+    public void drop(Point coord) throws SlickException {
+        ItemEntity droppedEnt = new ItemEntity(name, coord, type, name);
+
+        GameState.w.itemEnts.add(droppedEnt);
     }
 }

@@ -44,7 +44,7 @@ public class GameState extends BasicGameState{
     
     private boolean invOpen;
     
-    private static World w;
+    public static World w;
     
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));

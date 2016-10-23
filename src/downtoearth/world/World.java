@@ -2,6 +2,7 @@ package downtoearth.world;
 
 import downtoearth.entities.Player;
 import downtoearth.Items.*;
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
@@ -26,7 +27,8 @@ public class World implements Serializable {
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    private List<Tile> tiles;
+    private ArrayList<Tile> tiles;
+    public ArrayList<ItemEntity> itemEnts;
     
     float[][] heightMap;
     
@@ -68,6 +70,7 @@ public class World implements Serializable {
     public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
         
         this.tiles = new ArrayList<Tile>();
+        this.itemEnts = new ArrayList<ItemEntity>();
         
         tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
         tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
