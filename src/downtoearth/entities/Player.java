@@ -308,6 +308,7 @@ public class Player extends LivingEntity{
             {
                 Resource coal = new Resource("Coal", ResourceType.COAL, 100, 0);
                 this.inventory.add(coal);
+                System.out.println("Added Coal");
             }
             case TileType.GEMSTONE:
             {   
