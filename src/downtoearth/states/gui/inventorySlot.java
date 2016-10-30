@@ -1,9 +1,12 @@
-package downtoearth;
+package downtoearth.states.gui;
 
 import downtoearth.Items.Item;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,6 +19,7 @@ import org.newdawn.slick.geom.Circle;
  */
 public class inventorySlot {
 
+    private Rectangle bounds;
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private Item item;
 
@@ -144,15 +148,13 @@ public class inventorySlot {
         this.width = width;
         this.height = height;
         this.color = color;
+        this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
     }
 
-    public boolean detectMouse(Circle mouseBall) {
-        if (mouseBall.getCenterX() >= this.getX() && mouseBall.getCenterX() <= this.getX() + this.getWidth()) {
-            if (mouseBall.getCenterY() >= this.getY() && mouseBall.getCenterY() <= this.getY() + this.getHeight()) {
-                return true;
-            }
+    public boolean detectMouse(Input input) {
+        if (bounds.contains(input.getMouseX(), input.getMouseY())) {
+            return true;
         }
         return false;
     }
-
 }

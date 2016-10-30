@@ -27,7 +27,7 @@ public class OptionState extends BasicGameState{
 
     @Override
     public int getID() {
-        return 1;
+        return 5;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OptionState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         if(play.clicked(gc.getInput())){
-            game.enterState(2);
+            game.enterState(3);
         }
         
         if(stop.clicked(gc.getInput())){

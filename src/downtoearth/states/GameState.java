@@ -11,7 +11,8 @@ import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
-import downtoearth.inventorySlot;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.inventorySlot;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
@@ -37,12 +38,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState{
 
     private static final int number = 200;
-    private boolean inventory = false;
-    private ArrayList<inventorySlot> inventorySlots = new ArrayList<inventorySlot>();
-    private ArrayList<Item> Items = new ArrayList<Item>();
-    private inventorySlot selectedSlot = null;
     
-    private boolean invOpen;
+    private Inventory inv;
     
     private static World w;
     
@@ -60,9 +57,8 @@ public class GameState extends BasicGameState{
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
         w = new World(new Coordinate(mapSize, mapSize));
-        this.generateInventory();
+        inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
     @Override
@@ -81,60 +77,15 @@ public class GameState extends BasicGameState{
                 w.getPlayer().collision();
             }
         }
-        if(invOpen){
-            g.setColor(new Color(122, 118, 118));
-            g.fillRect(200, 400, 1025, 500);
-            for (inventorySlot r : this.inventorySlots) {
-                g.setColor(r.getColor());
-                g.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-                if (r.getItem() != null) {
-                    r.getItem().render(r.getX(), r.getY(), r.getWidth());
-                }
-            }  
+        
+        if (this.inv.isInvOpen()) {
+            this.inv.render(g);
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
-        if(gc.getInput().isKeyPressed(Input.KEY_E)){
-            if(invOpen){
-                invOpen = false;
-            }else{
-                invOpen = true;
-            }
-        }
+        inv.ePressed(gc);
     }
-    
-    public void generateInventory() {
-        int x = 200;
-        int y = 400;
-
-        for (int i = 0; i < 40; i++) {
-            if (i == 10 || i == 20) {
-                y += 100;
-                x -= 1000;
-            }
-            if (i == 30) {
-                y += 180;
-                x -= 1000;
-            }
-            int leftborder = 25;
-            int topborder = 25;
-            inventorySlot r = new inventorySlot(x + leftborder, y + topborder, 75, 75, new Color(58, 55, 55));
-            this.inventorySlots.add(r);
-
-            x += 100;
-        }
-
-        int i = 1;
-        for (Item it : Items) {
-            inventorySlot r = inventorySlots.get(inventorySlots.size() - i);
-            if (r.getItem() == null) {
-                r.setItem(it);
-            }
-            i++;
-        }
-    }
-    
 }
