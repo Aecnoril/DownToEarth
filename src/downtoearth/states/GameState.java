@@ -7,6 +7,8 @@ package downtoearth.states;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
+import downtoearth.entities.ItemEntity;
+import downtoearth.entities.NPC;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
@@ -41,7 +43,7 @@ public class GameState extends BasicGameState{
     
     private Inventory inv;
     
-    private static World w;
+    public static World w;
     
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
@@ -70,11 +72,28 @@ public class GameState extends BasicGameState{
         }
         g.drawString("State 3: Game", 10, 30);
         g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
-        for(Tile t : w.getTiles())
-        {
-            if(t.getBounds().intersects(w.getPlayer().getColLine()))
-            {
+        for (Tile t : w.getTiles()) {
+            if (t.getBounds().intersects(w.getPlayer().getColLine())) {
                 w.getPlayer().collision();
+            }
+            if (t.getBounds().intersects(w.getPlayer().getAttackColLine()) && Mouse.isButtonDown(0)) {
+                w.getPlayer().attack(t);
+            }
+        }
+        for (NPC n : w.getMobs()) {
+            if (w.getPlayer().getAttack() && n.getBounds().intersects(w.getPlayer().getAttackColLine())) {
+                    w.getPlayer().attack(n);
+            }
+
+        }
+        
+        for(ItemEntity i : w.itemEnts){
+            if(w.getPlayer().getBounds().intersects(i.getBounds())){
+                inv.addItem(i.getItem());
+                inv.generateInventory();    
+                System.out.println(i.getItem().getName());
+                w.itemEnts.remove(i);
+                break;
             }
         }
         
@@ -86,6 +105,10 @@ public class GameState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
+        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            System.out.println("Attack");
+            w.getPlayer().attackCollision();
+        }
         inv.ePressed(gc);
     }
 }

@@ -41,7 +41,7 @@ public class Tool extends Item{
     }
     
     @Override
-    public void drop(Point coord) {
+    public void drop(Coordinate coord) {
         //TODO: implement
     }
 }

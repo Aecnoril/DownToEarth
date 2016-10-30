@@ -5,6 +5,11 @@
  */
 package downtoearth.enums;
 
+import static downtoearth.enums.TileType.COAL;
+import static downtoearth.enums.TileType.GEMSTONE;
+import static downtoearth.enums.TileType.STONE;
+import static downtoearth.enums.TileType.TREE;
+
 /**
  *
  * @author Demian
@@ -40,6 +45,11 @@ public class Tooltype {
     public static final byte STONEPICKAXE   = 18;
     public static final byte STEELPICKAXE   = 19;
     public static final byte GEMPICKAXE     = 20;
+    
+    public static final byte STONE          = 21;
+    public static final byte COAL           = 22;
+    public static final byte GEMSTONE       = 23;
+    public static final byte TREE           = 24;
 
     public static SpriteLocation getSpriteLocation(byte index){
         switch(index){
@@ -82,7 +92,15 @@ public class Tooltype {
             case STEELPICKAXE:
                 return new SpriteLocation(2,2);
             case GEMPICKAXE:
-                return new SpriteLocation(3,2);     
+                return new SpriteLocation(3,2); 
+            case STONE:
+                return new SpriteLocation(0,1);
+            case COAL:
+                return new SpriteLocation(1,1);
+            case GEMSTONE:
+                return new SpriteLocation(2,1);
+            case TREE:
+                return new SpriteLocation(3,1);
         }
         return null;
     }

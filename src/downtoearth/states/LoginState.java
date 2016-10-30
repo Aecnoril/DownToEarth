@@ -9,6 +9,10 @@ import downtoearth.states.gui.Button;
 import downtoearth.states.gui.PasswordTextField;
 import downtoearth.database.ServerAPI;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -25,6 +29,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class LoginState extends BasicGameState {
 
     private String mode;
+    private String tokenTF;
+    private String tokenIdTF;
     
     private int rebound;
     
@@ -107,6 +113,7 @@ public class LoginState extends BasicGameState {
                 }
                 else{
                     login(game);
+                    logout();
                 } 
             }
         }
@@ -118,6 +125,7 @@ public class LoginState extends BasicGameState {
             registerb = false;
             if(mode == "register"){
                 register();
+                logout();
             }
             else{
                 mode = "register";
@@ -137,6 +145,13 @@ public class LoginState extends BasicGameState {
                 @Override
                 public void onResponse(ServerAPI.Response response) {
                     if(response.isSuccess() && response.getStatusCode() == 200){
+                        try {
+                            JSONObject sessionInfo = response.getJSONObjectResponse();
+                            tokenTF = sessionInfo.getString("token");
+                            tokenIdTF = sessionInfo.getString("tokenId");
+                        } catch (JSONException ex) {
+                            Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         registerb = true;
                         mode = "login";
                     } else {
@@ -153,10 +168,31 @@ public class LoginState extends BasicGameState {
             @Override
             public void onResponse(ServerAPI.Response response) {
                 if(response.isSuccess() && response.getStatusCode() == 200){
+                    try {
+                        JSONObject sessionInfo = response.getJSONObjectResponse();
+                        tokenTF = sessionInfo.getString("token");
+                        tokenIdTF = sessionInfo.getString("tokenId");
+                    } catch (JSONException ex) {
+                        Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     game.enterState(1);
                 } else {
                     System.out.println(response.getResponse());
                     System.out.println("Something went wrong...");
+                }
+            }
+        });
+    }
+    
+    private void logout(){
+        ServerAPI.logout(tokenTF, tokenIdTF, new ServerAPI.ResponseListener() {
+            @Override
+            public void onResponse(ServerAPI.Response response) {
+                if(response.isSuccess() && response.getStatusCode() == 200){
+                    tokenTF = "";
+                    tokenIdTF = "";
+                } else {
+                    System.out.println("Logout went wrong...");
                 }
             }
         });

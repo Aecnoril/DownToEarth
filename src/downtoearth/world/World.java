@@ -2,6 +2,8 @@ package downtoearth.world;
 
 import downtoearth.entities.Player;
 import downtoearth.Items.*;
+import downtoearth.entities.ItemEntity;
+import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
 import java.awt.image.BufferedImage;
@@ -27,6 +29,10 @@ public class World implements Serializable {
     private final float shaderTrans = 0.4f;
     private final Player p;
     private List<Tile> tiles;
+    private List<Tile> removeTiles;
+    private List<NPC> mobs;
+    private List<NPC> removeMobs;
+    public ArrayList<ItemEntity> itemEnts;
     
     float[][] heightMap;
     
@@ -38,6 +44,11 @@ public class World implements Serializable {
     
     public List<Tile> getTiles(){
         return tiles;
+    }
+    
+    public List<NPC> getMobs()
+    {
+        return mobs;
     }
     
     public Player getPlayer(){
@@ -68,7 +79,39 @@ public class World implements Serializable {
     public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
         
         this.tiles = new ArrayList<Tile>();
+        this.mobs = new ArrayList<NPC>();
+        this.removeTiles = new ArrayList<Tile>();
+        this.removeMobs = new ArrayList<NPC>();
+        this.itemEnts = new ArrayList<ItemEntity>();
+        tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
+        tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 920, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 910, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 950, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 990, TileType.TREE, "tree3"));
         
+        this.size = size;
+        map = new Image("res/ColorMap.png");
+        if(map != null){
+            System.out.println("image found!: " + map.getHeight());           
+        }
+        
+        shader = new Image("res/HeightMap.png");
+        if(shader != null){
+            System.out.println("image found!: " + shader.getHeight());           
+        }
+        
+        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+
+    }
+    
+    public World(Coordinate size) throws SlickException{
+        this.tiles = new ArrayList<Tile>();
+        this.mobs = new ArrayList<NPC>();
+        this.removeTiles = new ArrayList<Tile>();
+        this.removeMobs = new ArrayList<NPC>();
+        this.itemEnts = new ArrayList<ItemEntity>();
         tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
         tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
         tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
@@ -89,32 +132,8 @@ public class World implements Serializable {
             System.out.println("image found!: " + shader.getHeight());           
         }
         
-        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
-
-    }
-    
-    public World(Coordinate size) throws SlickException{
-        this.tiles = new ArrayList<Tile>();
-        
-        tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
-        tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
-        tiles.add(new Tile(580, 920, TileType.GEMSTONE, "gemstone"));
-        tiles.add(new Tile(500, 910, TileType.TREE, "tree1"));
-        tiles.add(new Tile(510, 950, TileType.TREE, "tree2"));
-        tiles.add(new Tile(540, 990, TileType.TREE, "tree3"));
-        
-        this.size = size;
-        map = new Image("res/ColorMap.png");
-        if(map != null){
-            System.out.println("image found!: " + map.getHeight());           
-        }
-        
-        shader = new Image("res/HeightMap.png");
-        if(shader != null){
-            System.out.println("image found!: " + shader.getHeight());           
-        }
-        
-        p = new Player("henk", new Point(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
 
     }
     
@@ -128,6 +147,34 @@ public class World implements Serializable {
         p.render(con);
         g.draw(p.getBounds());
         g.draw(p.getColLine());
+        for (NPC n : mobs)
+        {
+            if(n.isDead())
+            {
+                removeMobs.add(n);
+            }
+        }
+        if(removeMobs.size() > 0)
+        {
+            mobs.removeAll(removeMobs);
+        }
+        removeMobs.clear();
+        for(Tile t : tiles)
+        {
+            if(t.isDestroyed())
+            {
+                removeTiles.add(t);
+            }
+        }
+        if(removeTiles.size() > 0 )
+        {
+            for(Tile t : removeTiles){
+                TileItem ti = new TileItem(t.getName(), t.getType(), 0, 0);
+                ti.drop(t.getPosition());
+            }
+            tiles.removeAll(removeTiles);
+        }
+        removeTiles.clear();
         for(Tile t : tiles){
             if(t.getPosition().getX() >= -16 && t.getPosition().getX() <= 1080){
                 if(t.getPosition().getY() >= -16 && t.getPosition().getY() <= 720){
@@ -137,12 +184,37 @@ public class World implements Serializable {
                 }
             }
         }
+        for(NPC n : mobs)
+        {
+            if(n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080){
+                if(n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720){
+                    n.draw();
+                    g.setColor(Color.red);
+                    g.draw(n.getBounds());
+                }
+            }
+        }
+        for(ItemEntity n : itemEnts)
+        {
+            if(n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080){
+                if(n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720){
+                    n.draw();
+                }
+            }
+        }
     }
     
     public void update(Input input){
             this.p.move(input, this.tiles);
             for(Tile t : this.tiles){
                 t.move(input);
-            }    
+            }
+            for(ItemEntity t : this.itemEnts){
+                t.move(input);
+            }
+            for(NPC n : this.mobs)
+            {
+                n.move(input);
+            } 
     }
 }

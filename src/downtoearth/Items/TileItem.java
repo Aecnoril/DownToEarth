@@ -5,9 +5,11 @@
  */
 package downtoearth.Items;
 
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.Tooltype;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.states.GameState;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
@@ -24,9 +26,11 @@ public class TileItem extends Item{
     public void place(){
         //TODO: implement
     }  
-    
+     
     @Override
-    public void drop(Point coord) {
-        //TODO: implement
+    public void drop(Coordinate coord) throws SlickException {
+        ItemEntity droppedEnt = new ItemEntity(name, coord, type, "res/TestItems.png", this);
+        
+        GameState.w.itemEnts.add(droppedEnt);
     }
 }

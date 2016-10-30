@@ -11,10 +11,10 @@ package downtoearth.enums;
  */
 public class TileType {
     
-    public static final byte STONE = 0;
-    public static final byte COAL = 1;
-    public static final byte GEMSTONE = 2;
-    public static final byte TREE = 3;
+    public static final byte STONE          = 21;
+    public static final byte COAL           = 22;
+    public static final byte GEMSTONE       = 23;
+    public static final byte TREE           = 24;
     
     public static SpriteLocation getSpritePosition(byte type){
         switch(type){

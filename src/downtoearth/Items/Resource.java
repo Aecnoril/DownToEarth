@@ -23,7 +23,7 @@ public class Resource extends Item {
     }
 
     @Override
-    public void drop(Point coord) throws SlickException {
-        ItemEntity droppedEnt = new ItemEntity(name, coord, type, name);
+    public void drop(Coordinate coord) throws SlickException {
+        ItemEntity droppedEnt = new ItemEntity(name, coord, type, name, this);
     }
 }

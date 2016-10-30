@@ -1,4 +1,4 @@
-/*
+  /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,14 +6,18 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.Items.Resource;
 import downtoearth.enums.DirectionType;
+import downtoearth.enums.ResourceType;
 import downtoearth.enums.SpriteLocation;
+import downtoearth.enums.TileType;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.CollisionCheck;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.world.Tile;
+import downtoearth.world.World;
 import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -40,9 +44,8 @@ public class Player extends LivingEntity{
     private boolean moving;
     private Coordinate coordinate;
     private CollisionCheck cCheck;
-    
-    private String blocked;
-    private boolean collision;
+    private Line attackColLine;
+    private boolean attack;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -85,11 +88,22 @@ public class Player extends LivingEntity{
         return dir;
     }
     
+    public boolean setAttack(){
+        return false;
+    }
+    
+    public boolean getAttack(){
+        return this.attack;
+    }
+    
+    public Line getAttackColLine(){
+        return this.attackColLine;
+    }
     
 
     //</editor-fold>
     
-    public Player(String name, Point location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
@@ -217,6 +231,115 @@ public class Player extends LivingEntity{
             }
         }
     
+    public void attackCollision()
+    {
+        attack = true;
+            switch(dir){
+                case DirectionType.NORTH:
+                    {
+                        this.attackColLine = new Line(540, 360, 540, 360 - 40);
+                        break;
+                        
+                    }
+                case DirectionType.NORTHEAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360 - 40);
+                        break;
+                        
+                    }
+                case DirectionType.EAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360);
+                        break;
+                        
+                        
+                    }
+                case DirectionType.SOUTHEAST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 + 40, 360 + 40);
+                        break;
+                        
+                    }
+                case DirectionType.SOUTH:
+                    {
+                        this.attackColLine = new Line(540, 360, 540, 360 + 40);
+                        break;
+                        
+                    }
+                case DirectionType.SOUTHWEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360 + 40);
+                        break;
+                        
+                    }
+                case DirectionType.WEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360);
+                        break;
+                        
+                    }
+                case DirectionType.NORTHWEST:
+                    {
+                        this.attackColLine = new Line(540, 360, 540 - 40, 360 - 40);
+                        break;
+                    }
+            }
+            //this.attackColLine = new Line(540, 360);
+        }
+    
+    public void attack(NPC n) throws SlickException
+    {
+        if(attack)
+        {
+            n.setHitPoints(n.hitPoints - 10);
+            System.out.println(n.hitPoints);
+            attack = false;
+            n.onDeath();
+        }
+        
+        this.attackColLine = new Line(540, 360);
+
+
+    }
+    
+    public void attack(Tile t) throws SlickException
+    {
+        if(attack)
+        {
+            switch(t.getType())
+        {
+            case TileType.COAL:
+            {
+                Resource coal = new Resource("Coal", ResourceType.COAL, 100, 0);
+                this.inventory.add(coal);
+                System.out.println("Added Coal");
+                break;
+            }
+            case TileType.GEMSTONE:
+            {   
+                Resource gem = new Resource("Gemstone", ResourceType.GEMSTONE, 100, 0);
+                this.inventory.add(gem);
+                break;
+            }
+            case TileType.STONE:
+            {
+                Resource stone = new Resource("Stone", ResourceType.STONE, 100, 0);
+                this.inventory.add(stone);
+                break;
+            }
+            case TileType.TREE:
+            {
+                Resource wood = new Resource("Wood", ResourceType.WOOD, 100, 0);
+                this.inventory.add(wood);
+                break;
+            }
+        }
+        attack = false;
+        }
+        t.setDestroyed(true);
+        this.attackColLine = new Line(540, 360);
+        
+    }
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
     }

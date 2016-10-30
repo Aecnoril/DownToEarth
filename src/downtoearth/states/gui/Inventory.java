@@ -152,14 +152,11 @@ public class Inventory {
         this.color = color;
         this.invOpen = false;
         this.bounds = new Rectangle(this.x, this.y, this.width, this.height);
-        try {
-            Items.add(new TileItem("jopie", Tooltype.WOODENSWORD, 10, 10));
-            Items.add(new TileItem("jopie", Tooltype.STONESWORD, 10, 10));
-            Items.add(new TileItem("jopie", Tooltype.STEELSWORD, 10, 10));
-            Items.add(new TileItem("jopie", Tooltype.GEMSWORD, 10, 10));
-        } catch (SlickException ex) {
-        }
         this.generateInventory();
+    }
+    
+    public void addItem(Item i){
+        Items.add(i);
     }
 
     public void generateInventory() {
