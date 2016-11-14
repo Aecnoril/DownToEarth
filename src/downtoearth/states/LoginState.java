@@ -8,11 +8,12 @@ package downtoearth.states;
 import downtoearth.states.gui.Button;
 import downtoearth.states.gui.PasswordTextField;
 import downtoearth.database.ServerAPI;
-import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.awt.Font;
+import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -41,6 +42,9 @@ public class LoginState extends BasicGameState {
     private TextField loginUsername;
     private PasswordTextField loginPassword;
     private TextField registerEmail;
+    private TextField registerUsername;
+    private PasswordTextField registerPassword;
+    private ArrayList<TextField> textfields = new ArrayList<TextField>();
 
     public static void main(String[] args) {
         // TODO code application logic here
