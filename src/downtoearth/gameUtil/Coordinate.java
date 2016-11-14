@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gameUtil;
+package downtoearth.gameUtil;
 
 /**
  * Stores a coordinate. X-Y or X-Y-X

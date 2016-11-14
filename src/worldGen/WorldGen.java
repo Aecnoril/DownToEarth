@@ -5,8 +5,8 @@
  */
 package worldGen;
 
-import gameUtil.Coordinate;
-import worldGen.SimplexNoise;
+import downtoearth.gameUtil.Coordinate;
+import downtoearth.world.worldGen.SimplexNoise;
 
 /**
  *
