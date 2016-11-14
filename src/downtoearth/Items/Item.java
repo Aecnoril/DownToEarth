@@ -10,7 +10,6 @@ import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *

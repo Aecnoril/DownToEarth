@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Inventory;
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.entities.ItemEntity;
@@ -13,11 +14,11 @@ import downtoearth.enums.DirectionType;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
-import downtoearth.states.gui.Inventory;
-import downtoearth.states.gui.inventorySlot;
 import downtoearth.world.Tile;
+import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
+import java.awt.TextField;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -37,17 +38,15 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Demian
  */
-public class GameState extends BasicGameState{
+public class GameState extends BasicGameState {
 
     private static final int number = 200;
-    
-    private Inventory inv;
-    
+    private static Camera c;
     public static World w;
-    
+    private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -60,6 +59,7 @@ public class GameState extends BasicGameState{
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         w = new World(new Coordinate(mapSize, mapSize));
+        c = new Camera(0, 0);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
@@ -71,7 +71,6 @@ public class GameState extends BasicGameState{
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        g.drawString("Mouse Position: " + Mouse.getX() + ", " + (720 - Mouse.getY()), 10, 60);
         for (Tile t : w.getTiles()) {
             if (t.getBounds().intersects(w.getPlayer().getColLine())) {
                 w.getPlayer().collision();
@@ -89,7 +88,7 @@ public class GameState extends BasicGameState{
         
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
-                inv.addItem(i.getItem());
+                //inv.addItem(i.getItem());
                 inv.generateInventory();    
                 System.out.println(i.getItem().getName());
                 w.itemEnts.remove(i);

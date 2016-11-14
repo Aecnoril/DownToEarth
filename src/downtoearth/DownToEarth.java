@@ -1,16 +1,12 @@
 package downtoearth;
 
+
 import downtoearth.states.*;
 import org.newdawn.slick.AppGameContainer;
-import downtoearth.Items.Item;
-import java.util.ArrayList;
-import java.util.ListIterator;
-import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 
 public class DownToEarth extends StateBasedGame { 
     
