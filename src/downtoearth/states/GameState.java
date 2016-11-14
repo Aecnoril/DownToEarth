@@ -42,7 +42,7 @@ public class GameState extends BasicGameState {
 
     private static final int number = 200;
     private static Camera c;
-    private static World w;
+    public static World w;
     private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
