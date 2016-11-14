@@ -7,8 +7,10 @@ package downtoearth.Items;
 
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
+import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -16,7 +18,7 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class Item{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    private final String PATH = "res/testspritesheet.png";
+    private final String PATH = "res/TestItems.png";
     
     protected String name;
     protected byte type;
@@ -26,6 +28,9 @@ public abstract class Item{
     
     private int spritex = Integer.MIN_VALUE, spritey = Integer.MIN_VALUE;
     
+    public byte getType(){
+        return type;
+    }
     
     public String getName(){
         return name;
@@ -66,5 +71,5 @@ public abstract class Item{
         manager.scaleSprite(spritex, spritey, xpos, ypos, size);
     }
     
-    public abstract void drop();
+    public abstract void drop(Coordinate coord) throws SlickException;
 }

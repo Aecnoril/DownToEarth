@@ -27,12 +27,12 @@ public class OptionState extends BasicGameState{
 
     @Override
     public int getID() {
-        return 1;
+        return 5;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {       
-        play = new Button(container.getWidth() / 2, container.getHeight() / 2, "res/startbtn.png");
+        play = new Button(container.getWidth() / 2, (container.getHeight() / 2) - 60, "res/startbtn.png");
         stop = new Button(container.getWidth() / 2, (container.getHeight() / 2) + 60 , "res/stopbtn.png");
     }
 
@@ -46,7 +46,7 @@ public class OptionState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         if(play.clicked(gc.getInput())){
-            game.enterState(2);
+            game.enterState(3);
         }
         
         if(stop.clicked(gc.getInput())){

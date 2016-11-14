@@ -20,31 +20,36 @@ import org.newdawn.slick.GameContainer;
       
       private int width, height;
       
-      private SpriteSheet spriteSheet;
-      private Animation animation;
+      private SpriteSheet northSheet, westSheet, eastSheet, southSheet;
+      private Animation northAnim, westAnim, eastAnim, southAnim;
       private byte dir;
   
-      public AnimationManager(String path, int width, int height) throws SlickException {
-          this.spriteSheet = new SpriteSheet(path, width, height, 0);
+      public AnimationManager(int width, int height) throws SlickException {
+          this.northSheet = new SpriteSheet("res/northAnim.png", width, height);
+          this.northAnim = new Animation(northSheet, 100);
+          this.westSheet = new SpriteSheet("res/westAnim.png", width, height);
+          this.westAnim = new Animation(westSheet, 100);
+          this.eastSheet = new SpriteSheet("res/eastAnim.png", width, height);
+          this.eastAnim = new Animation(eastSheet, 100);
+          this.southSheet = new SpriteSheet("res/southAnim.png", width, height);
+          this.southAnim = new Animation(southSheet, 100);
           this.width = width;
           this.height = height;
-          this.animation = new Animation();
           this.dir = DirectionType.NORTH;
       }
   
-      public void Animate(int nrOfFrames, byte dir) throws SlickException {
-          this.animation = new Animation();
-          animation.setAutoUpdate(true);
-          SpriteLocation start = DirectionType.getStartingPos(dir);
-          for (int frame = 0; frame < nrOfFrames; frame++) {
-              animation.addFrame(spriteSheet.getSprite(start.getSpriteX() + frame, start.getSpriteY()), 200);
-          }
-      }
-  
       public void DrawAnimation(byte dir, GameContainer con) throws SlickException {
-          if(dir != this.dir){
-              Animate(4, dir);
+          if(dir == DirectionType.NORTH){
+              northAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
           }
-          animation.draw(con.getWidth() / 2, con.getHeight() / 2);
+          if(dir == DirectionType.WEST){
+              westAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
+          }
+          if(dir == DirectionType.EAST){
+              eastAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
+          }
+          if(dir == DirectionType.SOUTH){
+              southAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
+          }
       }
   }

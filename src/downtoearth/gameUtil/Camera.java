@@ -24,21 +24,26 @@ public class Camera {
     }
     
     public int getX(){
-        return (int)c.getX();
+        return c.getXint();
     }
     
     public int getY(){
-        return (int)c.getY();
+        return c.getYint();
     }
     
     public int getCenterPosX(){
-        return (int)c.getX() + width / 2;
+        return c.getXint() + width / 2;
     }
     
     public int getCenterPosY(){
-        return (int)c.getY() + height / 2;
+        return c.getYint() + height / 2;
     }
     
+    public int getXX(){
+        return c.getXint() + width;
+    }
     
-    
+    public int getYY(){
+        return c.getYint() + height;
+    }
 }
