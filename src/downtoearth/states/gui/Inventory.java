@@ -4,6 +4,8 @@ import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -202,6 +204,7 @@ public class Inventory {
                 }
             }
         } catch (SlickException ex) {
+            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
