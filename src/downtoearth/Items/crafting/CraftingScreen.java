@@ -99,6 +99,8 @@ public class CraftingScreen {
             this.Craftables.add(r);
             temporaryY += 100;
         }
+
+        selectedSlot = new InventorySlot(500, 100, 250, 250, new Color(58, 55, 55));
     }
 
     public void render(Graphics g) {
@@ -122,6 +124,16 @@ public class CraftingScreen {
                 g.drawString(r.text, r.getRectangle().getX(), r.getRectangle().getY() - scroll);
             }
         }
+
+        g.setColor(selectedSlot.getRectangle().getColor());
+        g.fillRect(selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY() - scroll, selectedSlot.getRectangle().getWidth(), selectedSlot.getRectangle().getHeight());
+        g.setColor(Color.black);
+        Font awtfont = new Font("Arial", Font.PLAIN, 24);
+        TrueTypeFont f = new TrueTypeFont(awtfont, false);
+        g.setFont(f);
+        if (selectedSlot.text != null) {
+            g.drawString(selectedSlot.text, selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY());
+        }
     }
 
     /**
@@ -144,10 +156,12 @@ public class CraftingScreen {
      */
     public void selectedRecipe(GameContainer gc) {
         if (csOpen) {
-            for (InventorySlot is : Craftables) {                
-                if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
-                    if (selectedSlot == null) {
-                        selectedSlot = is;
+            for (InventorySlot is : Craftables) {
+                if (is.detectMouse(gc.getInput())) {
+                    if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
+                        if (selectedSlot == null) {
+                            selectedSlot.setText(is.text);
+                        }
                     }
                 }
             }

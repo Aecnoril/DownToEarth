@@ -169,21 +169,23 @@ public class Inventory {
     public void moveitem(GameContainer gc) {
         if (invOpen) {
             for (InventorySlot is : this.inventorySlots) {
-                if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                    is.setItem(null);
-                } else if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
-                    if (selectedSlot != null && is.getItem() != null) {
-                        Item i = selectedSlot.getItem();
-                        selectedSlot.setItem(is.getItem());
-                        is.setItem(i);
-                    } else if (selectedSlot != null) {
-                        is.setItem(selectedSlot.getItem());
-                        selectedSlot.setItem(null);
-                    }
-                    if (selectedSlot == null) {
-                        selectedSlot = is;
-                    } else {
-                        selectedSlot = null;
+                if (is.detectMouse(gc.getInput())) {
+                    if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
+                        is.setItem(null);
+                    } else if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
+                        if (selectedSlot != null && is.getItem() != null) {
+                            Item i = selectedSlot.getItem();
+                            selectedSlot.setItem(is.getItem());
+                            is.setItem(i);
+                        } else if (selectedSlot != null) {
+                            is.setItem(selectedSlot.getItem());
+                            selectedSlot.setItem(null);
+                        }
+                        if (selectedSlot == null) {
+                            selectedSlot = is;
+                        } else {
+                            selectedSlot = null;
+                        }
                     }
                 }
             }
