@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/Items/Item.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/entities/Player.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/states/LoginState.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/entities/LivingEntity.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/DownToEarth.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/test/downtoearth/gameUtil/CameraTest.java</file>
-            <file>file:/D:/Workspace/School/PTST/Projects/DownToEarthSlick/src/downtoearth/database/ServerAPI.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/src/downtoearth/Inventorys/Rectangle.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/src/downtoearth/Inventorys/Inventory.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/src/downtoearth/Inventorys/InventorySlot.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/src/downtoearth/Items/TileItem.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/test/downtoearth/gameUtil/CameraTest.java</file>
+            <file>file:/C:/Users/Ruud/Documents/NetBeansProjects/DownToEarth/src/downtoearth/states/GameState.java</file>
         </group>
     </open-files>
 </project-private>
