@@ -74,15 +74,13 @@ public class CraftingManager {
     public Item craft(List<Item> items, Item result) {
         CraftingRecipe recipe = null;
         List<Item> itemsneeded = null;
-        Object[] recipeItems;
         
         for(CraftingRecipe r : this.recipes){
             if(r.getResult() == result){
                 recipe = r;
             }
         }
-        
-        recipeItems = recipe.getIngredients();
+        Object[] recipeItems = recipe.getIngredients();
         
         for (int i = 0; i < recipeItems.length; i++) {
             Item item = (Item)recipeItems[i];

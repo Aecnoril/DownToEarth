@@ -20,6 +20,7 @@ import org.newdawn.slick.geom.Rectangle;
 /**
  *
  * @author Demian
+ * @author Sander
  */
 public class NPC extends LivingEntity {
     

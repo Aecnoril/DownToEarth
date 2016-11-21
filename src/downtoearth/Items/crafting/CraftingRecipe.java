@@ -46,7 +46,4 @@ public class CraftingRecipe {
     public Item getResult() {
         return result;
     }
-    
-    
-
 }

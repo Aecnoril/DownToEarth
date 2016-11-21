@@ -192,41 +192,49 @@ public class Player extends LivingEntity{
                     {
                         System.out.println("North Collision");
                         cCheck.setNorthCol(true);
+                        break;
                     }
                 case DirectionType.NORTHEAST:
                     {
                         System.out.println("NorthEast Collision");
                         cCheck.setNorthEastCol(true);
+                        break;
                     }
                 case DirectionType.EAST:
                     {
                         System.out.println("East Collision");
                         cCheck.setEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHEAST:
                     {
                         System.out.println("SouthEast Collision");
                         cCheck.setSouthEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTH:
                     {
                         System.out.println("South Collision");
                         cCheck.setSouthCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHWEST:
                     {
                         System.out.println("SouthWest Collision");
                         cCheck.setSouthWestCol(true);
+                        break;
                     }
                 case DirectionType.WEST:
                     {
                         System.out.println("West Collision");
                         cCheck.setWestCol(true);
+                        break;
                     }
                 case DirectionType.NORTHWEST:
                     {
                         System.out.println("NorthWest Collision");
                         cCheck.setNorthWestCol(true);
+                        break;
                     }
             }
         }
