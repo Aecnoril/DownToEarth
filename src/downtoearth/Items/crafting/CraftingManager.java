@@ -8,16 +8,12 @@ package downtoearth.Items.crafting;
 import downtoearth.Items.Armor;
 import downtoearth.Items.Item;
 import downtoearth.Items.Resource;
-import downtoearth.Items.TileItem;
 import downtoearth.Items.Tool;
 import downtoearth.enums.ArmorType;
 import downtoearth.enums.ResourceType;
-import downtoearth.enums.TileType;
 import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.SlickException;
@@ -69,9 +65,16 @@ public class CraftingManager {
         }
     }
 
+    /**
+     * checks if the player has the required items for crafting and then creates the item if he does and returns this item.
+     * @param items the items in the players inventory
+     * @param result the item the player wants to craft
+     * @return returns the item if the crafting succeeded or null if it failed
+     */
     public Item craft(List<Item> items, Item result) {
         CraftingRecipe recipe = null;
         List<Item> itemsneeded = null;
+        Object[] recipeItems;
         
         for(CraftingRecipe r : this.recipes){
             if(r.getResult() == result){
@@ -79,7 +82,7 @@ public class CraftingManager {
             }
         }
         
-        Object[] recipeItems = recipe.getIngredients();
+        recipeItems = recipe.getIngredients();
         
         for (int i = 0; i < recipeItems.length; i++) {
             Item item = (Item)recipeItems[i];
