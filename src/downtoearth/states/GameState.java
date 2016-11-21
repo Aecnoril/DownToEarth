@@ -1,36 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package downtoearth.states;
 
 import downtoearth.Inventory.Inventory;
 import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
+
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
-import downtoearth.enums.DirectionType;
-import downtoearth.enums.Tooltype;
-import downtoearth.gameUtil.Camera;
+
 import downtoearth.gameUtil.Coordinate;
+
 import downtoearth.world.Tile;
-import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.WorldGen;
-import java.awt.TextField;
+
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.java.games.input.Component;
+
 import org.lwjgl.input.Mouse;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -40,15 +32,11 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class GameState extends BasicGameState {
 
-    private static final int number = 200;
-    private static Camera c;
-    private static World w;
+    public World w;
     private Inventory inv;
-    private static int mapSize = 5012;
-    private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private final int mapSize = 5012;
 
     public static void main(String[] args) {
-        // TODO code application logic here
     }
 
     @Override
@@ -59,7 +47,6 @@ public class GameState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         w = new World(new Coordinate(mapSize, mapSize));
-        c = new Camera(0, 0);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
@@ -88,9 +75,7 @@ public class GameState extends BasicGameState {
         
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
-                //inv.addItem(i.getItem());
                 inv.generateInventory();    
-                System.out.println(i.getItem().getName());
                 w.itemEnts.remove(i);
                 break;
             }
@@ -105,7 +90,6 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            System.out.println("Attack");
             w.getPlayer().attackCollision();
         }
         inv.ePressed(gc);
