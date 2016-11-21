@@ -6,12 +6,9 @@
 package downtoearth.states;
 
 import downtoearth.states.gui.Button;
-import java.awt.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,11 +18,10 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class OptionState extends BasicGameState {
 
-    private static Button play;
-    private static Button stop;
+    private Button play;
+    private Button stop;
 
     public static void main(String[] args) {
-        // TODO code application logic here
     }
 
     @Override
