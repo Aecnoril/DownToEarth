@@ -100,7 +100,7 @@ public class CraftingScreen {
             temporaryY += 100;
         }
 
-        selectedSlot = new InventorySlot(500, 100, 250, 250, new Color(58, 55, 55));
+        selectedSlot = new InventorySlot(500, 200, 250, 250, new Color(58, 55, 55));
     }
 
     public void render(Graphics g) {
@@ -126,12 +126,11 @@ public class CraftingScreen {
         }
 
         g.setColor(selectedSlot.getRectangle().getColor());
-        g.fillRect(selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY() - scroll, selectedSlot.getRectangle().getWidth(), selectedSlot.getRectangle().getHeight());
+        g.fillRect(selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY(), selectedSlot.getRectangle().getWidth(), selectedSlot.getRectangle().getHeight());
         g.setColor(Color.black);
-        Font awtfont = new Font("Arial", Font.PLAIN, 24);
-        TrueTypeFont f = new TrueTypeFont(awtfont, false);
-        g.setFont(f);
+
         if (selectedSlot.text != null) {
+            System.out.println("Hallomensen");
             g.drawString(selectedSlot.text, selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY());
         }
     }
@@ -148,6 +147,9 @@ public class CraftingScreen {
                 this.csOpen = true;
             }
         }
+        if (this.csOpen) {
+            this.selectedRecipe(gc);
+        }
     }
 
     /**
@@ -155,14 +157,10 @@ public class CraftingScreen {
      * @param gc
      */
     public void selectedRecipe(GameContainer gc) {
-        if (csOpen) {
-            for (InventorySlot is : Craftables) {
-                if (is.detectMouse(gc.getInput())) {
-                    if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
-                        if (selectedSlot == null) {
-                            selectedSlot.setText(is.text);
-                        }
-                    }
+        for (InventorySlot is : Craftables) {
+            if (is.detectMouse(gc.getInput())) {
+                if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
+                    selectedSlot.setText(is.text);
                 }
             }
         }
