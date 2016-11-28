@@ -6,9 +6,6 @@
 package downtoearth.Items.crafting;
 
 import downtoearth.Items.Item;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  *
@@ -20,6 +17,12 @@ public class CraftingRecipe {
     private final int nrOfItems;
     private final Object[] ingredients;
 
+    /**
+     * this class is for storing which items are needed to craft a certain item and how many of that item are created.
+     * @param result
+     * @param nrOfItems
+     * @param ingredients 
+     */
     public CraftingRecipe(Item result, int nrOfItems, Object[] ingredients) {
         this.result = result;
         this.nrOfItems = nrOfItems;
@@ -43,7 +46,4 @@ public class CraftingRecipe {
     public Item getResult() {
         return result;
     }
-    
-    
-
 }
