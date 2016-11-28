@@ -74,6 +74,6 @@ public class Tile {
         spritey = sl.getSpriteY();
         bounds.setX(position.getX()+2);
         bounds.setY(position.getY()+2);
-        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX ), (position.getYint()) - (portY));
+        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX )-16, (position.getYint()) - (portY)-16);
     }
 }

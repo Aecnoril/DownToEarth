@@ -16,26 +16,26 @@ public class Camera {
     }
     
     public int getX(){
-        return c.getXint();
+        return c.getXint() - width/2;
     }
     
     public int getY(){
-        return c.getYint();
+        return c.getYint() - height/2;
     }
     
     public int getCenterPosX(){
-        return c.getXint() + width / 2;
+        return c.getXint();
     }
     
     public int getCenterPosY(){
-        return c.getYint() + height / 2;
+        return c.getYint();
     }
     
     public int getXX(){
-        return c.getXint() + width;
+        return c.getXint() + width /2;
     }
     
     public int getYY(){
-        return c.getYint() + height;
+        return c.getYint() + height /2;
     }
 }
