@@ -58,20 +58,6 @@ public class GameState extends BasicGameState {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        for (Tile t : w.getTiles()) {
-            if (t.getBounds().intersects(w.getPlayer().getColLine())) {
-                w.getPlayer().collision();
-            }
-            if (t.getBounds().intersects(w.getPlayer().getAttackColLine()) && Mouse.isButtonDown(0)) {
-                w.getPlayer().attack(t);
-            }
-        }
-        for (NPC n : w.getMobs()) {
-            if (w.getPlayer().getAttack() && n.getBounds().intersects(w.getPlayer().getAttackColLine())) {
-                    w.getPlayer().attack(n);
-            }
-
-        }
         
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
@@ -89,9 +75,6 @@ public class GameState extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
-        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            w.getPlayer().attackCollision();
-        }
         inv.ePressed(gc);
     }
 }

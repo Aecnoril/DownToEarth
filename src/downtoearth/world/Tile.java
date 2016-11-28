@@ -5,12 +5,8 @@
  */
 package downtoearth.world;
 
-import static downtoearth.entities.Player.SPEED;
-import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.TileType;
-import downtoearth.enums.Tooltype;
-import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import java.util.Random;
@@ -23,7 +19,7 @@ import org.newdawn.slick.geom.Rectangle;
  * @author Sanko
  */
 public class Tile {
-    public static final float SPEED = 0.3f;
+    public static final float SPEED = 1.3f;
     private int spritex, spritey;
     private Random random;
     private Rectangle bounds;
@@ -68,37 +64,11 @@ public class Tile {
     
     public void move(Input input){     
         
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W)){
-            position.setY(position.getY() + (SPEED * 4));
-            position.setX(position.getX() - (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_W)){
-            position.setY(position.getY() + (SPEED * 4));
-        }
+        if(input.isKeyDown(Input.KEY_W)){ this.position.setY(this.position.getY() + (SPEED));}
+        if(input.isKeyDown(Input.KEY_D)){ this.position.setX(this.position.getX() - (SPEED));}
+        if(input.isKeyDown(Input.KEY_S)){ this.position.setY(this.position.getY() - (SPEED));}
+        if(input.isKeyDown(Input.KEY_A)){ this.position.setX(this.position.getX() + (SPEED));}
         
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S)){
-            position.setY(position.getY() - (SPEED * 4));
-            position.setX(position.getX() - (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_D)){
-            position.setX(position.getX() - (SPEED * 4));
-        }
-        
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A)){
-            position.setY(position.getY() - (SPEED * 4));
-            position.setX(position.getX() + (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_S)){
-            position.setY(position.getY() - (SPEED * 4));
-        }
-        
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W)){
-            position.setY(position.getY() + (SPEED * 4));
-            position.setX(position.getX() + (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_A)){
-            position.setX(position.getX() + (SPEED * 4));
-        }
         bounds.setX(position.getX()+2);
         bounds.setY(position.getY()+2);
     }
