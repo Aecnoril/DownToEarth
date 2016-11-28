@@ -11,17 +11,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.util.BufferedImageUtil;
 
 public class World implements Serializable {
     
@@ -46,6 +41,15 @@ public class World implements Serializable {
         return tiles;
     }
     
+    public Tile getTile(int x, int y){
+        for(Tile tile : tiles){
+            if(tile.getBounds().contains(x, y)){
+                return tile;
+            }
+        }
+        return null;
+    }
+    
     public List<NPC> getMobs()
     {
         return mobs;
@@ -65,6 +69,10 @@ public class World implements Serializable {
     
     public int[][] getColorMap() {
         return colorMap;
+    }
+    
+    public void addDrop(ItemEntity item){
+        this.itemEnts.add(item);
     }
     
     public static boolean checkMap() throws SlickException{

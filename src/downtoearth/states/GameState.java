@@ -1,16 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package downtoearth.states;
 
 import downtoearth.Inventorys.Inventory;
+import downtoearth.Items.Item;
 import downtoearth.Items.crafting.CraftingScreen;
+
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
+
 import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
@@ -18,6 +16,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.input.Mouse;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,16 +31,13 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class GameState extends BasicGameState {
 
-    private static final int number = 200;
-    private static Camera c;
-    private static World w;
-    private Inventory inv;
+    public World w;
+    private static Inventory inv;
     private CraftingScreen cs;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-
+    
     public static void main(String[] args) {
-        // TODO code application logic here
     }
 
     @Override
@@ -52,7 +48,6 @@ public class GameState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         w = new World(new Coordinate(mapSize, mapSize));
-        c = new Camera(0, 0);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
     }
@@ -93,8 +88,9 @@ public class GameState extends BasicGameState {
         if (this.inv.isInvOpen()) {
             this.inv.render(g);
         }
-        if (this.cs.isCsOpen()) {
+        if (this.cs.isCsOpen()) {            
             this.cs.render(g);
+             
         }
     }
 
@@ -102,16 +98,19 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            System.out.println("Attack");
             w.getPlayer().attackCollision();
         }
         inv.ePressed(gc);
-        cs.cPressed(gc);
+        cs.setInventory(inv); 
+        cs.cPressed(gc);    
+        for(Item x: inv.getItems()){
+            System.out.println(x.getName().toString()); 
+        }
     }
-
+    
     @Override
-    public void mouseWheelMoved(int change) {          
-        double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res);
+    public void mouseWheelMoved(int change) {
+        double res = Math.floor(change * 0.1);
+        cs.setScroll((float) res);
     }
 }

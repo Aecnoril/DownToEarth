@@ -5,19 +5,18 @@
  */
 package downtoearth.Items.crafting;
 
+import downtoearth.Inventorys.CraftingSlot;
 import downtoearth.Inventorys.Inventory;
-import downtoearth.Inventorys.InventorySlot;
 import downtoearth.Inventorys.Rectangle;
 import downtoearth.Items.Item;
+import downtoearth.Items.Resource;
+import downtoearth.states.GameState;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 /**
@@ -26,13 +25,14 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public class CraftingScreen {
 
-    private ArrayList<InventorySlot> Craftables = new ArrayList<>();
+    private ArrayList<CraftingSlot> Craftables = new ArrayList<>();
     private ArrayList<String> craftables = new ArrayList<>();
-    private InventorySlot selectedSlot = null;
+    private CraftingSlot selectedSlot = null;
     private boolean csOpen;
     private Rectangle rectangle;
-    private float txtPosition;
     private float scroll;
+    private ArrayList<Item> items = new ArrayList<>();
+    private Inventory inv;
 
     public CraftingScreen(int x, int y, int width, int height, Color c) {
         rectangle = new Rectangle(c, x, y, width, height);
@@ -42,11 +42,19 @@ public class CraftingScreen {
         this.craftables.add("Mes");
         this.craftables.add("Mes");
         this.craftables.add("Mes");
-        this.generateCraftingScreen();
+
     }
 
     public void setScroll(float x) {
         scroll += x;
+    }
+
+    public void setInventory(Inventory x) {
+        inv = x;
+    }
+    
+    public ArrayList<Item> getInventory() {
+        return items;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -92,31 +100,49 @@ public class CraftingScreen {
         int temporaryY = rectangle.getY();
         int leftborder = 25;
         int topborder = 25;
+        CraftingManager cm = new CraftingManager();
 
-        for (int i = 0; i < 40; i++) {
-            InventorySlot r = new InventorySlot(temporaryX + leftborder, temporaryY + topborder, 250, 75, new Color(58, 55, 55));
-            r.setText("Mes" + i);
+        for (CraftingRecipe cr : cm.getRecipes()) {
+            CraftingSlot r = new CraftingSlot(temporaryX + leftborder, temporaryY + topborder, 250, 75, new Color(58, 55, 55));
+            String recipeText = "";
+
+            for (Object o : cr.getIngredients()) { 
+                
+                if (o instanceof Resource) {
+                    recipeText += " " + ((Resource) o).getName();
+                }
+                for (Item c : inv.getItems()) {
+                    if (o instanceof Resource) {                        
+                        if (c.getName() == ((Resource) o).getName()) {                       
+                            r.craftable = true;
+                        } 
+                        else{
+                            break;
+                        }
+                    }
+                }
+            }
+            r.setText(recipeText);
+            r.setItem(cr.getResult());            
             this.Craftables.add(r);
             temporaryY += 100;
         }
 
-        selectedSlot = new InventorySlot(500, 200, 250, 250, new Color(58, 55, 55));
+        selectedSlot = new CraftingSlot(500, 200, 250, 250, new Color(58, 55, 55));
     }
 
     public void render(Graphics g) {
         g.setColor(new Color(122, 118, 118));
         g.fillRect(25, 100, 1025, 500);
 
-        //g.drawString("Test", 30, 100);
-//        for (String r : this.craftables) {
-//
-//            g.drawString(r, 100, txtPosition);
-//            txtPosition += 20;
-//        }
-        for (InventorySlot r : Craftables) {
+        for (CraftingSlot r : Craftables) {
             if (r.getRectangle().getY() >= 75 + scroll && r.getRectangle().getY() <= 525 + scroll) {
                 g.setColor(r.getRectangle().getColor());
                 g.fillRect(r.getRectangle().getX(), r.getRectangle().getY() - scroll, r.getRectangle().getWidth(), r.getRectangle().getHeight());
+                if (r.craftable) {
+                    g.setColor(Color.green);
+                    g.drawRect(r.getRectangle().getX(), r.getRectangle().getY() - scroll, r.getRectangle().getWidth(), r.getRectangle().getHeight());
+                }
                 g.setColor(Color.black);
                 Font awtfont = new Font("Arial", Font.PLAIN, 24);
                 TrueTypeFont f = new TrueTypeFont(awtfont, false);
@@ -130,7 +156,6 @@ public class CraftingScreen {
         g.setColor(Color.black);
 
         if (selectedSlot.text != null) {
-            System.out.println("Hallomensen");
             g.drawString(selectedSlot.text, selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY());
         }
     }
@@ -143,8 +168,9 @@ public class CraftingScreen {
         if (gc.getInput().isKeyPressed(Input.KEY_C)) {
             if (this.csOpen) {
                 this.csOpen = false;
-            } else {
+            } else {                
                 this.csOpen = true;
+                this.generateCraftingScreen();
             }
         }
         if (this.csOpen) {
@@ -157,12 +183,21 @@ public class CraftingScreen {
      * @param gc
      */
     public void selectedRecipe(GameContainer gc) {
-        for (InventorySlot is : Craftables) {
-            if (is.detectMouse(gc.getInput())) {
+        for (CraftingSlot is : Craftables) {
+            CraftingSlot is2 = new CraftingSlot(is.getRectangle().getX(), (int) (is.getRectangle().getY() - scroll), is.getRectangle().getWidth(), is.getRectangle().getHeight(), is.getRectangle().getColor());
+            if (is2.detectMouse(gc.getInput())) {
                 if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                    selectedSlot.setText(is.text);
+                    selectedSlot.setText(is.getItem().getName());
+                    selectedSlot.setItem(is.getItem());
                 }
             }
-        }
+        }        
+        if (selectedSlot.detectMouse(gc.getInput())) {
+                if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
+                    System.out.println("Test123");
+                    inv.getItems().add(selectedSlot.getItem());
+                    inv.updateInv(inv);                    
+                }
+            }
     }
 }

@@ -6,6 +6,7 @@
 package downtoearth.Items;
 
 import downtoearth.Items.Item;
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
@@ -41,7 +42,7 @@ public class Tool extends Item{
     }
     
     @Override
-    public void drop(Coordinate coord) {
-        //TODO: implement
+    public ItemEntity drop(Coordinate coord) {
+        return null;
     }
 }

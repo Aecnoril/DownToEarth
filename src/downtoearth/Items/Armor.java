@@ -5,11 +5,9 @@
  */
 package downtoearth.Items;
 
-import downtoearth.enums.Tooltype;
-import downtoearth.enums.SpriteLocation;
+import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -25,7 +23,7 @@ public class Armor extends Item{
     }
 
     @Override
-    public void drop(Coordinate coord) {
-        //TODO: implement
+    public ItemEntity drop(Coordinate coord) {
+      return null;   
     }
 }

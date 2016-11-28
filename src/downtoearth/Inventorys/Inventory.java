@@ -6,7 +6,9 @@
 package downtoearth.Inventorys;
 
 import downtoearth.Items.Item;
+import downtoearth.Items.Resource;
 import downtoearth.Items.TileItem;
+import downtoearth.enums.ResourceType;
 import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -43,10 +45,10 @@ public class Inventory {
         this.invOpen = false;
 
         try {
-            items.add(new TileItem("item1", Tooltype.WOODENSWORD, 10, 10));
-            items.add(new TileItem("item2", Tooltype.STONESWORD, 10, 10));
-            items.add(new TileItem("item3", Tooltype.STEELSWORD, 10, 10));
-            items.add(new TileItem("item4", Tooltype.GEMSWORD, 10, 10));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Stick", ResourceType.STICK, 100, 0));
+            items.add(new Resource("Gravel", ResourceType.GRAVEL, 100, 0));
+            items.add(new Resource("Steel", ResourceType.STEEL, 100, 0));
         } catch (SlickException ex) {
             Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,6 +56,19 @@ public class Inventory {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
+    /**
+     * Get the value of items
+     *
+     * @return the value of items
+     */
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> x) {
+        items = x;
+    }
+
     /**
      * Get the value of rectangle
      *
@@ -137,7 +152,9 @@ public class Inventory {
                 g.setColor(r.getRectangle().getColor());
                 g.fillRect(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth(), r.getRectangle().getHeight());
                 if (r.getItem() != null) {
-                    r.getItem().render(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth());
+                    if (r.getItem() instanceof Item) {
+                        ((Item) r.getItem()).render(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth());
+                    }
                 }
             }
         } catch (SlickException ex) {
@@ -162,6 +179,10 @@ public class Inventory {
         }
     }
 
+    public void updateInv(Inventory inv){
+        items = inv.getItems();
+    }
+    
     /**
      *
      * @param gc
@@ -174,11 +195,11 @@ public class Inventory {
                     is.setItem(null);
                 } else if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
                     if (selectedSlot != null && is.getItem() != null) {
-                        Item i = selectedSlot.getItem();
-                        selectedSlot.setItem(is.getItem());
+                        Item i = (Item) selectedSlot.getItem();
+                        selectedSlot.setItem((Item) is.getItem());
                         is.setItem(i);
                     } else if (selectedSlot != null) {
-                        is.setItem(selectedSlot.getItem());
+                        is.setItem((Item) selectedSlot.getItem());
                         selectedSlot.setItem(null);
                     }
                     if (selectedSlot == null) {

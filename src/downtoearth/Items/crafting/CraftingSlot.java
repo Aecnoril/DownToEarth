@@ -14,12 +14,14 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Ruud
  */
-public class InventorySlot {
+public class CraftingSlot {
 
     private Rectangle bounds;
-    private Object item;
+    private Item item;
     private downtoearth.Inventorys.Rectangle rectangle;
     public String text;
+    public boolean craftable;
+    
     /**
      *
      * @param x
@@ -28,7 +30,7 @@ public class InventorySlot {
      * @param height
      * @param c
      */
-    public InventorySlot(int x, int y, int width, int height, Color c) {
+    public CraftingSlot(int x, int y, int width, int height, Color c) {
         rectangle = new downtoearth.Inventorys.Rectangle(c, x, y, width, height);
         this.bounds = new Rectangle(x, y, width, height);
     }
@@ -61,7 +63,7 @@ public class InventorySlot {
      *
      * @return the value of item
      */
-    public Object getItem() {
+    public Item getItem() {
         return item;
     }
 

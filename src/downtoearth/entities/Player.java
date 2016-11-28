@@ -19,6 +19,7 @@ import downtoearth.gameUtil.SpriteManager;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
 import java.util.List;
+import net.java.games.input.Component;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -121,58 +122,10 @@ public class Player extends LivingEntity{
     }
     
     public void move(Input input, List<Tile> tiles){     
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_W) && !cCheck.isNorthCol()){
-            this.colLine = new Line(540, 360, 540, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            dir = DirectionType.NORTH;
-            moving = true;
-        }
-
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S) && !cCheck.isSouthEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_D) && !cCheck.isEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            dir = DirectionType.EAST;
-            moving = true;
-        }
-
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A) && !cCheck.isSouthWestCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_S) && !cCheck.isSouthCol()){
-            this.colLine = new Line(540, 360, 540, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            dir = DirectionType.SOUTH;
-            moving = true;
-        }
-
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_A) && !cCheck.isEastCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            dir = DirectionType.WEST;
-            moving = true;
-        } 
-        cCheck.clearCol();
+        if(input.isKeyDown(Input.KEY_W)){ cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED); dir = DirectionType.NORTH;}
+        if(input.isKeyDown(Input.KEY_D)){ cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED); dir = DirectionType.EAST;}
+        if(input.isKeyDown(Input.KEY_S)){ cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED); dir = DirectionType.SOUTH;}
+        if(input.isKeyDown(Input.KEY_A)){ cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED); dir = DirectionType.WEST;}
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -192,41 +145,49 @@ public class Player extends LivingEntity{
                     {
                         System.out.println("North Collision");
                         cCheck.setNorthCol(true);
+                        break;
                     }
                 case DirectionType.NORTHEAST:
                     {
                         System.out.println("NorthEast Collision");
                         cCheck.setNorthEastCol(true);
+                        break;
                     }
                 case DirectionType.EAST:
                     {
                         System.out.println("East Collision");
                         cCheck.setEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHEAST:
                     {
                         System.out.println("SouthEast Collision");
                         cCheck.setSouthEastCol(true);
+                        break;
                     }
                 case DirectionType.SOUTH:
                     {
                         System.out.println("South Collision");
                         cCheck.setSouthCol(true);
+                        break;
                     }
                 case DirectionType.SOUTHWEST:
                     {
                         System.out.println("SouthWest Collision");
                         cCheck.setSouthWestCol(true);
+                        break;
                     }
                 case DirectionType.WEST:
                     {
                         System.out.println("West Collision");
                         cCheck.setWestCol(true);
+                        break;
                     }
                 case DirectionType.NORTHWEST:
                     {
                         System.out.println("NorthWest Collision");
                         cCheck.setNorthWestCol(true);
+                        break;
                     }
             }
         }
