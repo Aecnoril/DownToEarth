@@ -100,6 +100,7 @@ public class World implements Serializable {
         
         this.size = size;
         map = new Image("res/ColorMap.png");
+        
         if(map != null){
             System.out.println("image found!: " + map.getHeight());           
         }
@@ -120,7 +121,7 @@ public class World implements Serializable {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        tiles.add(new Tile(600, 360, TileType.STONE, "stone"));
+        tiles.add(new Tile(0, 0, TileType.STONE, "stone"));
         tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
         tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
         tiles.add(new Tile(500, 320, TileType.TREE, "tree1"));
@@ -160,7 +161,6 @@ public class World implements Serializable {
         int stopY = p.getCoordinate().getYint() + (con.getScreenHeight()/2);
         p.render(con, startX, startY);
         g.draw(p.getBounds());
-        g.draw(p.getColLine());
         for (NPC n : mobs)
         {
             if(n.isDead())
@@ -219,16 +219,13 @@ public class World implements Serializable {
     }
     
     public void update(Input input){
-            this.p.move(input, this.tiles);
-//            for(Tile t : this.tiles){
-//                t.move(input);
-//            }
-            for(ItemEntity t : this.itemEnts){
-                t.move(input);
-            }
-//            for(NPC n : this.mobs)
-//            {
-//                n.move(input);
-//            } 
+        this.p.move(input, this.tiles);
+        for(ItemEntity t : this.itemEnts){
+            t.move(input);
+        }
+        for(NPC n : this.mobs)
+        {
+            n.move(input);
+        }       
     }
 }
