@@ -30,7 +30,7 @@ public class TileItem extends Item{
         location.y = Mouse.getY();
         
         tile = new Tile((int)location.x, (int)location.y, this.type, this.name);
-        GameState.w.tiles.add(tile);
+        //GameState.w.tiles.add(tile);
     }  
      
     @Override

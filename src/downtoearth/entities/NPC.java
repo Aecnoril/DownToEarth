@@ -65,17 +65,19 @@ public class NPC extends LivingEntity {
     
      public void move(Input input){     
         
-        if(input.isKeyDown(Input.KEY_W)){ this.location.setY(this.location.getY() + (SPEED * 4));}
-        if(input.isKeyDown(Input.KEY_D)){ this.location.setX(this.location.getX() - (SPEED * 4));}
-        if(input.isKeyDown(Input.KEY_S)){ this.location.setY(this.location.getY() - (SPEED * 4));}
-        if(input.isKeyDown(Input.KEY_A)){ this.location.setX(this.location.getX() + (SPEED * 4));}
-        
-        bounds.setX(location.getX()+2);
-        bounds.setY(location.getY()+2);
+//        if(input.isKeyDown(Input.KEY_W)){ this.location.setY(this.location.getY() + (SPEED * 4));}
+//        if(input.isKeyDown(Input.KEY_D)){ this.location.setX(this.location.getX() - (SPEED * 4));}
+//        if(input.isKeyDown(Input.KEY_S)){ this.location.setY(this.location.getY() - (SPEED * 4));}
+//        if(input.isKeyDown(Input.KEY_A)){ this.location.setX(this.location.getX() + (SPEED * 4));}
+//        
+//        bounds.setX(location.getX()+2);
+//        bounds.setY(location.getY()+2);
     }
 
     public void draw(int posX, int posY) {
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
+        bounds.setX(location.getX()+2 - posX);
+        bounds.setY(location.getY()+2 - posY);
         sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX, location.getYint() - posY);
     }
 }
