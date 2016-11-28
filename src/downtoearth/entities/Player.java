@@ -131,7 +131,7 @@ public class Player extends LivingEntity{
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), this.cam.getX() , this.cam.getY());
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() /2  , con.getHeight() /2 );
         }
     }
 
