@@ -6,14 +6,10 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.enums.Tooltype;
-import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.states.GameState;
 import downtoearth.world.Tile;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
-import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -26,13 +22,12 @@ public class TileItem extends Item{
         super(name, type, durability, breakChange);
     }
     
-    public void place() throws SlickException{
+    public Tile place() throws SlickException{
         Tile tile;
-        location.x = Mouse.getX();
-        location.y = Mouse.getY();
+        location = GameState.w.getPlayer().getCoordinate();
         
         tile = new Tile((int)location.x, (int)location.y, this.type, this.name);
-        GameState.w.tiles.add(tile);
+        return tile;
     }  
      
     @Override

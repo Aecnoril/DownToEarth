@@ -16,6 +16,7 @@ import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.Tile;
 import downtoearth.Inventory.inventorySlot;
+import downtoearth.enums.TileType;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.awt.TextField;
@@ -46,6 +47,7 @@ public class GameState extends BasicGameState {
     private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private TileItem tile;
 
     public static void main(String[] args) {
         // TODO code application logic here
@@ -61,6 +63,7 @@ public class GameState extends BasicGameState {
         w = new World(new Coordinate(mapSize, mapSize));
         c = new Camera(0, 0);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
+        tile = new TileItem("test", TileType.STONE, 100, 0);
     }
 
     @Override
@@ -109,5 +112,8 @@ public class GameState extends BasicGameState {
             w.getPlayer().attackCollision();
         }
         inv.ePressed(gc);
+        if (gc.getInput().isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
+            w.tiles.add(tile.place());
+        }
     }
 }
