@@ -6,31 +6,23 @@
 package downtoearth.states;
 
 import downtoearth.Inventory.Inventory;
-import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
+import downtoearth.Inventory.Map;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
-import downtoearth.enums.DirectionType;
-import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.Tile;
-import downtoearth.Inventory.inventorySlot;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
-import java.awt.TextField;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.java.games.input.Component;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -46,6 +38,7 @@ public class GameState extends BasicGameState {
     private Inventory inv;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private Map map;
 
     public static void main(String[] args) {
         // TODO code application logic here
@@ -61,6 +54,7 @@ public class GameState extends BasicGameState {
         w = new World(new Coordinate(mapSize, mapSize));
         c = new Camera(0, 0);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
+        map = new Map(300,100);
     }
 
     @Override
@@ -99,6 +93,11 @@ public class GameState extends BasicGameState {
         if (this.inv.isInvOpen()) {
             this.inv.render(g);
         }
+        
+        if (this.map.isMapOpen()==true)
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -109,5 +108,6 @@ public class GameState extends BasicGameState {
             w.getPlayer().attackCollision();
         }
         inv.ePressed(gc);
+        map.mPressed(gc);
     }
 }
