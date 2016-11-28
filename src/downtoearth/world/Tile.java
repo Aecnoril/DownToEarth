@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package downtoearth.world;
 
 import downtoearth.enums.SpriteLocation;
@@ -64,13 +59,13 @@ public class Tile {
     
     public void move(Input input){     
         
-        if(input.isKeyDown(Input.KEY_W)){ this.position.setY(this.position.getY() + (SPEED));}
-        if(input.isKeyDown(Input.KEY_D)){ this.position.setX(this.position.getX() - (SPEED));}
-        if(input.isKeyDown(Input.KEY_S)){ this.position.setY(this.position.getY() - (SPEED));}
-        if(input.isKeyDown(Input.KEY_A)){ this.position.setX(this.position.getX() + (SPEED));}
-        
-        bounds.setX(position.getX()+2);
-        bounds.setY(position.getY()+2);
+//        if(input.isKeyDown(Input.KEY_W)){ this.position.setY(this.position.getY() + (SPEED));}
+//        if(input.isKeyDown(Input.KEY_D)){ this.position.setX(this.position.getX() - (SPEED));}
+//        if(input.isKeyDown(Input.KEY_S)){ this.position.setY(this.position.getY() - (SPEED));}
+//        if(input.isKeyDown(Input.KEY_A)){ this.position.setX(this.position.getX() + (SPEED));}
+//        
+//        bounds.setX(position.getX()+2);
+//        bounds.setY(position.getY()+2);
     }
     
     public void draw(int portX, int portY){

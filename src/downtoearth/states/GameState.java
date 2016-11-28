@@ -4,24 +4,14 @@ import downtoearth.Inventory.Inventory;
 import downtoearth.Items.Item;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.entities.NPC;
-
 import downtoearth.gameUtil.Coordinate;
-
-import downtoearth.world.Tile;
 import downtoearth.world.World;
-
 import java.io.IOException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.lwjgl.input.Mouse;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;

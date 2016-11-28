@@ -148,18 +148,18 @@ public class World implements Serializable {
     
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{  
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
-        Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width   , height );
-        Image shd = shader.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width  , height );
+        Image img = map.getSubImage(p.getCamera().getCenterPosX() - (con.getWidth()/2), p.getCamera().getCenterPosY() - (con.getHeight()/2), width   , height );
+        Image shd = shader.getSubImage(p.getCamera().getX() - (con.getWidth()/2), p.getCamera().getY() - (con.getHeight()/2), width  , height );
         img.setFilter(Image.FILTER_NEAREST);
         img.getScaledCopy(width, height).draw(0, 0  );
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
 
-        int startX = p.getCoordinate().getXint() - (con.getScreenWidth()/2);
-        int startY = p.getCoordinate().getYint() - (con.getScreenHeight()/2);
+        int startX = p.getCamera().getCenterPosX() - (con.getWidth()/2);
+        int startY = p.getCamera().getCenterPosY() - (con.getHeight()/2);
         
-        int stopX = p.getCoordinate().getXint() + (con.getScreenWidth()/2);
-        int stopY = p.getCoordinate().getYint() + (con.getScreenHeight()/2);
-        p.render(con, startX, startY);
+        int stopX = p.getCamera().getCenterPosX() + (con.getWidth()/2);
+        int stopY = p.getCamera().getCenterPosY() + (con.getHeight()/2);
+        p.render(con);
         g.draw(p.getBounds());
         for (NPC n : mobs)
         {
