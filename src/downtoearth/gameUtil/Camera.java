@@ -8,7 +8,7 @@ public class Camera {
     public Camera(int width, int height){
         this.width= width;
         this.height = height;
-        c = new Coordinate(0,0);
+        c = new Coordinate(500,300);
     }
     
     public Coordinate getCoordinate(){

@@ -23,7 +23,7 @@ public class World implements Serializable {
     private final int zoom = 4;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    private List<Tile> tiles;
+    public List<Tile> tiles;
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;

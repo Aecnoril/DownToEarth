@@ -123,6 +123,7 @@ public class Player extends LivingEntity{
                 t.move(input);
             }
         }
+        System.out.println("X: " + cam.getX() + "Y: " + cam.getY());
     }
     
     public void render(GameContainer con) throws SlickException{
