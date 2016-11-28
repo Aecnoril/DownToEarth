@@ -126,13 +126,13 @@ public class Player extends LivingEntity{
         System.out.println("X: " + cam.getX() + "Y: " + cam.getY());
     }
     
-    public void render(GameContainer con, int posX, int posY) throws SlickException{
+    public void render(GameContainer con) throws SlickException{
         if(moving){
             moving = false;
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() /2  , con.getHeight() /2 );
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), this.cam.getCenterPosX(), this.cam.getCenterPosY());
         }
     }
 
