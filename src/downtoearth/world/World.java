@@ -149,7 +149,7 @@ public class World implements Serializable {
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{  
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
         Image img = map.getSubImage(p.getCamera().getCenterPosX() - (con.getWidth()/2), p.getCamera().getCenterPosY() - (con.getHeight()/2), width   , height );
-        Image shd = shader.getSubImage(p.getCamera().getX() - (con.getWidth()/2), p.getCamera().getY() - (con.getHeight()/2), width  , height );
+        Image shd = shader.getSubImage(p.getCamera().getCenterPosX() - (con.getWidth()/2), p.getCamera().getCenterPosY() - (con.getHeight()/2), width  , height );
         img.setFilter(Image.FILTER_NEAREST);
         img.getScaledCopy(width, height).draw(0, 0  );
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
@@ -161,6 +161,7 @@ public class World implements Serializable {
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight()/2);
         p.render(con);
         g.draw(p.getBounds());
+        g.draw(p.getColBox());
         for (NPC n : mobs)
         {
             if(n.isDead())

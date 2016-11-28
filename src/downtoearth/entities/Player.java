@@ -36,6 +36,7 @@ public class Player extends LivingEntity{
     private boolean moving;
     private Coordinate coordinate;
     private boolean attack;
+    private Rectangle colBox;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -75,6 +76,10 @@ public class Player extends LivingEntity{
     public Rectangle getBounds(){
         return new Rectangle( 542 - 16, 362 - 16, 28, 28);
     }
+    
+    public Rectangle getColBox(){
+        return colBox;
+    }
 
     public byte getDir() {
         return dir;
@@ -110,8 +115,10 @@ public class Player extends LivingEntity{
         moving = false;
         xa = 0;
         ya = 0;
-        if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
+        
+        
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
+        if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
@@ -119,11 +126,7 @@ public class Player extends LivingEntity{
             this.setCamX(this.getCamX() + xa);
             this.setCamY(this.getCamY() + ya);
             this.coordinate = cam.getCoordinate();
-            for(Tile t : tiles){
-                t.move(input);
-            }
         }
-        System.out.println("X: " + cam.getX() + "Y: " + cam.getY());
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -137,6 +140,28 @@ public class Player extends LivingEntity{
     }
 
     public boolean collision(float x, float y, List<Tile> tiles){
+       switch(dir){
+            case DirectionType.NORTH:
+                colBox = new Rectangle(540-13, 360-14, 26, 1);
+                break;
+               
+            case DirectionType.EAST:
+                colBox = new Rectangle(540+14, 360-13, 1, 26);
+                break;
+               
+            case DirectionType.SOUTH:
+                colBox = new Rectangle(540-13, 360+14, 26, 1);
+                break;
+               
+            case DirectionType.WEST:
+                colBox = new Rectangle(540-16, 360-13, 1, 26);
+                break;
+       }
+       for(Tile tile : tiles){
+           if(this.getColBox().intersects(tile.getBounds())){
+               return true;
+           }
+       }
        return false;
     }
     
@@ -147,7 +172,7 @@ public class Player extends LivingEntity{
     
     public void attack(NPC n) throws SlickException
     {
-
+        
     }
     
     public void attack(Tile t) throws SlickException
