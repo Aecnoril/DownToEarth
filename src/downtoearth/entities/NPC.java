@@ -100,8 +100,8 @@ public class NPC extends LivingEntity {
         bounds.setY(location.getY()+2);
     }
 
-    public void draw() {
+    public void draw(int posX, int posY) {
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
-        sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint(), location.getYint());
+        sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX, location.getYint() - posY);
     }
 }

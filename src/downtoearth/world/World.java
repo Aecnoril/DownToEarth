@@ -145,14 +145,20 @@ public class World implements Serializable {
 
     }
     
-    public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{
+    public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{  
         Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
-        Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
-        Image shd = shader.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width / zoom, height / zoom);
+        Image img = map.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width   , height );
+        Image shd = shader.getSubImage(p.getCamera().getX(), p.getCamera().getY(), width  , height );
         img.setFilter(Image.FILTER_NEAREST);
-        img.getScaledCopy(width, height).draw(0, 0);
+        img.getScaledCopy(width, height).draw(0, 0  );
         shd.getScaledCopy(width, height).draw(0, 0, new Color(1,1,1,shaderTrans));
-        p.render(con);
+
+        int startX = p.getCoordinate().getXint() - (con.getScreenWidth()/2);
+        int startY = p.getCoordinate().getYint() - (con.getScreenHeight()/2);
+        
+        int stopX = p.getCoordinate().getXint() + (con.getScreenWidth()/2);
+        int stopY = p.getCoordinate().getYint() + (con.getScreenHeight()/2);
+        p.render(con, startX, startY);
         g.draw(p.getBounds());
         g.draw(p.getColLine());
         for (NPC n : mobs)
@@ -184,9 +190,9 @@ public class World implements Serializable {
         }
         removeTiles.clear();
         for(Tile t : tiles){
-            if(t.getPosition().getX() >= -16 && t.getPosition().getX() <= 1080){
-                if(t.getPosition().getY() >= -16 && t.getPosition().getY() <= 720){
-                    t.draw();
+            if(t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX){
+                if(t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY){
+                    t.draw(startX , startY);
                     g.setColor(Color.red);
                     g.draw(t.getBounds());
                 }
@@ -194,9 +200,9 @@ public class World implements Serializable {
         }
         for(NPC n : mobs)
         {
-            if(n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080){
-                if(n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720){
-                    n.draw();
+            if(n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX){
+                if(n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY){
+                    n.draw(startX , startY);
                     g.setColor(Color.red);
                     g.draw(n.getBounds());
                 }
@@ -214,15 +220,15 @@ public class World implements Serializable {
     
     public void update(Input input){
             this.p.move(input, this.tiles);
-            for(Tile t : this.tiles){
-                t.move(input);
-            }
+//            for(Tile t : this.tiles){
+//                t.move(input);
+//            }
             for(ItemEntity t : this.itemEnts){
                 t.move(input);
             }
-            for(NPC n : this.mobs)
-            {
-                n.move(input);
-            } 
+//            for(NPC n : this.mobs)
+//            {
+//                n.move(input);
+//            } 
     }
 }

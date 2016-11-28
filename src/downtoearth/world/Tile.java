@@ -103,10 +103,12 @@ public class Tile {
         bounds.setY(position.getY()+2);
     }
     
-    public void draw(){
+    public void draw(int portX, int portY){
         SpriteLocation sl = TileType.getSpritePosition(this.type);
         spritex = sl.getSpriteX();
         spritey = sl.getSpriteY();
-        manager.drawSprite(spritex, spritey, position.getXint(), position.getYint());
+        bounds.setX(position.getX()+2);
+        bounds.setY(position.getY()+2);
+        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX ), (position.getYint()) - (portY));
     }
 }

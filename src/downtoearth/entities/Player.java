@@ -74,7 +74,7 @@ public class Player extends LivingEntity{
     }
     
     public Coordinate getCoordinate(){
-        return this.coordinate;
+        return this.cam.getCoordinate();
     }
     
     public Rectangle getBounds(){
@@ -126,15 +126,16 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_D)){ cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED); dir = DirectionType.EAST;}
         if(input.isKeyDown(Input.KEY_S)){ cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED); dir = DirectionType.SOUTH;}
         if(input.isKeyDown(Input.KEY_A)){ cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED); dir = DirectionType.WEST;}
+        this.coordinate = cam.getCoordinate();
     }
     
-    public void render(GameContainer con) throws SlickException{
+    public void render(GameContainer con, int posX, int posY) throws SlickException{
         if(moving){
             moving = false;
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), this.cam.getX() , this.cam.getY());
         }
     }
     
