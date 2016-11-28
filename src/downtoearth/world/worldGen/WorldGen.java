@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import org.newdawn.slick.SlickException;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -102,7 +104,7 @@ public class WorldGen {
                     } catch (IllegalArgumentException iEx) {
                         System.out.println(map[i][j]);
                         System.out.println(grey);
-                        iEx.printStackTrace();
+                        Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, iEx);
                         return null;
                     }
                 }
@@ -110,7 +112,7 @@ public class WorldGen {
             File output = new File("res/HeightMap.png");
             ImageIO.write(bImage, "png", output);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, e);
         }
 
         try {
@@ -166,7 +168,7 @@ public class WorldGen {
             File output = new File("res/ColorMap.png");
             ImageIO.write(bImage, "png", output);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
         

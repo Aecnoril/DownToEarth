@@ -9,6 +9,8 @@ import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -163,6 +165,7 @@ public class Inventory {
             Items.add(new TileItem("jopie", Tooltype.STEELSWORD, 10, 10));
             Items.add(new TileItem("jopie", Tooltype.GEMSWORD, 10, 10));
         } catch (SlickException ex) {
+            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.generateInventory();
     }
@@ -210,6 +213,7 @@ public class Inventory {
                 }
             }
         } catch (SlickException ex) {
+            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -2,7 +2,6 @@ package downtoearth.database;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +15,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javax.net.ssl.HttpsURLConnection;
@@ -51,6 +52,9 @@ public class ServerAPI {
         }
     };
 
+    /**
+     * Used to determine which error occurred while making a server request 
+     */
     public enum Error{
         /**
          * Something went horrible wrong
@@ -58,32 +62,37 @@ public class ServerAPI {
         FATAL
     }
     
+    /**
+     * Used to provide the responses from the server requests
+     */
     public static class Response{
         
-        private boolean success;
-        private int statusCode;
-        private String response;
-        private Error error;
+        private final boolean success;
+        private final int statusCode;
+        private final String responseBody;
+        private final Error error;
         
         /**
          * Create error response
          * @param error the error
          */
         public Response(Error error){
-            this.statusCode = statusCode;
             this.error = error;
             this.success = false;
+            this.statusCode = 0;
+            this.responseBody = null;
         }
         
         /**
          * Create success response
          * @param statusCode the HTTP status code
-         * @param response the response body
+         * @param responseBody the response body
          */
-        public Response(int statusCode, String response){
+        public Response(int statusCode, String responseBody){
             this.statusCode = statusCode;
-            this.response = response;
+            this.responseBody = responseBody;
             this.success = true;
+            this.error = null;
         }
         
         /**
@@ -107,7 +116,7 @@ public class ServerAPI {
          * @return 
          */
         public String getResponse(){
-            return response;
+            return responseBody;
         }
         
         /**
@@ -116,8 +125,10 @@ public class ServerAPI {
          */
         public JSONObject getJSONObjectResponse(){
             try {
-                return new JSONObject(response);
-            } catch (JSONException ex) {}
+                return new JSONObject(responseBody);
+            } catch (JSONException ex) {
+                Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return null;
         }
         
@@ -127,17 +138,31 @@ public class ServerAPI {
          */
         public JSONArray getJSONArrayResponse(){
             try {
-                return new JSONArray(response);
-            } catch (JSONException ex) {}
+                return new JSONArray(responseBody);
+            } catch (JSONException ex) {
+                Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return null;
+        }
+        
+        /**
+         * Get the error that occurred during the request
+         * @return the error
+         */
+        public Error getError(){
+            return error;
         }
         
     }
     
+    /**
+     * Listener used to provide the response from the server
+     */
+    @FunctionalInterface
     public static interface ResponseListener{
         /**
          * Callback called when the request has a response
-         * @param response the response containgin the status and response data of the request
+         * @param response the response containing the status and response data of the request
          */
         void onResponse(Response response);
     }
@@ -156,7 +181,10 @@ public class ServerAPI {
             body.put("username", username);
             body.put("password", password);
             sendRequest("PUT", "user", null, null, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
     }
         
     /**
@@ -171,7 +199,10 @@ public class ServerAPI {
             body.put("username", username);
             body.put("password", password);
             sendRequest("PUT", "session", null, null, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
     }
     
     /**
@@ -206,7 +237,10 @@ public class ServerAPI {
                 body.put("password", password);
             }
             sendRequest("POST", "user", token, tokenId, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
     }
     
     /**
@@ -232,17 +266,111 @@ public class ServerAPI {
         sendRequest("GET", "user", token, tokenId, null, args, responseListener);
     }
     
+    /**
+     * Create a new game
+     * @param token token of the session
+     * @param tokenId tokenId of the session
+     * @param gameName a name for the new game
+     * @param hostIP the IP-Address of the host
+     * @param isPrivate true if this game is a private game, false otherwise
+     * @param responseListener callback with response. 200 = game created (JSONObject with the gameID)
+     */
+    public static void createGame(String token, String tokenId, String gameName, String hostIP, boolean isPrivate, ResponseListener responseListener){
+        try {
+            JSONObject body = new JSONObject();
+            body.put("name", gameName);
+            body.put("hostIP", hostIP);
+            body.put("private", isPrivate ? 1 : 0);
+            sendRequest("PUT", "game", token, tokenId, body.toString(), null, responseListener);
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
+    }
+    
+    /**
+     * Join a game
+     * @param token token of the session
+     * @param tokenId tokenId of the session
+     * @param gameId the gameId
+     * @param responseListener callback with response. 400 = Invalid gameId | Already joined, 201 = Joined, 202 = Awaiting acceptation
+     */
+    public static void joinGame(String token, String tokenId, int gameId, ResponseListener responseListener){
+        HashMap<String, String> args = new HashMap<>();
+        args.put("action", "join");
+        try {
+            JSONObject body = new JSONObject();
+            body.put("gameId", gameId);
+            sendRequest("POST", "game", token, tokenId, body.toString(), args, responseListener);
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
+    }
+    
+    /**
+     * Leave a game
+     * @param token token of the session
+     * @param tokenId tokenId of the session
+     * @param gameId the gameId
+     * @param responseListener callback with response. 400 = Invalid gameId | Already joined | You are the host, 200 = left game
+     */
+    public static void leaveGame(String token, String tokenId, int gameId, ResponseListener responseListener){
+        HashMap<String, String> args = new HashMap<>();
+        args.put("action", "leave");
+        try {
+            JSONObject body = new JSONObject();
+            body.put("gameId", gameId);
+            sendRequest("DELETE", "game", token, tokenId, body.toString(), args, responseListener);
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
+    }
+    
+    /**
+     * Delete a game
+     * @param token token of the session
+     * @param tokenId tokenId of the session
+     * @param gameId the gameId
+     * @param responseListener callback with response. 400 = Invalid gameId | You are not the host, 200 = game deleted
+     */
+    public static void deleteGame(String token, String tokenId, int gameId, ResponseListener responseListener){
+        try {
+            JSONObject body = new JSONObject();
+            body.put("gameId", gameId);
+            sendRequest("DELETE", "game", token, tokenId, body.toString(), null, responseListener);
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            responseListener.onResponse(new Response(Error.FATAL));
+        }
+    }
+    
+    /**
+     * Get info about a game
+     * @param token token of the session
+     * @param tokenId tokenId of the session
+     * @param gameId the gameId
+     * @param responseListener callback with response. 400 = Invalid gameId, 200 = success (JSONObject with info about the game)
+     */
+    public static void getGameInfo(String token, String tokenId, int gameId, ResponseListener responseListener){
+        HashMap<String, String> args = new HashMap<>();
+        args.put("gameId", Integer.toString(gameId));
+        sendRequest("GET", "game", token, tokenId, null, args, responseListener);
+    }
+    
     private static void sendRequest(final String method, final String endpoint, final String token, final String tokenId, final String body, final HashMap<String, String> args, final ResponseListener responseListener){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Response response = new Response(Error.FATAL);
                 String urlArgs = "";
+                StringBuilder urlArgsBuilder = new StringBuilder();
                 if(args != null){
                     for(Map.Entry<String, String> arg : args.entrySet()){
-                        urlArgs += "&" + arg.getKey() + "=" + arg.getValue();
+                        urlArgsBuilder.append("&").append(arg.getKey()).append("=").append(arg.getValue());
                     }
-                    urlArgs = urlArgs.replaceFirst("&", "?");
+                    urlArgs = urlArgsBuilder.toString().replaceFirst("&", "?");
                 }
                 try {
                     URL url = new URL(SERVER_URL + "/" + endpoint + urlArgs);
@@ -256,7 +384,7 @@ public class ServerAPI {
                     if(tokenId != null){
                         authorization += "tokenId=" + tokenId + ";";
                     }
-                    if(!authorization.equals("")) {
+                    if(!"".equals(authorization)) {
                         httpsURLConnection.setRequestProperty("Authorization", authorization);
                     }
                     httpsURLConnection.setDoInput(true);
@@ -277,6 +405,7 @@ public class ServerAPI {
                     try{
                         inputStream = httpsURLConnection.getInputStream();
                     } catch (Exception e){
+                        Logger.getLogger(ServerAPI.class.getName()).log(Level.INFO, null, e);
                         inputStream = httpsURLConnection.getErrorStream();
                     }
                     try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))){
@@ -290,7 +419,7 @@ public class ServerAPI {
 
                     response = new Response(httpsURLConnection.getResponseCode(), stringBuilder.toString());
                 } catch (IOException | KeyManagementException | NoSuchAlgorithmException ex) {
-                    System.out.println(ex.toString());
+                    Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(responseListener != null){
                     final Response finalResponse = response;

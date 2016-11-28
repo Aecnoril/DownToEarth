@@ -1,15 +1,11 @@
-*.class
+.DS_Store
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Created by https://www.gitignore.io/api/netbeans
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/dist/
-nbproject/private/private.xml
-nbproject/private/private.properties
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
