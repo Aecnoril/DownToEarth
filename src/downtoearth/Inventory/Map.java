@@ -5,7 +5,10 @@
  */
 package downtoearth.Inventory;
 
+import downtoearth.entities.Player;
+import downtoearth.gameUtil.Camera;
 import downtoearth.states.GameState;
+import downtoearth.world.World;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
@@ -13,14 +16,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 
 /**
  *
  * @author Tomt
  */
 public class Map {
-
-        private int width;
+    private World world;
+    private int x;
+    private int y;
+    private Camera cam;
+    private int width;
 
     /**
      * Get the value of width
@@ -86,6 +93,7 @@ public class Map {
     
     public Map(int width, int height) throws SlickException
     {
+        cam = new Camera(1080,720);
         this.width = width;
         this.height = height;
         this.mapOpen = false;
@@ -100,6 +108,11 @@ public class Map {
         if (gc.getInput().isKeyPressed(Input.KEY_M)) {
             if (mapOpen==false)
             {
+                //x= world.getPlayer().getCamera().getX();
+                //y= world.getPlayer().getCamera().getY();
+                this.x = cam.getX();
+                this.y = cam.getY();
+                System.out.println(x+" "+y);
                 mapOpen = true;
             }
             else {
@@ -113,6 +126,13 @@ public class Map {
         if (map!=null)
         {
             map.getScaledCopy(0.1f).draw(width,height);
+            g.fill(new Circle((float) (cam.getX()*0.1)+310, (float) (cam.getY()*0.1+105),5));
+            //g.draw(new Circle((float) (x*0.1)+300, (float) (y*0.1+100),10));
         }
+    }
+    
+    public void setCamera(Camera camera)
+    {
+        cam = camera;
     }
 }

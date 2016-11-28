@@ -23,6 +23,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -39,6 +40,7 @@ public class GameState extends BasicGameState {
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
     private Map map;
+    private Camera cam;
 
     public static void main(String[] args) {
         // TODO code application logic here
@@ -94,10 +96,11 @@ public class GameState extends BasicGameState {
             this.inv.render(g);
         }
         
-        if (this.map.isMapOpen()==true)
+        if (this.map.isMapOpen())
         {
             this.map.render(g);
         }
+        
     }
 
     @Override
@@ -106,8 +109,10 @@ public class GameState extends BasicGameState {
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             System.out.println("Attack");
             w.getPlayer().attackCollision();
-        }
+        }      
         inv.ePressed(gc);
-        map.mPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
+        
     }
 }
