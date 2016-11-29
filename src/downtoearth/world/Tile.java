@@ -57,23 +57,12 @@ public class Tile {
         this.bounds = new Rectangle(position.getXint() + 2 , position.getYint() + 2, 28, 28);
     }
     
-    public void move(Input input){     
-        
-//        if(input.isKeyDown(Input.KEY_W)){ this.position.setY(this.position.getY() + (SPEED));}
-//        if(input.isKeyDown(Input.KEY_D)){ this.position.setX(this.position.getX() - (SPEED));}
-//        if(input.isKeyDown(Input.KEY_S)){ this.position.setY(this.position.getY() - (SPEED));}
-//        if(input.isKeyDown(Input.KEY_A)){ this.position.setX(this.position.getX() + (SPEED));}
-//        
-//        bounds.setX(position.getX()+2);
-//        bounds.setY(position.getY()+2);
-    }
-    
     public void draw(int portX, int portY){
         SpriteLocation sl = TileType.getSpritePosition(this.type);
         spritex = sl.getSpriteX();
         spritey = sl.getSpriteY();
-        bounds.setX(position.getX()+2 - portX);
-        bounds.setY(position.getY()+2 - portY);
-        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX ), (position.getYint()) - (portY));
+        bounds.setX((position.getX()+2 - portX)-16);
+        bounds.setY((position.getY()+2 - portY)-16);
+        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX )-16, (position.getYint()) - (portY)-16);
     }
 }
