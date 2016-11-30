@@ -220,7 +220,7 @@ public class World implements Serializable {
     }
     
     public void update(Input input){
-        this.p.move(input, this.tiles);
+        this.p.move(input, this.tiles, this.mobs);
         for(ItemEntity t : this.itemEnts){
             t.move(input);
         }
