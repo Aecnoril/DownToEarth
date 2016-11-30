@@ -160,8 +160,8 @@ public class World implements Serializable {
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth()/2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight()/2);
         p.render(con);
-        g.draw(p.getBounds());
-        g.draw(p.getColBox());
+        //g.draw(p.getBounds());
+        //g.draw(p.getColBox());
         for (NPC n : mobs)
         {
             if(n.isDead())
@@ -195,7 +195,7 @@ public class World implements Serializable {
                 if(t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY){
                     t.draw(startX , startY);
                     g.setColor(Color.red);
-                    g.draw(t.getBounds());
+                    //g.draw(t.getBounds());
                 }
             }
         }
@@ -205,7 +205,7 @@ public class World implements Serializable {
                 if(n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY){
                     n.draw(startX , startY);
                     g.setColor(Color.red);
-                    g.draw(n.getBounds());
+                    //g.draw(n.getBounds());
                 }
             }
         }

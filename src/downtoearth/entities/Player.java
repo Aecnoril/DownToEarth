@@ -116,16 +116,18 @@ public class Player extends LivingEntity{
         xa = 0;
         ya = 0;
         
-        
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(this.getCamX() + xa, this.getCamY() + ya, tiles) && moving == true){
+        if(!collision(this.getCamX() + xa, this.getCamY() + ya, tiles)){
             this.setCamX(this.getCamX() + xa);
             this.setCamY(this.getCamY() + ya);
             this.coordinate = cam.getCoordinate();
+        }
+        else{
+            moving = false;
         }
     }
     
