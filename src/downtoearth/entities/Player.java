@@ -111,7 +111,7 @@ public class Player extends LivingEntity{
         this.coordinate.setY(y);
     }
 
-    public void move(Input input, List<Tile> tiles){   
+    public void move(Input input, List<Tile> tiles, List<NPC> entities){   
         moving = false;
         xa = 0;
         ya = 0;
@@ -121,7 +121,7 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(this.getCamX() + xa, this.getCamY() + ya, tiles)){
+        if(!collision(this.getCamX() + xa, this.getCamY() + ya, tiles, entities)){
             this.setCamX(this.getCamX() + xa);
             this.setCamY(this.getCamY() + ya);
             this.coordinate = cam.getCoordinate();
@@ -141,7 +141,7 @@ public class Player extends LivingEntity{
         }
     }
 
-    public boolean collision(float x, float y, List<Tile> tiles){
+    public boolean collision(float x, float y, List<Tile> tiles, List<NPC> entities){
        switch(dir){
             case DirectionType.NORTH:
                 colBox = new Rectangle(540-13, 360-14, 26, 1);
@@ -164,8 +164,15 @@ public class Player extends LivingEntity{
                return true;
            }
        }
+       for(NPC npc : entities)
+       {
+           if(this.getColBox().intersects(npc.getBounds())){
+               return true;
+           }
+       }
        return false;
     }
+    
     
     public void attackCollision()
     {
