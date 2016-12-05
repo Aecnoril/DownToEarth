@@ -14,6 +14,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -53,7 +54,7 @@ public class GameState extends BasicGameState {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-
+        
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
                 inv.generateInventory();    
