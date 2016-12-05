@@ -36,6 +36,8 @@ public class Player extends LivingEntity{
     private boolean moving;
     private Coordinate coordinate;
     private boolean attack;
+    private Rectangle colBox;
+    private Rectangle attBox;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -75,6 +77,14 @@ public class Player extends LivingEntity{
     public Rectangle getBounds(){
         return new Rectangle( 542 - 16, 362 - 16, 28, 28);
     }
+    
+    public Rectangle getColBox(){
+        return colBox;
+    }
+    
+    public Rectangle getAttackBox(){
+        return attBox;
+    }
 
     public byte getDir() {
         return dir;
@@ -106,52 +116,114 @@ public class Player extends LivingEntity{
         this.coordinate.setY(y);
     }
 
-    public void move(Input input, List<Tile> tiles){   
+    public void move(Input input, List<Tile> tiles, List<NPC> entities){   
         moving = false;
         xa = 0;
         ya = 0;
-        if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
+        
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
+        if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(this.getCamX() + xa, this.getCamY() + ya, tiles) && moving == true){
+        if(!collision(tiles, entities)){
             this.setCamX(this.getCamX() + xa);
             this.setCamY(this.getCamY() + ya);
             this.coordinate = cam.getCoordinate();
-            for(Tile t : tiles){
-                t.move(input);
-            }
+        }
+        else{
+            moving = false;
         }
     }
     
-    public void render(GameContainer con, int posX, int posY) throws SlickException{
+    public void render(GameContainer con) throws SlickException{
         if(moving){
             moving = false;
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() /2  , con.getHeight() /2 );
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
         }
     }
 
-    public boolean collision(float x, float y, List<Tile> tiles){
+    public boolean collision(List<Tile> tiles, List<NPC> entities){
+       switch(dir){
+            case DirectionType.NORTH:
+                colBox = new Rectangle(540-13, 360-14, 26, 1);
+                break;
+               
+            case DirectionType.EAST:
+                colBox = new Rectangle(540+14, 360-13, 1, 26);
+                break;
+               
+            case DirectionType.SOUTH:
+                colBox = new Rectangle(540-13, 360+14, 26, 1);
+                break;
+               
+            case DirectionType.WEST:
+                colBox = new Rectangle(540-16, 360-13, 1, 26);
+                break;
+       }
+       for(Tile tile : tiles){
+           if(this.getColBox().intersects(tile.getBounds())){
+               return true;
+           }
+       }
+       for(NPC npc : entities)
+       {
+           if(this.getColBox().intersects(npc.getBounds())){
+               return true;
+           }
+       }
        return false;
     }
     
-    public void attackCollision()
-    {
-        
-    }
     
-    public void attack(NPC n) throws SlickException
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, Input input) throws SlickException
     {
+        final int RANGE = 10;
+        switch(dir){
+             case DirectionType.NORTH:
+                 attBox = new Rectangle(540-13, 360-24, 26, RANGE);
+                 break;
 
+             case DirectionType.EAST:
+                 attBox = new Rectangle(540+14, 360-13, RANGE, 26);
+                 break;
+
+             case DirectionType.SOUTH:
+                 attBox = new Rectangle(540-13, 360+14, 26, RANGE);
+                 break;
+
+             case DirectionType.WEST:
+                 attBox = new Rectangle(540-23, 360-13, RANGE, 26);
+                 break;
+        } 
+
+        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+             for(Tile tile : tiles){
+                 if(this.getAttackBox().intersects(tile.getBounds())){
+                     tile.Destroy();
+                     tiles.remove(tile);
+                     break;
+                 }
+             }
+             for(NPC npc : entities)
+             {
+                 if(this.getAttackBox().intersects(npc.getBounds())){
+                     npc.loseHp(10);
+                     if(npc.isDead()){
+                         entities.remove(npc);
+                         break;
+                     }
+                 }
+             }
+        }
     }
     
-    public void attack(Tile t) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, Input input) throws SlickException
     {
-        
+        attackCollision(tiles, entities, input);
     }
     
     public void useItem(Item item){
