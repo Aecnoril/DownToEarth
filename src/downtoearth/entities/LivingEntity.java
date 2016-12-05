@@ -25,7 +25,6 @@ public abstract class LivingEntity extends Entity {
     protected Item armorSet;
     protected DirectionType direction;
     protected boolean dead;
-
     /**
      * gets the item currently equipped in the left hand
      *
@@ -57,7 +56,6 @@ public abstract class LivingEntity extends Entity {
         return dead;
     }
     
-    
 
     //</editor-fold>
     public LivingEntity(String name, Coordinate location, int hitPoints, String path) throws SlickException {
@@ -66,7 +64,6 @@ public abstract class LivingEntity extends Entity {
     }
 
     public void loseHp(int damage) throws SlickException {
-        System.out.println("attacked");
         this.hitPoints = this.hitPoints - damage;
         onDeath();
     }

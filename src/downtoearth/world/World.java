@@ -101,14 +101,7 @@ public class World implements Serializable {
         this.size = size;
         map = new Image("res/ColorMap.png");
         
-        if(map != null){
-            System.out.println("image found!: " + map.getHeight());           
-        }
-        
         shader = new Image("res/HeightMap.png");
-        if(shader != null){
-            System.out.println("image found!: " + shader.getHeight());           
-        }
         
         p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
         mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
@@ -132,14 +125,8 @@ public class World implements Serializable {
         this.colorMap = colorMap;
         this.size = size;
         map = new Image("res/ColorMap.png");
-        if(map != null){
-            System.out.println("image found!: " + map.getHeight());           
-        }
         
         shader = new Image("res/HeightMap.png");
-        if(shader != null){
-            System.out.println("image found!: " + shader.getHeight());           
-        }
         
         p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
         mobs.add(new NPC("Test", new Coordinate(620,1380), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
