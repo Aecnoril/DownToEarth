@@ -144,6 +144,11 @@ public class Player extends LivingEntity{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
             sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
         }
+        
+        if(attack){
+            aManager.DrawAttack(this.dir, con);
+            attack = false;
+        }
     }
 
     public boolean collision(List<Tile> tiles, List<NPC> entities){
@@ -201,6 +206,7 @@ public class Player extends LivingEntity{
         } 
 
         if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            attack = true;
              for(Tile tile : tiles){
                  if(this.getAttackBox().intersects(tile.getBounds())){
                      tile.Destroy();

@@ -11,6 +11,8 @@ import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import static downtoearth.world.Tile.SPEED;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -26,6 +28,7 @@ public class NPC extends LivingEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private MobType type;
+    private int count;
     
     private Rectangle bounds;
     private byte dir;
@@ -57,6 +60,7 @@ public class NPC extends LivingEntity {
     
     public NPC(String name, Coordinate location, int hitPoints, MobType type, String path) throws SlickException {
         super(name, location, hitPoints, path);
+        this.count = 0;
         this.type = type;
         this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
@@ -67,7 +71,7 @@ public class NPC extends LivingEntity {
         
     }
 
-    public void draw(int posX, int posY) {
+    public void draw(int posX, int posY) {    
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
         bounds.setX(location.getX()+2 - posX);
         bounds.setY(location.getY()+2 - posY);
