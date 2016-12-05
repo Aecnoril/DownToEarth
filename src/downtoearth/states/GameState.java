@@ -1,9 +1,20 @@
 package downtoearth.states;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/ruud
 import downtoearth.Inventorys.Inventory;
+import downtoearth.Inventorys.InventorySlot;
+import downtoearth.Items.Item;
 import downtoearth.Items.crafting.CraftingScreen;
+
 import downtoearth.entities.ItemEntity;
+<<<<<<< HEAD
+=======
+import downtoearth.entities.NPC;
+import downtoearth.gameUtil.Camera;
+>>>>>>> refs/remotes/origin/ruud
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
@@ -30,7 +41,6 @@ public class GameState extends BasicGameState {
     private CraftingScreen cs;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-
     public static void main(String[] args) {
     }
 
@@ -53,8 +63,7 @@ public class GameState extends BasicGameState {
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
-        g.drawString("State 3: Game", 10, 30);
-        
+        g.drawString("State 3: Game", 10, 30); 
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
                 inv.generateInventory();    
@@ -66,8 +75,9 @@ public class GameState extends BasicGameState {
         if (this.inv.isInvOpen()) {
             this.inv.render(g);
         }
-        if (this.cs.isCsOpen()) {
+        if (this.cs.isCsOpen()) {            
             this.cs.render(g);
+             
         }
     }
 
@@ -75,12 +85,17 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
         inv.ePressed(gc);
-        cs.cPressed(gc);
+        cs.setInventory(inv); 
+        cs.cPressed(gc);    
+//        for(InventorySlot is: inv.getInvSlots()){
+//            if(is.getItem() != null)
+//            System.out.println(((Item)is.getItem()).getName()); 
+//        }
     }
-
+    
     @Override
-    public void mouseWheelMoved(int change) {          
-        double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res);
+    public void mouseWheelMoved(int change) {
+        double res = Math.floor(change * 0.1);
+        cs.setScroll((float) res);
     }
 }

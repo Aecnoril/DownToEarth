@@ -40,8 +40,8 @@ public class CraftingRecipe {
 
     /**
      * Get the value of Result
-     * 
-     * @return 
+     *
+     * @return
      */
     public Item getResult() {
         return result;

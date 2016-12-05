@@ -6,8 +6,8 @@
 package downtoearth.Inventorys;
 
 import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
-import downtoearth.enums.Tooltype;
+import downtoearth.Items.Resource;
+import downtoearth.enums.ResourceType;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,10 +43,13 @@ public class Inventory {
         this.invOpen = false;
 
         try {
-            items.add(new TileItem("item1", Tooltype.WOODENSWORD, 10, 10));
-            items.add(new TileItem("item2", Tooltype.STONESWORD, 10, 10));
-            items.add(new TileItem("item3", Tooltype.STEELSWORD, 10, 10));
-            items.add(new TileItem("item4", Tooltype.GEMSWORD, 10, 10));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Stick", ResourceType.STICK, 100, 0));
+            items.add(new Resource("Gravel", ResourceType.GRAVEL, 100, 0));
+            items.add(new Resource("Steel", ResourceType.STEEL, 100, 0));
         } catch (SlickException ex) {
             Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,6 +57,23 @@ public class Inventory {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
+    public ArrayList<InventorySlot> getInvSlots() {
+        return inventorySlots;
+    }
+
+    /**
+     * Get the value of items
+     *
+     * @return the value of items
+     */
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> x) {
+        items = x;
+    }
+
     /**
      * Get the value of rectangle
      *
@@ -92,7 +112,7 @@ public class Inventory {
     //</editor-fold>
 
     /**
-     * Generates the inventory
+     * Generates the inventory screen
      */
     public void generateInventory() {
         int temporaryX = rectangle.getX();
@@ -117,11 +137,21 @@ public class Inventory {
 
         int i = 1;
         for (Item it : items) {
+            boolean dubbelItem = false;
             InventorySlot r = inventorySlots.get(inventorySlots.size() - i);
-            if (r.getItem() == null) {
-                r.setItem(it);
+            for (InventorySlot is : inventorySlots) {
+                if (is.getItem() != null) {
+                    if (((Item) is.getItem()).getName() == it.getName()) {
+                        is.setItemQuantity();
+                        dubbelItem = true;
+                    }
+                }
             }
-            i++;
+            if (r.getItem() == null && dubbelItem == false) {
+                r.setItem(it);
+                i++;
+            }
+
         }
     }
 
@@ -137,7 +167,13 @@ public class Inventory {
                 g.setColor(r.getRectangle().getColor());
                 g.fillRect(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth(), r.getRectangle().getHeight());
                 if (r.getItem() != null) {
-                    r.getItem().render(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth());
+                    if (r.getItem() instanceof Item) {
+                        ((Item) r.getItem()).render(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth());
+                        if (r.getItemQuantity() > 1) {
+                            g.setColor(Color.black);
+                            g.drawString(Integer.toString(r.getItemQuantity()), r.getRectangle().getX(), r.getRectangle().getY());
+                        }
+                    }
                 }
             }
         } catch (SlickException ex) {
@@ -153,13 +189,21 @@ public class Inventory {
         if (gc.getInput().isKeyPressed(Input.KEY_E)) {
             if (this.invOpen) {
                 this.invOpen = false;
-            } else {
+            } else {                
                 this.invOpen = true;
             }
         }
         if (this.invOpen) {
+            
             this.moveitem(gc);
+            for(Item i: items){
+                System.out.println(i.getName());
+            }
         }
+    }
+
+    public void updateInv(Inventory inv) {
+        items = inv.getItems();
     }
 
     /**
@@ -167,25 +211,24 @@ public class Inventory {
      * @param gc
      */
     public void moveitem(GameContainer gc) {
-        if (invOpen) {
-            for (InventorySlot is : this.inventorySlots) {
-                if (is.detectMouse(gc.getInput())) {
-                    if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                        is.setItem(null);
-                    } else if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
-                        if (selectedSlot != null && is.getItem() != null) {
-                            Item i = selectedSlot.getItem();
-                            selectedSlot.setItem(is.getItem());
-                            is.setItem(i);
-                        } else if (selectedSlot != null) {
-                            is.setItem(selectedSlot.getItem());
-                            selectedSlot.setItem(null);
-                        }
-                        if (selectedSlot == null) {
-                            selectedSlot = is;
-                        } else {
-                            selectedSlot = null;
-                        }
+        for (InventorySlot is : this.inventorySlots) {
+            if (is.detectMouse(gc.getInput())) {
+                if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
+                    //is.getItem().drop();
+                    is.setItem(null);
+                } else if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
+                    if (selectedSlot != null && is.getItem() != null) {
+                        Item i = (Item) selectedSlot.getItem();
+                        selectedSlot.setItem((Item) is.getItem());
+                        is.setItem(i);
+                    } else if (selectedSlot != null) {
+                        is.setItem((Item) selectedSlot.getItem());
+                        selectedSlot.setItem(null);
+                    }
+                    if (selectedSlot == null) {
+                        selectedSlot = is;
+                    } else {
+                        selectedSlot = null;
                     }
                 }
             }

@@ -26,8 +26,12 @@ public class CraftingManager {
 
     private static final CraftingManager CRAFTING_MANAGER = new CraftingManager();
     private List<CraftingRecipe> recipes = new ArrayList<>();
+    
+    public List<CraftingRecipe> getRecipes(){
+        return recipes;
+    }
 
-    private CraftingManager(){
+    CraftingManager(){
         try {
             this.recipes.add(new CraftingRecipe(new Resource("Stick", ResourceType.STICK, 100, 0), 2, new Object[]{new Resource("Wood", ResourceType.WOOD, 100, 0), 1}));
             this.recipes.add(new CraftingRecipe(new Resource("Steel", ResourceType.STEEL, 100, 0), 1, new Object[]{new Resource("Coal", ResourceType.COAL, 100, 0), 1, new Resource("Stone", ResourceType.STONE, 100, 0), 1}));

@@ -1,6 +1,7 @@
-package downtoearth.Inventorys;
+package downtoearth.Items.crafting;
 
 import downtoearth.Items.Item;
+import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -14,14 +15,15 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Ruud
  */
-public class InventorySlot {
+public class CraftingSlot {
 
     private Rectangle bounds;
-    private Object item;
+    private Item item;
+    private CraftingRecipe recipe;
     private downtoearth.Inventorys.Rectangle rectangle;
-    private String text;
-    private int itemQuantity = 1;
-
+    public String text;
+    public boolean craftable = true;
+    
     /**
      *
      * @param x
@@ -30,23 +32,15 @@ public class InventorySlot {
      * @param height
      * @param c
      */
-    public InventorySlot(int x, int y, int width, int height, Color c) {
+    public CraftingSlot(int x, int y, int width, int height, Color c) {
         rectangle = new downtoearth.Inventorys.Rectangle(c, x, y, width, height);
         this.bounds = new Rectangle(x, y, width, height);
     }
 
-    public void setText(String x) {
+    public void setText(String x){
         text = x;
     }
-
-    public void setItemQuantity() {
-        itemQuantity++;
-    }
-
-    public int getItemQuantity() {
-        return itemQuantity;
-    }
-
+    
     //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * Get the value of rectangle
@@ -71,7 +65,7 @@ public class InventorySlot {
      *
      * @return the value of item
      */
-    public Object getItem() {
+    public Item getItem() {
         return item;
     }
 
@@ -82,6 +76,24 @@ public class InventorySlot {
      */
     public void setItem(Item hasItem) {
         this.item = hasItem;
+    }
+    
+      /**
+     * Get the value of recipe
+     *
+     * @return the value of recipe
+     */
+    public CraftingRecipe getRecipe() {
+        return recipe;
+    }
+
+    /**
+     * Set the value of item
+     *
+     * @param hasItem new value of recipe
+     */
+    public void setRecipe(CraftingRecipe recipe) {
+        this.recipe = recipe;
     }
     //</editor-fold>
 
