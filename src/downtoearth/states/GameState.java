@@ -1,20 +1,10 @@
 package downtoearth.states;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/ruud
 import downtoearth.Inventorys.Inventory;
 import downtoearth.Inventorys.InventorySlot;
 import downtoearth.Items.Item;
 import downtoearth.Items.crafting.CraftingScreen;
-
 import downtoearth.entities.ItemEntity;
-<<<<<<< HEAD
-=======
-import downtoearth.entities.NPC;
-import downtoearth.gameUtil.Camera;
->>>>>>> refs/remotes/origin/ruud
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
