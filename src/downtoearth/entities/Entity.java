@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.Point;
  *
  * @author Demian
  */
-public abstract class Entity {
+public abstract class Entity implements IEntity{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
 

@@ -10,13 +10,15 @@ import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
+import java.io.Serializable;
+import java.rmi.Remote;
 import org.newdawn.slick.SlickException;
 
 /**
  *
  * @author Demian
  */
-public abstract class Item{
+public abstract class Item implements Serializable, Remote{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private final String PATH = "res/TestItems.png";
     

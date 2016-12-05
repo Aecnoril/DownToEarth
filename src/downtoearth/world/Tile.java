@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Sanko
  */
-public class Tile {
+public class Tile implements ITile{
     public static final float SPEED = 1.3f;
     private int spritex, spritey;
     private Random random;

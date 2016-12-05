@@ -25,12 +25,26 @@ import java.util.logging.Logger;
 public class Client extends UnicastRemoteObject implements IRemotePropertyListener {
 
     private IRemotePublisherForListener publisher;
+    private Object[] gameChanges;
+    private String host;
+
+    public Object[] GetGameChanges() {
+        return gameChanges;
+    }
+
+    public void SetGameChanges(Object[] gamechanges) {
+        gameChanges = gamechanges;
+    }
+
+    public void SetHost(String host) {
+        host = host;
+    }
 
     public Client() throws RemoteException {
         try {
-            Registry registry = LocateRegistry.getRegistry("Localhost", 1099);
-            publisher = (IRemotePublisherForListener) registry.lookup("fondsenPublisher");
-            publisher.subscribeRemoteListener((IRemotePropertyListener) this, "fondsen");
+            Registry registry = LocateRegistry.getRegistry(host, 1099);
+            publisher = (IRemotePublisherForListener) registry.lookup("DownToEarthServer");
+            publisher.subscribeRemoteListener((IRemotePropertyListener) this, "ServerChanges");
         } catch (RemoteException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
@@ -40,6 +54,6 @@ public class Client extends UnicastRemoteObject implements IRemotePropertyListen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gameChanges = (Object[]) evt.getNewValue();
     }
 }

@@ -1,5 +1,7 @@
 package downtoearth.states;
 
+import RMI.Client;
+import RMI.Server;
 import downtoearth.Inventorys.Inventory;
 import downtoearth.Inventorys.InventorySlot;
 import downtoearth.Items.Item;
@@ -9,6 +11,7 @@ import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.input.Mouse;
@@ -26,11 +29,14 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class GameState extends BasicGameState {
 
+    Client c;
+    Server s;
     public static World w;
     private Inventory inv;
     private CraftingScreen cs;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+
     public static void main(String[] args) {
     }
 
@@ -44,6 +50,13 @@ public class GameState extends BasicGameState {
         w = new World(new Coordinate(mapSize, mapSize));
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
+        try {
+            Client c = new Client();
+            Server s = new Server();
+        } catch (RemoteException ex) {
+            Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
@@ -53,10 +66,10 @@ public class GameState extends BasicGameState {
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
-        g.drawString("State 3: Game", 10, 30); 
-        for(ItemEntity i : w.itemEnts){
-            if(w.getPlayer().getBounds().intersects(i.getBounds())){
-                inv.generateInventory();    
+        g.drawString("State 3: Game", 10, 30);
+        for (ItemEntity i : w.itemEnts) {
+            if (w.getPlayer().getBounds().intersects(i.getBounds())) {
+                inv.generateInventory();
                 w.itemEnts.remove(i);
                 break;
             }
@@ -65,24 +78,21 @@ public class GameState extends BasicGameState {
         if (this.inv.isInvOpen()) {
             this.inv.render(g);
         }
-        if (this.cs.isCsOpen()) {            
+        if (this.cs.isCsOpen()) {
             this.cs.render(g);
-             
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
+        s.SetGameChanges(new Object[]{w.getTiles(), w.getPlayer(), w.getMobs(), gc.getInput()});
+        c.GetGameChanges();
         w.update(gc.getInput());
         inv.ePressed(gc);
-        cs.setInventory(inv); 
-        cs.cPressed(gc);    
-//        for(InventorySlot is: inv.getInvSlots()){
-//            if(is.getItem() != null)
-//            System.out.println(((Item)is.getItem()).getName()); 
-//        }
+        cs.setInventory(inv);
+        cs.cPressed(gc);
     }
-    
+
     @Override
     public void mouseWheelMoved(int change) {
         double res = Math.floor(change * 0.1);
