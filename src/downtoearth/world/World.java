@@ -121,12 +121,12 @@ public class World implements Serializable {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        tiles.add(new Tile(0, 0, TileType.STONE, "stone"));
-        tiles.add(new Tile(580, 340, TileType.COAL, "coal"));
-        tiles.add(new Tile(580, 400, TileType.GEMSTONE, "gemstone"));
-        tiles.add(new Tile(500, 320, TileType.TREE, "tree1"));
-        tiles.add(new Tile(510, 420, TileType.TREE, "tree2"));
-        tiles.add(new Tile(540, 345, TileType.TREE, "tree3"));
+        tiles.add(new Tile(640, 1000, TileType.STONE, "stone"));
+        tiles.add(new Tile(750, 1340, TileType.COAL, "coal"));
+        tiles.add(new Tile(580, 1400, TileType.GEMSTONE, "gemstone"));
+        tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
+        tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
+        tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
                 
         this.heightMap = heightMap;
         this.colorMap = colorMap;
@@ -142,7 +142,7 @@ public class World implements Serializable {
         }
         
         p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        mobs.add(new NPC("Test", new Coordinate(620,1380), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
 
     }
     
@@ -160,8 +160,6 @@ public class World implements Serializable {
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth()/2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight()/2);
         p.render(con);
-        //g.draw(p.getBounds());
-        //g.draw(p.getColBox());
         for (NPC n : mobs)
         {
             if(n.isDead())
@@ -219,8 +217,9 @@ public class World implements Serializable {
         }
     }
     
-    public void update(Input input){
+    public void update(Input input) throws SlickException{
         this.p.move(input, this.tiles, this.mobs);
+        attack(input);
         for(ItemEntity t : this.itemEnts){
             t.move(input);
         }
@@ -228,5 +227,9 @@ public class World implements Serializable {
         {
             n.move(input);
         }       
+    }
+    
+    public void attack(Input input) throws SlickException{     
+        this.p.attack(this.tiles, this.mobs, input);
     }
 }

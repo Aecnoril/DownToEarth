@@ -1,5 +1,6 @@
 package downtoearth.world;
 
+import downtoearth.Items.Resource;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.TileType;
 import downtoearth.gameUtil.Coordinate;
@@ -64,5 +65,10 @@ public class Tile {
         bounds.setX((position.getX()+2 - portX)-16);
         bounds.setY((position.getY()+2 - portY)-16);
         manager.drawSprite(spritex, spritey, (position.getXint()) - (portX )-16, (position.getYint()) - (portY)-16);
+    }
+    
+    public Resource Destroy(){
+        System.out.println("this tile is destroyed!");
+        return null;
     }
 }

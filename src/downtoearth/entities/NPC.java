@@ -63,15 +63,8 @@ public class NPC extends LivingEntity {
         this.sManager = new SpriteManager("res/playerSprite.png");
     }
     
-     public void move(Input input){     
+    public void move(Input input){     
         
-//        if(input.isKeyDown(Input.KEY_W)){ this.location.setY(this.location.getY() + (SPEED * 4));}
-//        if(input.isKeyDown(Input.KEY_D)){ this.location.setX(this.location.getX() - (SPEED * 4));}
-//        if(input.isKeyDown(Input.KEY_S)){ this.location.setY(this.location.getY() - (SPEED * 4));}
-//        if(input.isKeyDown(Input.KEY_A)){ this.location.setX(this.location.getX() + (SPEED * 4));}
-//        
-//        bounds.setX(location.getX()+2);
-//        bounds.setY(location.getY()+2);
     }
 
     public void draw(int posX, int posY) {
