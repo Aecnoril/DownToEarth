@@ -1,12 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package downtoearth.gameUtil;
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
 
 public class Camera {
     
@@ -16,7 +8,7 @@ public class Camera {
     public Camera(int width, int height){
         this.width= width;
         this.height = height;
-        c = new Coordinate(500,300);
+        c = new Coordinate(500,1050);
     }
     
     public Coordinate getCoordinate(){
@@ -24,26 +16,26 @@ public class Camera {
     }
     
     public int getX(){
-        return c.getXint();
+        return c.getXint() - width/2;
     }
     
     public int getY(){
-        return c.getYint();
+        return c.getYint() - height/2;
     }
     
     public int getCenterPosX(){
-        return c.getXint() + width / 2;
+        return c.getXint();
     }
     
     public int getCenterPosY(){
-        return c.getYint() + height / 2;
+        return c.getYint();
     }
     
     public int getXX(){
-        return c.getXint() + width;
+        return c.getXint() + width /2;
     }
     
     public int getYY(){
-        return c.getYint() + height;
+        return c.getYint() + height /2;
     }
 }
