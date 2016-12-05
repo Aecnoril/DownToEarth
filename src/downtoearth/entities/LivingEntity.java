@@ -65,8 +65,10 @@ public abstract class LivingEntity extends Entity {
         this.spriteManager = new SpriteManager(path, 30, 59, 1, 0);
     }
 
-    public void loseHp(int damage) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void loseHp(int damage) throws SlickException {
+        System.out.println("attacked");
+        this.hitPoints = this.hitPoints - damage;
+        onDeath();
     }
 
     public void move() {
@@ -78,7 +80,7 @@ public abstract class LivingEntity extends Entity {
     }
     
         
-    public void onDeath () throws SlickException
+    public void onDeath() throws SlickException
     {
         if(this.hitPoints <= 0)
         {
@@ -86,9 +88,8 @@ public abstract class LivingEntity extends Entity {
             {
                 i.drop(this.location);
             }
-                    this.dead = true;
+            this.dead = true;
         }
-
     }
 
 }
