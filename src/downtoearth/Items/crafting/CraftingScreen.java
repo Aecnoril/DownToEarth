@@ -94,6 +94,11 @@ public class CraftingScreen {
         int temporaryY = rectangle.getY();
         int leftborder = 25;
         int topborder = 25;
+        for (InventorySlot is : inv.getInvSlots()) {
+            if (is.getItem() != null) {
+                System.out.println(((Item) is.getItem()).getName());
+            }
+        }
         CraftingManager cm = new CraftingManager();
         for (CraftingRecipe cr : cm.getRecipes()) {
             CraftingSlot r = new CraftingSlot(temporaryX + leftborder, temporaryY + topborder, 250, 75, new Color(58, 55, 55));
@@ -108,6 +113,8 @@ public class CraftingScreen {
                                 r.craftable = true;
                                 alltrue = true;
                                 break;
+                            } else {
+                                r.craftable = false;
                             }
                         } else {
                             r.craftable = false;
@@ -209,7 +216,7 @@ public class CraftingScreen {
                         }
                     }
                 }
-                inv.updateInv(inv);
+                //inv.updateInv(inv);
                 inv.generateInventory();
                 generateCraftingScreen();
             }

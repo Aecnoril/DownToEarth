@@ -134,6 +134,10 @@ public class Inventory {
 
             temporaryX += r.getRectangle().getWidth() + leftborder;
         }
+        
+        for(InventorySlot is : inventorySlots){
+            is.setItem(null);
+        }
 
         int i = 1;
         for (Item it : items) {
@@ -151,7 +155,6 @@ public class Inventory {
                 r.setItem(it);
                 i++;
             }
-
         }
     }
 
@@ -189,16 +192,15 @@ public class Inventory {
         if (gc.getInput().isKeyPressed(Input.KEY_E)) {
             if (this.invOpen) {
                 this.invOpen = false;
-            } else {                
+            } else {
                 this.invOpen = true;
+                for (Item i : items) {
+                    System.out.println(i.getName());
+                }
             }
         }
         if (this.invOpen) {
-            
             this.moveitem(gc);
-            for(Item i: items){
-                System.out.println(i.getName());
-            }
         }
     }
 
