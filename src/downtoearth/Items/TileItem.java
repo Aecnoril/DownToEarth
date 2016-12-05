@@ -31,9 +31,9 @@ public class TileItem extends Item{
     }  
      
     @Override
-    public void drop(Coordinate coord) throws SlickException {
+    public ItemEntity drop(Coordinate coord) throws SlickException {
         ItemEntity droppedEnt = new ItemEntity(name, coord, type, "res/TestItems.png", this);
         
-        GameState.w.itemEnts.add(droppedEnt);
+        return droppedEnt;
     }
 }
