@@ -1,5 +1,5 @@
 projectKey=my:DownToEarth
 serverUrl=http://localhost:9000
 dashboardUrl=http://localhost:9000/dashboard/index/my:DownToEarth
-ceTaskId=AVhjA4Je8tBfeCExGp0Z
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AVhjA4Je8tBfeCExGp0Z
+ceTaskId=AViqFvShN5jTk8hM6cEU
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AViqFvShN5jTk8hM6cEU

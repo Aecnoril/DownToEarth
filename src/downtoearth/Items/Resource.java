@@ -6,11 +6,8 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.enums.Tooltype;
-import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *
@@ -23,7 +20,7 @@ public class Resource extends Item {
     }
 
     @Override
-    public void drop(Coordinate coord) throws SlickException {
-        ItemEntity droppedEnt = new ItemEntity(name, coord, type, name, this);
+    public ItemEntity drop(Coordinate coord) throws SlickException {
+        return null;
     }
 }
