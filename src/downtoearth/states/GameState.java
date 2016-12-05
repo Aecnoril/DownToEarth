@@ -1,6 +1,7 @@
 package downtoearth.states;
 
 import downtoearth.Inventorys.Inventory;
+import downtoearth.Inventorys.InventorySlot;
 import downtoearth.Items.Item;
 import downtoearth.Items.crafting.CraftingScreen;
 
@@ -103,9 +104,10 @@ public class GameState extends BasicGameState {
         inv.ePressed(gc);
         cs.setInventory(inv); 
         cs.cPressed(gc);    
-        for(Item x: inv.getItems()){
-            System.out.println(x.getName().toString()); 
-        }
+//        for(InventorySlot is: inv.getInvSlots()){
+//            if(is.getItem() != null)
+//            System.out.println(((Item)is.getItem()).getName()); 
+//        }
     }
     
     @Override

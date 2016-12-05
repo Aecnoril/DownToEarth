@@ -7,9 +7,7 @@ package downtoearth.Inventorys;
 
 import downtoearth.Items.Item;
 import downtoearth.Items.Resource;
-import downtoearth.Items.TileItem;
 import downtoearth.enums.ResourceType;
-import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +44,9 @@ public class Inventory {
 
         try {
             items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
+            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
             items.add(new Resource("Stick", ResourceType.STICK, 100, 0));
             items.add(new Resource("Gravel", ResourceType.GRAVEL, 100, 0));
             items.add(new Resource("Steel", ResourceType.STEEL, 100, 0));
@@ -56,6 +57,10 @@ public class Inventory {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
+    public ArrayList<InventorySlot> getInvSlots() {
+        return inventorySlots;
+    }
+
     /**
      * Get the value of items
      *
@@ -107,7 +112,7 @@ public class Inventory {
     //</editor-fold>
 
     /**
-     * Generates the inventory
+     * Generates the inventory screen
      */
     public void generateInventory() {
         int temporaryX = rectangle.getX();
@@ -132,11 +137,21 @@ public class Inventory {
 
         int i = 1;
         for (Item it : items) {
+            boolean dubbelItem = false;
             InventorySlot r = inventorySlots.get(inventorySlots.size() - i);
-            if (r.getItem() == null) {
-                r.setItem(it);
+            for (InventorySlot is : inventorySlots) {
+                if (is.getItem() != null) {
+                    if (((Item) is.getItem()).getName() == it.getName()) {
+                        is.setItemQuantity();
+                        dubbelItem = true;
+                    }
+                }
             }
-            i++;
+            if (r.getItem() == null && dubbelItem == false) {
+                r.setItem(it);
+                i++;
+            }
+
         }
     }
 
@@ -154,6 +169,10 @@ public class Inventory {
                 if (r.getItem() != null) {
                     if (r.getItem() instanceof Item) {
                         ((Item) r.getItem()).render(r.getRectangle().getX(), r.getRectangle().getY(), r.getRectangle().getWidth());
+                        if (r.getItemQuantity() > 1) {
+                            g.setColor(Color.black);
+                            g.drawString(Integer.toString(r.getItemQuantity()), r.getRectangle().getX(), r.getRectangle().getY());
+                        }
                     }
                 }
             }
@@ -170,19 +189,23 @@ public class Inventory {
         if (gc.getInput().isKeyPressed(Input.KEY_E)) {
             if (this.invOpen) {
                 this.invOpen = false;
-            } else {
+            } else {                
                 this.invOpen = true;
             }
         }
         if (this.invOpen) {
+            
             this.moveitem(gc);
+            for(Item i: items){
+                System.out.println(i.getName());
+            }
         }
     }
 
-    public void updateInv(Inventory inv){
+    public void updateInv(Inventory inv) {
         items = inv.getItems();
     }
-    
+
     /**
      *
      * @param gc

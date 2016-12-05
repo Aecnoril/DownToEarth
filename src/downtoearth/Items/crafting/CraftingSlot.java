@@ -1,6 +1,7 @@
-package downtoearth.Inventorys;
+package downtoearth.Items.crafting;
 
 import downtoearth.Items.Item;
+import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,9 +19,10 @@ public class CraftingSlot {
 
     private Rectangle bounds;
     private Item item;
+    private CraftingRecipe recipe;
     private downtoearth.Inventorys.Rectangle rectangle;
     public String text;
-    public boolean craftable;
+    public boolean craftable = true;
     
     /**
      *
@@ -74,6 +76,24 @@ public class CraftingSlot {
      */
     public void setItem(Item hasItem) {
         this.item = hasItem;
+    }
+    
+      /**
+     * Get the value of recipe
+     *
+     * @return the value of recipe
+     */
+    public CraftingRecipe getRecipe() {
+        return recipe;
+    }
+
+    /**
+     * Set the value of item
+     *
+     * @param hasItem new value of recipe
+     */
+    public void setRecipe(CraftingRecipe recipe) {
+        this.recipe = recipe;
     }
     //</editor-fold>
 

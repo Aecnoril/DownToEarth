@@ -19,7 +19,9 @@ public class InventorySlot {
     private Rectangle bounds;
     private Object item;
     private downtoearth.Inventorys.Rectangle rectangle;
-    public String text;
+    private String text;
+    private int itemQuantity = 1;
+
     /**
      *
      * @param x
@@ -33,10 +35,18 @@ public class InventorySlot {
         this.bounds = new Rectangle(x, y, width, height);
     }
 
-    public void setText(String x){
+    public void setText(String x) {
         text = x;
     }
-    
+
+    public void setItemQuantity() {
+        itemQuantity++;
+    }
+
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * Get the value of rectangle
