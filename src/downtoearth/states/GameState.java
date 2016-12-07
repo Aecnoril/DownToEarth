@@ -1,10 +1,7 @@
 package downtoearth.states;
 
 import RMI.Client;
-import RMI.Server;
 import downtoearth.Inventorys.Inventory;
-import downtoearth.Inventorys.InventorySlot;
-import downtoearth.Items.Item;
 import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
@@ -14,11 +11,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -30,7 +25,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameState extends BasicGameState {
 
     Client c;
-    Server s;
     public static World w;
     private Inventory inv;
     private CraftingScreen cs;
@@ -51,8 +45,7 @@ public class GameState extends BasicGameState {
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         try {
-            Client c = new Client();
-            Server s = new Server();
+            Client c = new Client(new Object[]{w.getTiles(), w.getPlayer(), w.getMobs()}, this);
         } catch (RemoteException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -85,8 +78,6 @@ public class GameState extends BasicGameState {
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        s.SetGameChanges(new Object[]{w.getTiles(), w.getPlayer(), w.getMobs(), gc.getInput()});
-        c.GetGameChanges();
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.setInventory(inv);
