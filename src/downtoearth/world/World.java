@@ -1,12 +1,12 @@
 package downtoearth.world;
 
 import downtoearth.entities.Player;
-import downtoearth.Items.*;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
-import java.awt.image.BufferedImage;
+import downtoearth.interfaces.Observer;
+import downtoearth.states.MultiplayerState;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,9 +18,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class World implements Serializable {
+public class World implements Serializable, Observer{
     
     private final int zoom = 4;
+    private MultiplayerState state;
     private final float shaderTrans = 0.4f;
     private final Player p;
     public List<Tile> tiles;
@@ -84,28 +85,19 @@ public class World implements Serializable {
         }
     }
     
-    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
-        
+    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{    
         this.tiles = new ArrayList<Tile>();
         this.mobs = new ArrayList<NPC>();
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        tiles.add(new Tile(600, 900, TileType.STONE, "stone"));
-        tiles.add(new Tile(580, 870, TileType.COAL, "coal"));
-        tiles.add(new Tile(580, 920, TileType.GEMSTONE, "gemstone"));
-        tiles.add(new Tile(500, 910, TileType.TREE, "tree1"));
-        tiles.add(new Tile(510, 950, TileType.TREE, "tree2"));
-        tiles.add(new Tile(540, 990, TileType.TREE, "tree3"));
-        
+
         this.size = size;
         map = new Image("res/ColorMap.png");
         
         shader = new Image("res/HeightMap.png");
-        
         p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-
+        genTiles();
     }
     
     public World(Coordinate size) throws SlickException{
@@ -114,12 +106,6 @@ public class World implements Serializable {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        tiles.add(new Tile(640, 1000, TileType.STONE, "stone"));
-        tiles.add(new Tile(750, 1340, TileType.COAL, "coal"));
-        tiles.add(new Tile(580, 1400, TileType.GEMSTONE, "gemstone"));
-        tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
-        tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
-        tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
                 
         this.heightMap = heightMap;
         this.colorMap = colorMap;
@@ -127,10 +113,41 @@ public class World implements Serializable {
         map = new Image("res/ColorMap.png");
         
         shader = new Image("res/HeightMap.png");
-        
         p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
-        mobs.add(new NPC("Test", new Coordinate(620,1380), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
-
+        genTiles();
+    }
+    
+    public World(Coordinate size, MultiplayerState state) throws SlickException{
+        this.tiles = new ArrayList<Tile>();
+        this.mobs = new ArrayList<NPC>();
+        this.removeTiles = new ArrayList<Tile>();
+        this.removeMobs = new ArrayList<NPC>();
+        this.itemEnts = new ArrayList<ItemEntity>();
+        this.state = state;
+                
+        this.heightMap = heightMap;
+        this.colorMap = colorMap;
+        this.size = size;
+        map = new Image("res/ColorMap.png");
+        
+        shader = new Image("res/HeightMap.png");
+        p = new Player("henk", new Coordinate(540,360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        genTiles();
+    }
+    
+    public void genTiles(){
+        try {
+            p.register(this);
+            tiles.add(new Tile(640, 1000, TileType.STONE, "stone"));
+            tiles.add(new Tile(750, 1340, TileType.COAL, "coal"));
+            tiles.add(new Tile(580, 1400, TileType.GEMSTONE, "gemstone"));
+            tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
+            tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
+            tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
+            mobs.add(new NPC("Test", new Coordinate(400,300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }   
     }
     
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException{  
@@ -187,5 +204,10 @@ public class World implements Serializable {
     
     public void attack(Input input) throws SlickException{     
         this.p.attack(this.tiles, this.mobs, input);
+    }
+
+    @Override
+    public void update(Player p) {
+        state.updatePlayer(p.getCoordinate());
     }
 }

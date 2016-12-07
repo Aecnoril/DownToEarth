@@ -12,16 +12,14 @@ import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
+import downtoearth.interfaces.Observer;
+import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import downtoearth.world.World;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -30,11 +28,12 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Demian
  */
-public class Player extends LivingEntity{
+public class Player extends LivingEntity implements Subject{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
     public float xa, ya;
+    private List<Observer> observers;
     
     private int thirst;
     private int hunger;
@@ -45,6 +44,7 @@ public class Player extends LivingEntity{
     private boolean attack;
     private Rectangle colBox;
     private Rectangle attBox;
+    private World w;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -110,6 +110,7 @@ public class Player extends LivingEntity{
     
     public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
         super(name, location, hitPoints, path);
+        this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
         this.cam = new Camera(1080, 720);
@@ -134,8 +135,15 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
         if(!collision(tiles, entities)){
-            this.setCamX(this.getCamX() + xa);
-            this.setCamY(this.getCamY() + ya);
+            if(xa != 0){
+                this.setCamX(this.getCamX() + xa);
+                notifyObservers();
+            }
+            if(ya != 0){
+                this.setCamY(this.getCamY() + ya);
+                notifyObservers();
+            }
+
             this.coordinate = cam.getCoordinate();
         }
         else{
@@ -240,6 +248,24 @@ public class Player extends LivingEntity{
     
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void register(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void unregister(Observer o) {
+        int index = observers.indexOf(o);
+        observers.remove(index);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer ob : observers){
+            ob.update(this);
+        }
     }
 }
 

@@ -7,6 +7,7 @@ import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
@@ -16,7 +17,7 @@ import org.newdawn.slick.geom.Point;
  *
  * @author Demian
  */
-public abstract class Entity {
+public abstract class Entity{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
 
