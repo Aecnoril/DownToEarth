@@ -13,8 +13,15 @@ import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.world.Tile;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -116,7 +123,7 @@ public class Player extends LivingEntity{
         this.coordinate.setY(y);
     }
 
-    public void move(Input input, List<Tile> tiles, List<NPC> entities){   
+    public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
         moving = false;
         xa = 0;
         ya = 0;
@@ -151,38 +158,37 @@ public class Player extends LivingEntity{
         }
     }
 
-    public boolean collision(List<Tile> tiles, List<NPC> entities){
-       switch(dir){
-            case DirectionType.NORTH:
-                colBox = new Rectangle(540-13, 360-14, 26, 1);
-                break;
-               
-            case DirectionType.EAST:
-                colBox = new Rectangle(540+14, 360-13, 1, 26);
-                break;
-               
-            case DirectionType.SOUTH:
-                colBox = new Rectangle(540-13, 360+14, 26, 1);
-                break;
-               
-            case DirectionType.WEST:
-                colBox = new Rectangle(540-16, 360-13, 1, 26);
-                break;
-       }
-       for(Tile tile : tiles){
-           if(this.getColBox().intersects(tile.getBounds())){
-               return true;
-           }
-       }
-       for(NPC npc : entities)
-       {
-           if(this.getColBox().intersects(npc.getBounds())){
-               return true;
-           }
-       }
-       return false;
-    }
-    
+    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+        switch(dir){
+             case DirectionType.NORTH:
+                 colBox = new Rectangle(540-13, 360-14, 26, 1);
+                 break;
+
+             case DirectionType.EAST:
+                 colBox = new Rectangle(540+14, 360-13, 1, 26);
+                 break;
+
+             case DirectionType.SOUTH:
+                 colBox = new Rectangle(540-13, 360+14, 26, 1);
+                 break;
+
+             case DirectionType.WEST:
+                 colBox = new Rectangle(540-16, 360-13, 1, 26);
+                 break;
+        }
+        for(Tile tile : tiles){
+            if(this.getColBox().intersects(tile.getBounds())){
+                return true;
+            }
+        }
+        for(NPC npc : entities)
+        {
+            if(this.getColBox().intersects(npc.getBounds())){
+                return true;
+            }
+        }
+        return false;
+    }   
     
     public void attackCollision(List<Tile> tiles, List<NPC> entities, Input input) throws SlickException
     {

@@ -147,40 +147,11 @@ public class World implements Serializable {
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth()/2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight()/2);
         p.render(con);
-        for (NPC n : mobs)
-        {
-            if(n.isDead())
-            {
-                removeMobs.add(n);
-            }
-        }
-        if(removeMobs.size() > 0)
-        {
-            mobs.removeAll(removeMobs);
-        }
-        removeMobs.clear();
-        for(Tile t : tiles)
-        {
-            if(t.isDestroyed())
-            {
-                removeTiles.add(t);
-            }
-        }
-        if(removeTiles.size() > 0 )
-        {
-            for(Tile t : removeTiles){
-                TileItem ti = new TileItem(t.getName(), t.getType(), 0, 0);
-                ti.drop(t.getPosition());
-            }
-            tiles.removeAll(removeTiles);
-        }
-        removeTiles.clear();
+   
         for(Tile t : tiles){
             if(t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX){
                 if(t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY){
-                    t.draw(startX , startY);
-                    g.setColor(Color.red);
-                    //g.draw(t.getBounds());
+                    t.draw(startX , startY);;
                 }
             }
         }
@@ -189,8 +160,6 @@ public class World implements Serializable {
             if(n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX){
                 if(n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY){
                     n.draw(startX , startY);
-                    g.setColor(Color.red);
-                    //g.draw(n.getBounds());
                 }
             }
         }
