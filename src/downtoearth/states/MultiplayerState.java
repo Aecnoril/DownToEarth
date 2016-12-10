@@ -7,6 +7,7 @@ package downtoearth.states;
 
 import downtoearth.Inventorys.Inventory;
 import downtoearth.Items.crafting.CraftingScreen;
+import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
@@ -15,6 +16,9 @@ import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
@@ -31,6 +35,9 @@ public class MultiplayerState extends BasicGameState{
     private CraftingScreen cs;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private String id = UUID.randomUUID().toString();
+     
+    private Contestant player;
     
     private GameCommunicator com;
 
@@ -47,11 +54,12 @@ public class MultiplayerState extends BasicGameState{
         w = new World(new Coordinate(mapSize, mapSize), this);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
+        this.player = new Contestant(this.id, w.getPlayer().getCoordinate().getXint(), w.getPlayer().getCoordinate().getYint(), 10);
         try {
             this.com = new GameCommunicator(this);
             com.connectToPublisher();
-            com.register("player");
-            com.subscribe("player");
+            com.register("players");
+            com.subscribe("players");
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,15 +105,54 @@ public class MultiplayerState extends BasicGameState{
         cs.setScroll((float) res);
     }
     
-    public void updatePlayer(Coordinate coords){
-        System.out.println("Updated Player");
-        System.out.println("X: " + coords.getXint() + ", Y: " + coords.getYint());
-        String property = "player";
-        com.broadcast(property, coords);
+    public void setProperty(String property){
+        com.register(property);
     }
     
-    public void dataIn(String property, Coordinate coords){
-        System.out.println("Data In: X - " + coords.getXint() + ", Y - " + coords.getYint());
+    public void getProperties(){
+        
+    }
+    
+    public void updatePlayer(Coordinate coords){
+        this.player.setX(coords.getXint());
+        this.player.setY(coords.getYint());
+        System.out.println("Update!");
+        String property = "players";
+        com.broadcast(property, player);
+    }
+    
+    public void dataIn(Contestant data){
+        System.out.println(data.getId());
+        if(!data.getId().equalsIgnoreCase(this.id.toString())){
+            System.out.println("Data Recieved");
+            if(checkPlayerList(data)){
+                changePlayerValues(data);
+            }
+            else{
+                System.out.println("Opponents Added!");
+                w.opponents.add(data);
+            }
+        }
+    }
+    
+    public boolean checkPlayerList(Contestant c){
+        boolean exists = false;
+        for(Contestant player : w.opponents){
+            if(player.getId().equalsIgnoreCase(c.getId())){
+                System.out.println("Opponents Found!");
+                exists = true;
+            }
+        }
+        return exists;
+    }
+    
+    public void changePlayerValues(Contestant c){
+        for(Contestant con : w.opponents){
+            if(con.getId().equalsIgnoreCase(c.getId())){
+                con = c;
+                break;
+            }
+        }
     }
 }
 

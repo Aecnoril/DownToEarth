@@ -40,9 +40,8 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        String property = "player";
-        Coordinate coords = (Coordinate) evt.getNewValue();
-        state.dataIn(property,coords);
+        Contestant data = (Contestant)evt.getNewValue();
+        state.dataIn(data);
     }
     
     /**
@@ -51,10 +50,17 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
     public void connectToPublisher() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", portNumber);
-            publisherForDomain = (IRemotePublisherForDomain) registry.lookup(bindingName);
-            publisherForListener = (IRemotePublisherForListener) registry.lookup(bindingName);
-            connected = true;
-            System.out.println("Connection with remote publisher established");
+            for(String text : registry.list()){
+                System.out.println(text);
+            }
+            if(registry.list().length < 5){
+                publisherForDomain = (IRemotePublisherForDomain) registry.lookup(bindingName);
+                publisherForListener = (IRemotePublisherForListener) registry.lookup(bindingName);
+                connected = true;
+                System.out.println("Connection with remote publisher established");
+            }else{
+                System.out.println("server is full");
+            }
         } catch (RemoteException | NotBoundException re) {
             connected = false;
             System.err.println("Cannot establish connection to remote publisher");
@@ -122,13 +128,13 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      * @param property  color of draw event
      * @param drawEvent draw event
      */
-    public void broadcast(final String property, final Coordinate c) {
+    public void broadcast(final String property, final Contestant data) {
         if (connected) {
             threadPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        publisherForDomain.inform(property, null, c);
+                        publisherForDomain.inform(property, null, data);
                     } catch (RemoteException ex) {
                         Logger.getLogger(GameCommunicator.class.getName()).log(Level.SEVERE, null, ex);
                     }
