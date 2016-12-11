@@ -24,7 +24,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState {
 
-    public World w;
+    public static World w;
     private Inventory inv;
     private CraftingScreen cs;
     private static int mapSize = 5012;
