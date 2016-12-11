@@ -127,12 +127,13 @@ public class MultiplayerState extends BasicGameState{
         System.out.println(data.getId());
         if(!data.getId().equalsIgnoreCase(this.id)){
             System.out.println("Data Recieved");
-            if(checkPlayerList(data)){
+            if(checkPlayerList(data) && !data.isDead()){
                 changePlayerValues(data);
             }
             else if(data.isDead())
             {
                 w.opponents.remove(data);
+                System.out.println("Death has come!");
             }
             else{
                 System.out.println("Opponents Added!");
