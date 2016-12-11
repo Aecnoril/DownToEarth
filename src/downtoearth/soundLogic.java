@@ -20,8 +20,16 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  *
  * @author Sanko
  */
-public final class soundLogic {
+public final class SoundLogic {
 
+    /**
+     *
+     * @param clipFile
+     * @throws IOException
+     * @throws UnsupportedAudioFileException
+     * @throws LineUnavailableException
+     * @throws InterruptedException
+     */
     public static void playClip(File clipFile) throws IOException,
         UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
         class AudioListener implements LineListener {
