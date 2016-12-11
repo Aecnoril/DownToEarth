@@ -6,6 +6,7 @@ import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
 import downtoearth.states.MultiplayerState;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class World implements Serializable, Observer {
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
     public List<Contestant> opponents;
+    private SpriteManager sManager;
 
     float[][] heightMap;
 
@@ -194,10 +196,11 @@ public class World implements Serializable, Observer {
 
         if (opponents.size() != 0) {
             for (Contestant o : opponents) {
+                sManager = new SpriteManager("res/playerSprite.png");
+                SpriteLocation pos = DirectionType.getStandingSprite(DirectionType.SOUTH);
                 g.setColor(Color.red);
-                NPC n = new NPC(o.getId(), new Coordinate(o.getX(), o.getY()), o.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+                sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), o.getX() - startX -16, o.getY() - startY -16);
                 o.setBounds(startX, startY);
-                n.draw(startX, startY);
             }
         }
     }

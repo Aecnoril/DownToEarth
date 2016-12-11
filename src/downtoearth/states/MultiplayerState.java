@@ -37,6 +37,8 @@ public class MultiplayerState extends BasicGameState{
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
     private String id = UUID.randomUUID().toString();
+    
+    private GameContainer container;
      
     private Contestant player;
     
@@ -132,7 +134,13 @@ public class MultiplayerState extends BasicGameState{
             }
             else if(data.isDead())
             {
-                w.opponents.remove(data);
+                for(Contestant o : w.opponents)
+                {
+                    if(o.getId() == null ? data.getId() == null : o.getId().equals(data.getId()))
+                    {
+                        w.opponents.remove(o);
+                    }
+                }
                 System.out.println("Death has come!");
             }
             else{
@@ -143,7 +151,6 @@ public class MultiplayerState extends BasicGameState{
         if(data.getId().equalsIgnoreCase(this.id))
         {
                  updateHealthValues(data);
-                System.out.println(this.id + "||" + data.getId());
 
         }
     }
@@ -180,9 +187,15 @@ public class MultiplayerState extends BasicGameState{
                 player.setDead(true);
                 updatePlayer(w.getPlayer().getCoordinate());
                 com.unsubscribe("players");
-                game.enterState(2);
+                game.enterState(3);
+                //stop();
             }
             System.out.println(w.getPlayer().getHitPoints());
+    }
+    
+    private void stop()
+    {
+        container.exit();
     }
 }
 
