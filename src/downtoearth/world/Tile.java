@@ -8,6 +8,7 @@ import downtoearth.gameUtil.SpriteManager;
 import java.util.Random;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -18,7 +19,7 @@ public class Tile {
     public static final float SPEED = 1.3f;
     private int spritex, spritey;
     private Random random;
-    private Rectangle bounds;
+    private Circle bounds;
     private Coordinate position;
     private byte type;
     private SpriteManager manager;
@@ -33,7 +34,7 @@ public class Tile {
         return name;
     }
     
-    public Rectangle getBounds(){
+    public Circle getBounds(){
         return this.bounds;
     }
     
@@ -55,7 +56,7 @@ public class Tile {
         this.manager = new SpriteManager("res/tiles.png");
         this.type = type;
         this.name = name;
-        this.bounds = new Rectangle(position.getXint() + 2 , position.getYint() + 2, 28, 28);
+        this.bounds = new Circle(position.getXint() + 2 , position.getYint() + 2, 14, 14);
     }
     
     public void draw(int portX, int portY){
@@ -68,7 +69,6 @@ public class Tile {
     }
     
     public Resource Destroy(){
-        System.out.println("this tile is destroyed!");
         return null;
     }
 }

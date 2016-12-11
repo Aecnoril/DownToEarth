@@ -19,10 +19,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-/**
- *
- * @author Demian
- */
 public class GameState extends BasicGameState {
 
     public World w;
@@ -47,14 +43,15 @@ public class GameState extends BasicGameState {
     }
 
     @Override
-    public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {   
+    public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
+        g.setBackground(new Color(12, 54, 94));
+        
         try {
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: Game", 10, 30);
-        g.setBackground(new Color(12, 54, 94));
         
         for(ItemEntity i : w.itemEnts){
             if(w.getPlayer().getBounds().intersects(i.getBounds())){
