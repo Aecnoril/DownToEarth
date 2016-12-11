@@ -29,7 +29,7 @@ public class MenuState extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rebound = 0;
         
-        backgroundImage = new Image("src/resources/MenuBackground.png");
+        backgroundImage = new Image("res/MenuBackground.png");
         play = new Button(container.getWidth()/2, (container.getHeight() / 2) - 60, "res/startbtn.png");
         stop = new Button(container.getWidth()/2, (container.getHeight() / 2) + 60, "res/stopbtn.png");
     }
