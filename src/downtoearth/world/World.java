@@ -31,7 +31,7 @@ public class World implements Serializable, Observer {
     private List<NPC> mobs;
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
-    public List<NPC> opponents;
+    public List<Contestant> opponents;
 
     float[][] heightMap;
 
@@ -93,7 +93,7 @@ public class World implements Serializable, Observer {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        this.opponents = new ArrayList<NPC>();
+        this.opponents = new ArrayList<Contestant>();
 
         this.size = size;
         map = new Image("res/ColorMap.png");
@@ -109,7 +109,7 @@ public class World implements Serializable, Observer {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        this.opponents = new ArrayList<NPC>();
+        this.opponents = new ArrayList<Contestant>();
 
         this.heightMap = heightMap;
         this.colorMap = colorMap;
@@ -127,7 +127,7 @@ public class World implements Serializable, Observer {
         this.removeTiles = new ArrayList<Tile>();
         this.removeMobs = new ArrayList<NPC>();
         this.itemEnts = new ArrayList<ItemEntity>();
-        this.opponents = new ArrayList<NPC>();
+        this.opponents = new ArrayList<Contestant>();
         this.state = state;
 
         this.heightMap = heightMap;
@@ -193,8 +193,11 @@ public class World implements Serializable, Observer {
         }
 
         if (opponents.size() != 0) {
-            for (NPC o : opponents) {
-                o.draw(startX, startY);
+            for (Contestant o : opponents) {
+                g.setColor(Color.red);
+                NPC n = new NPC(o.getId(), new Coordinate(o.getX(), o.getY()), o.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+                o.setBounds(startX, startY);
+                n.draw(startX, startY);
             }
         }
     }
@@ -219,7 +222,7 @@ public class World implements Serializable, Observer {
         state.updatePlayer(p.getCoordinate());
     }
 
-    public void attackOpponent(NPC opponent) {
+    public void attackOpponent(Contestant opponent) {
        state.attackOpponent(opponent);
     }
 }

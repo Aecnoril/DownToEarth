@@ -10,9 +10,7 @@ import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
-import downtoearth.entities.NPC;
 import downtoearth.entities.Player;
-import downtoearth.enums.MobType;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
@@ -39,7 +37,6 @@ public class MultiplayerState extends BasicGameState{
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
     private String id = UUID.randomUUID().toString();
-    private NPC n;
      
     private Contestant player;
     
@@ -140,12 +137,7 @@ public class MultiplayerState extends BasicGameState{
             }
             else{
                 System.out.println("Opponents Added!");
-                try{
-                    n = new NPC(data.getId(), new Coordinate(data.getX(), data.getY()), data.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
-                }catch(SlickException se){
-                    se.printStackTrace();
-                }
-                w.opponents.add(n);
+                w.opponents.add(data);
             }
         }
         if(data.getId().equalsIgnoreCase(this.id))
@@ -158,8 +150,8 @@ public class MultiplayerState extends BasicGameState{
     
     public boolean checkPlayerList(Contestant c){
         boolean exists = false;
-        for(NPC player : w.opponents){
-            if(player.getName().equalsIgnoreCase(c.getId())){
+        for(Contestant player : w.opponents){
+            if(player.getId().equalsIgnoreCase(c.getId())){
                 System.out.println("Opponents Found!");
                 exists = true;
             }
@@ -168,20 +160,17 @@ public class MultiplayerState extends BasicGameState{
     }
     
     public void changePlayerValues(Contestant c){
-        for(NPC con : w.opponents){
-            if(con.getName().equalsIgnoreCase(c.getId())){
-                con.getLocation().setX(c.getX());
-                con.getLocation().setY(c.getY());
-                con.setHitPoints(c.getHealth());  
+        for(Contestant con : w.opponents){
+            if(con.getId().equalsIgnoreCase(c.getId())){
+                con = c;
                 break;
             }
         }
     }
-    public void attackOpponent(NPC opponent) {
-        System.out.println("Update attack!" + opponent.getName());
+    public void attackOpponent(Contestant opponent) {
+        System.out.println("Update attack!" + opponent.getId());
         String property = "players";
-        Contestant c = new Contestant(opponent.getName(), opponent.getLocation().getXint(), opponent.getLocation().getYint(), opponent.hitPoints);
-        com.broadcast(property, c);
+        com.broadcast(property, opponent);
     }
 
     private void updateHealthValues(Contestant data) {
