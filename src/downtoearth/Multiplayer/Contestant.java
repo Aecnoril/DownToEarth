@@ -6,6 +6,7 @@
 package downtoearth.Multiplayer;
 
 import java.io.Serializable;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
@@ -16,6 +17,8 @@ public class Contestant implements Serializable{
     private int x;
     private int y;
     private int health;
+    private Rectangle bounds;
+    private boolean dead;
 
     public String getId() {
         return id;
@@ -45,10 +48,32 @@ public class Contestant implements Serializable{
         this.health = health;
     }
     
+    public Rectangle getBounds(){
+        return this.bounds;
+    }
+    
+    public void setBounds(int posX, int posY)
+    {
+        bounds.setX(getX()+2 - posX);
+        bounds.setY(getY()+2 - posY);
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+    
+    
+    
     public Contestant(String id, int x, int y, int health){
         this.id = id;
         this.x = x;
         this.y = y;
         this.health = health;
+        this.bounds = new Rectangle(getX() + 2 , getY() + 2, 28, 28);
     }
+    
 }

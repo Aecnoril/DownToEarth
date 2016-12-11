@@ -15,6 +15,7 @@
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/entities/Player.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/database/ServerAPI.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/Items/crafting/CraftingManager.java</file>
+            <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/fontyspublisher/Publisher.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/Items/TileItem.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/enums/DirectionType.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/states/LoginState.java</file>
@@ -22,6 +23,7 @@
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/entities/LivingEntity.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/states/gui/Button.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/Items/Resource.java</file>
+            <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/Multiplayer/GameCommunicator.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/world/Tile.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/enums/TileType.java</file>
             <file>file:/C:/Users/Sanko/Documents/GitHub/DownToEarth/src/downtoearth/states/GameState.java</file>

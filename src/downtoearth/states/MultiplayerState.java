@@ -33,6 +33,7 @@ public class MultiplayerState extends BasicGameState{
     public World w;
     private Inventory inv;
     private CraftingScreen cs;
+    private StateBasedGame game;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
     private String id = UUID.randomUUID().toString();
@@ -51,10 +52,11 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        w = new World(new Coordinate(mapSize, mapSize), this);
+        this.game = game;
+        w = new World(new Coordinate(mapSize, mapSize), this, id);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
-        this.player = new Contestant(this.id, w.getPlayer().getCoordinate().getXint(), w.getPlayer().getCoordinate().getYint(), 10);
+        this.player = new Contestant(this.id, w.getPlayer().getCoordinate().getXint(), w.getPlayer().getCoordinate().getYint(), w.getPlayer().getHitPoints());
         try {
             this.com = new GameCommunicator(this);
             com.connectToPublisher();
@@ -123,15 +125,25 @@ public class MultiplayerState extends BasicGameState{
     
     public void dataIn(Contestant data){
         System.out.println(data.getId());
-        if(!data.getId().equalsIgnoreCase(this.id.toString())){
+        if(!data.getId().equalsIgnoreCase(this.id)){
             System.out.println("Data Recieved");
             if(checkPlayerList(data)){
                 changePlayerValues(data);
+            }
+            else if(data.isDead())
+            {
+                w.opponents.remove(data);
             }
             else{
                 System.out.println("Opponents Added!");
                 w.opponents.add(data);
             }
+        }
+        if(data.getId().equalsIgnoreCase(this.id))
+        {
+                 updateHealthValues(data);
+                System.out.println(this.id + "||" + data.getId());
+
         }
     }
     
@@ -153,6 +165,23 @@ public class MultiplayerState extends BasicGameState{
                 break;
             }
         }
+    }
+    public void attackOpponent(Contestant opponent) {
+        System.out.println("Update attack!" + opponent.getId());
+        String property = "players";
+        com.broadcast(property, opponent);
+    }
+
+    private void updateHealthValues(Contestant data) {
+            w.getPlayer().setHitPoints(data.getHealth());
+            if(w.getPlayer().getHitPoints() == 0)
+            {
+                player.setDead(true);
+                updatePlayer(w.getPlayer().getCoordinate());
+                com.unsubscribe("players");
+                game.enterState(2);
+            }
+            System.out.println(w.getPlayer().getHitPoints());
     }
 }
 
