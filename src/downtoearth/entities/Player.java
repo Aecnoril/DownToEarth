@@ -200,7 +200,7 @@ public class Player extends LivingEntity implements Subject{
         return false;
     }   
     
-    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<NPC> opponents, Input input) throws SlickException
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
     {
         final int RANGE = 10;
         switch(dir){
@@ -240,9 +240,9 @@ public class Player extends LivingEntity implements Subject{
                      }
                  }
              }
-             for(NPC o : opponents)
+             for(Contestant o : opponents)
              {
-                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getName() == null ? this.name != null : !o.getName().equals(this.name))){
+                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getId() == null ? this.name != null : !o.getId().equals(this.name))){
                      this.attackOpponent(o);
                      break;
                  }
@@ -250,7 +250,7 @@ public class Player extends LivingEntity implements Subject{
         }
     }
     
-    public void attack(List<Tile> tiles, List<NPC> entities, List<NPC> opponents, Input input) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
     {
         attackCollision(tiles, entities, opponents, input);
     }
@@ -259,10 +259,11 @@ public class Player extends LivingEntity implements Subject{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public void attackOpponent(NPC opponent)
+    public void attackOpponent(Contestant opponent)
     {
         System.out.println("Attack!");
-        int hp = opponent.hitPoints - 10;
+        int hp = opponent.getHealth() - 10;
+        opponent.setHealth(hp);
         w.attackOpponent(opponent);
     }
 
