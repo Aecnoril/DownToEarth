@@ -3,6 +3,7 @@ package downtoearth.states;
 import downtoearth.states.gui.Button;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -11,6 +12,7 @@ public class MenuState extends BasicGameState {
 
     private Button play;
     private Button stop;
+    private Image backgroundImage;
     
     private int rebound;
 
@@ -27,6 +29,7 @@ public class MenuState extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rebound = 0;
         
+        backgroundImage = new Image("src/resources/MenuBackground.png");
         play = new Button(container.getWidth()/2, (container.getHeight() / 2) - 60, "res/startbtn.png");
         stop = new Button(container.getWidth()/2, (container.getHeight() / 2) + 60, "res/stopbtn.png");
     }
@@ -35,6 +38,7 @@ public class MenuState extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         //TODO: implement
         g.drawString("State 1: Menu", 0, 30);
+        g.drawImage(backgroundImage, 0, 0);
         play.render(play.hover(container.getInput()));
         stop.render(stop.hover(container.getInput()));       
     }
