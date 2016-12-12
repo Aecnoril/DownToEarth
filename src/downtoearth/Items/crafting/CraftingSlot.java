@@ -22,7 +22,7 @@ public class CraftingSlot {
     private CraftingRecipe recipe;
     private downtoearth.Inventorys.Rectangle rectangle;
     public String text;
-    public boolean craftable = true;
+    public boolean craftable = false;
     
     /**
      *

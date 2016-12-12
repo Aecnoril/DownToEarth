@@ -39,8 +39,12 @@ public class InventorySlot {
         text = x;
     }
 
-    public void setItemQuantity() {
+    public void addItemQuantity() {
         itemQuantity++;
+    }
+
+    public void setItemQuantity(int quantity) {
+        itemQuantity = quantity;
     }
 
     public int getItemQuantity() {

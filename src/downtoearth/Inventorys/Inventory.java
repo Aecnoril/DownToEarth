@@ -134,8 +134,8 @@ public class Inventory {
 
             temporaryX += r.getRectangle().getWidth() + leftborder;
         }
-        
-        for(InventorySlot is : inventorySlots){
+
+        for (InventorySlot is : inventorySlots) {
             is.setItem(null);
         }
 
@@ -146,7 +146,7 @@ public class Inventory {
             for (InventorySlot is : inventorySlots) {
                 if (is.getItem() != null) {
                     if (((Item) is.getItem()).getName() == it.getName()) {
-                        is.setItemQuantity();
+                        is.addItemQuantity();
                         dubbelItem = true;
                     }
                 }
@@ -216,15 +216,19 @@ public class Inventory {
         for (InventorySlot is : this.inventorySlots) {
             if (is.detectMouse(gc.getInput())) {
                 if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                    //is.getItem().drop();
+                    items.remove(is.getItem());
                     is.setItem(null);
                 } else if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
                     if (selectedSlot != null && is.getItem() != null) {
                         Item i = (Item) selectedSlot.getItem();
+                        int quantity = selectedSlot.getItemQuantity();
                         selectedSlot.setItem((Item) is.getItem());
+                        selectedSlot.setItemQuantity(is.getItemQuantity());
                         is.setItem(i);
+                        is.setItemQuantity(quantity);
                     } else if (selectedSlot != null) {
                         is.setItem((Item) selectedSlot.getItem());
+                        is.setItemQuantity(selectedSlot.getItemQuantity());
                         selectedSlot.setItem(null);
                     }
                     if (selectedSlot == null) {

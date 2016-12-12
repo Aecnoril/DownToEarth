@@ -49,7 +49,7 @@ public class GameState extends BasicGameState {
         } catch (RemoteException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override
@@ -78,7 +78,9 @@ public class GameState extends BasicGameState {
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        w.update(gc.getInput());
+        if (!inv.isInvOpen() && !cs.isCsOpen()) {
+            w.update(gc.getInput());
+        }
         inv.ePressed(gc);
         cs.setInventory(inv);
         cs.cPressed(gc);
@@ -86,7 +88,9 @@ public class GameState extends BasicGameState {
 
     @Override
     public void mouseWheelMoved(int change) {
-        double res = Math.floor(change * 0.1);
-        cs.setScroll((float) res);
+        if (cs.isCsOpen()) {
+            double res = Math.floor(change * 0.1);
+            cs.setScroll((float) res);
+        }
     }
 }

@@ -12,8 +12,11 @@ import downtoearth.Inventorys.Rectangle;
 import downtoearth.Items.Item;
 import downtoearth.Items.Resource;
 import java.awt.Font;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -33,13 +36,20 @@ public class CraftingScreen {
     private float scroll;
     private ArrayList<Item> items = new ArrayList<>();
     private Inventory inv;
+    private CraftingManager cm;
 
     public CraftingScreen(int x, int y, int width, int height, Color c) {
+        cm = new CraftingManager();
         rectangle = new Rectangle(c, x, y, width, height);
     }
 
     public void setScroll(float x) {
-        scroll += x;
+        for (CraftingSlot is : Craftables) {
+            if (is.craftable && is.getRectangle().getY() >= 90 - scroll && is.getRectangle().getY() <= 525 - scroll) {
+                
+                scroll += x;
+            }
+        }
     }
 
     public void setInventory(Inventory x) {
@@ -48,6 +58,10 @@ public class CraftingScreen {
 
     public ArrayList<Item> getInventory() {
         return items;
+    }
+
+    public ArrayList<CraftingSlot> getCraftables() {
+        return Craftables;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -99,9 +113,8 @@ public class CraftingScreen {
                 System.out.println(((Item) is.getItem()).getName());
             }
         }
-        CraftingManager cm = new CraftingManager();
         for (CraftingRecipe cr : cm.getRecipes()) {
-            CraftingSlot r = new CraftingSlot(temporaryX + leftborder, temporaryY + topborder, 250, 75, new Color(58, 55, 55));
+            CraftingSlot r = new CraftingSlot(temporaryX + leftborder, temporaryY + topborder, 300, 75, new Color(58, 55, 55));
             String recipeText = "";
             ArrayList<Object> receptenlijst = new ArrayList(Arrays.asList(cr.getIngredients()));
             boolean alltrue = false;
@@ -121,15 +134,13 @@ public class CraftingScreen {
                         }
                     }
                 }
-                // Hoeveelheid = receptenlijst.get(i + 1);
             }
-            int i = -1;
-            for (Object o : cr.getIngredients()) {
 
+            recipeText += " " + cr.getResult().getName() + ": ";
+            for (Object o : receptenlijst) {
                 if (o instanceof Resource) {
-                    recipeText += " " + ((Resource) o).getName();
+                    recipeText += ((Resource) o).getName() + " ";
                 }
-                i++;
             }
             r.setText(recipeText);
             r.setRecipe(cr);
@@ -193,18 +204,21 @@ public class CraftingScreen {
      */
     public void selectedRecipe(GameContainer gc) {
         for (CraftingSlot is : Craftables) {
-            CraftingSlot is2 = new CraftingSlot(is.getRectangle().getX(), (int) (is.getRectangle().getY() + scroll), is.getRectangle().getWidth(), is.getRectangle().getHeight(), is.getRectangle().getColor());
-            if (is2.detectMouse(gc.getInput())) {
-                if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                    selectedSlot.setText(is.getItem().getName());
-                    selectedSlot.setItem(is.getItem());
-                    selectedSlot.setRecipe(is.getRecipe());
+            if (is.craftable && is.getRectangle().getY() >= 90 - scroll && is.getRectangle().getY() <= 525 - scroll) {
+                CraftingSlot is2 = new CraftingSlot(is.getRectangle().getX(), (int) (is.getRectangle().getY() + scroll), is.getRectangle().getWidth(), is.getRectangle().getHeight(), is.getRectangle().getColor());
+                if (is2.detectMouse(gc.getInput())) {
+                    if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
+                        selectedSlot.setText(is.getItem().getName());
+                        selectedSlot.setItem(is.getItem());
+                        selectedSlot.setRecipe(is.getRecipe());
+                    }
                 }
             }
         }
         if (selectedSlot.detectMouse(gc.getInput())) {
-            if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
+            if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
                 System.out.println("ItemCreated");
+                selectedSlot.setText("Item Created!");
                 inv.getItems().add(selectedSlot.getItem());
                 for (Object o : selectedSlot.getRecipe().getIngredients()) {
                     for (Item i : inv.getItems()) {
