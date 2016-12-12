@@ -188,15 +188,14 @@ public class MultiplayerState extends BasicGameState{
                 player.setDead(true);
                 updatePlayer(w.getPlayer().getCoordinate());
                 com.unsubscribe("players");
-                game.enterState(3);
-                //stop();
+                stop();
             }
             System.out.println(w.getPlayer().getHitPoints());
     }
     
     private void stop()
     {
-        container.exit();
+        game.enterState(5);
     }
 }
 

@@ -31,8 +31,8 @@ public class OptionState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        play = new Button(container.getWidth() / 2, (container.getHeight() / 2) - 60, "res/startbtn.png");
-        stop = new Button(container.getWidth() / 2, (container.getHeight() / 2) + 60, "res/stopbtn.png");
+        play = new Button(container.getWidth() / 2, (container.getHeight() / 2) - 60, "res/singlebtn.png");
+        stop = new Button(container.getWidth() / 2, (container.getHeight() / 2) + 60, "res/multibtn.png");
     }
 
     @Override
@@ -46,12 +46,10 @@ public class OptionState extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         if (play.clicked(gc.getInput())) {
-            game.enterState(3);
-
-            if (stop.clicked(gc.getInput())) {
                 game.enterState(2);
-            }
-
+        }
+        if (stop.clicked(gc.getInput())) {
+                game.enterState(3);
         }
     }
 }

@@ -49,7 +49,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      */
     public void connectToPublisher() {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", portNumber);
+            Registry registry = LocateRegistry.getRegistry("192.168.2.1", portNumber);
             for(String text : registry.list()){
                 System.out.println(text);
             }
@@ -128,7 +128,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      * @param property  color of draw event
      * @param drawEvent draw event
      */
-    public void broadcast(final String property, final Contestant data) {
+    public synchronized void broadcast(final String property, final Contestant data) {
         if (connected) {
             threadPool.execute(new Runnable() {
                 @Override

@@ -5,7 +5,6 @@
         <group>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/Multiplayer/GameCommunicator.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/Multiplayer/Contestant.java</file>
-            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/Multiplayer/GameServer.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/world/World.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/states/GameState.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/entities/NPC.java</file>
@@ -13,6 +12,7 @@
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/entities/Entity.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/entities/LivingEntity.java</file>
             <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/entities/Player.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/states/MenuState.java</file>
         </group>
     </open-files>
 </project-private>
