@@ -1,6 +1,5 @@
 package downtoearth.states;
 
-import RMI.Client;
 import downtoearth.Inventorys.Inventory;
 import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.entities.ItemEntity;
@@ -23,8 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Demian
  */
 public class GameState extends BasicGameState {
-
-    Client c;
+    
     public static World w;
     private Inventory inv;
     private CraftingScreen cs;
@@ -44,12 +42,6 @@ public class GameState extends BasicGameState {
         w = new World(new Coordinate(mapSize, mapSize));
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
-        try {
-            Client c = new Client(new Object[]{w.getTiles(), w.getPlayer(), w.getMobs()}, this);
-        } catch (RemoteException ex) {
-            Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     @Override
