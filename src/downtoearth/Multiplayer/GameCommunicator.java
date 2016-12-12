@@ -49,7 +49,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      */
     public void connectToPublisher() {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", portNumber);
+            Registry registry = LocateRegistry.getRegistry("192.168.2.1", portNumber);
             for(String text : registry.list()){
                 System.out.println(text);
             }
