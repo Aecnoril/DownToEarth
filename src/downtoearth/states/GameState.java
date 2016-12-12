@@ -6,19 +6,15 @@ import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;
 import downtoearth.gameUtil.Camera;
-import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -91,12 +87,10 @@ public class GameState extends BasicGameState {
     }
 
     @Override
-    public void mouseWheelMoved(int change) {          
-        double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res);
-        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            System.out.println("Attack");
-            w.getPlayer().attackCollision();
-        }      
+    public void mouseWheelMoved(int change) {   
+        if(cs.isCsOpen()){
+            double res = Math.floor(change * 0.15);
+            cs.setScroll((float)res); 
+        }   
     }
 }
