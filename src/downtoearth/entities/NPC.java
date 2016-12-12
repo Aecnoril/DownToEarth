@@ -11,6 +11,8 @@ import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import static downtoearth.world.Tile.SPEED;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -20,11 +22,13 @@ import org.newdawn.slick.geom.Rectangle;
 /**
  *
  * @author Demian
+ * @author Sander
  */
 public class NPC extends LivingEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private MobType type;
+    private int count;
     
     private Rectangle bounds;
     private byte dir;
@@ -56,51 +60,21 @@ public class NPC extends LivingEntity {
     
     public NPC(String name, Coordinate location, int hitPoints, MobType type, String path) throws SlickException {
         super(name, location, hitPoints, path);
+        this.count = 0;
         this.type = type;
         this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
         this.sManager = new SpriteManager("res/playerSprite.png");
     }
     
-     public void move(Input input){     
+    public void move(Input input){     
         
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W)){
-            location.setY(location.getY() + (SPEED * 4));
-            location.setX(location.getX() - (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_W)){
-            location.setY(location.getY() + (SPEED * 4));
-        }
-        
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S)){
-            location.setY(location.getY() - (SPEED * 4));
-            location.setX(location.getX() - (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_D)){
-            location.setX(location.getX() - (SPEED * 4));
-        }
-        
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A)){
-            location.setY(location.getY() - (SPEED * 4));
-            location.setX(location.getX() + (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_S)){
-            location.setY(location.getY() - (SPEED * 4));
-        }
-        
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W)){
-            location.setY(location.getY() + (SPEED * 4));
-            location.setX(location.getX() + (SPEED * 4));
-        }
-        else if(input.isKeyDown(Input.KEY_A)){
-            location.setX(location.getX() + (SPEED * 4));
-        }
-        bounds.setX(location.getX()+2);
-        bounds.setY(location.getY()+2);
     }
 
-    public void draw() {
+    public void draw(int posX, int posY) {    
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
-        sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint(), location.getYint());
+        bounds.setX(location.getX()+2 - posX);
+        bounds.setY(location.getY()+2 - posY);
+        sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX -16, location.getYint() - posY -16);
     }
 }

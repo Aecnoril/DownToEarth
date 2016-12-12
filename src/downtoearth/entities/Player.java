@@ -6,64 +6,54 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.Items.Resource;
+import downtoearth.Multiplayer.Contestant;
 import downtoearth.enums.DirectionType;
-import downtoearth.enums.ResourceType;
 import downtoearth.enums.SpriteLocation;
-import downtoearth.enums.TileType;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
-import downtoearth.gameUtil.CollisionCheck;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
+import downtoearth.interfaces.Observer;
+import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
  *
  * @author Demian
  */
-public class Player extends LivingEntity{
+public class Player extends LivingEntity implements Subject{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
-    public static final float SPEED = 0.3f;
+    public float xa, ya;
+    private List<Observer> observers;
     
     private int thirst;
     private int hunger;
     private byte dir;
-    private Line colLine;
     private Camera cam;
     private boolean moving;
     private Coordinate coordinate;
-    private CollisionCheck cCheck;
-    private Line attackColLine;
     private boolean attack;
+    private Rectangle colBox;
+    private Rectangle attBox;
+    private World w;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
 
-    /**
-     * Get the value of thirst
-     *
-     * @return the value of thirst
-     */
     public int getThirst() {
         return thirst;
     }
-    
-    /**
-     * Get the value of hunger
-     *
-     * @return the value of hunger
-     */
+
     public int getHunger() {
         return hunger;
     }
@@ -72,16 +62,36 @@ public class Player extends LivingEntity{
         return this.cam;
     }
     
+    public float getCamX(){
+        return this.cam.getCoordinate().getX();
+    }
+    
+    public float getCamY(){
+        return this.cam.getCoordinate().getY();
+    }
+    
+    public void setCamX(float value){
+        cam.getCoordinate().setX(value);
+    }
+    
+    public void setCamY(float value){
+        cam.getCoordinate().setY(value);
+    }
+    
     public Coordinate getCoordinate(){
-        return this.coordinate;
+        return this.cam.getCoordinate();
     }
     
     public Rectangle getBounds(){
         return new Rectangle( 542 - 16, 362 - 16, 28, 28);
     }
     
-    public Line getColLine(){
-        return this.colLine;
+    public Rectangle getColBox(){
+        return colBox;
+    }
+    
+    public Rectangle getAttackBox(){
+        return attBox;
     }
 
     public byte getDir() {
@@ -96,83 +106,51 @@ public class Player extends LivingEntity{
         return this.attack;
     }
     
-    public Line getAttackColLine(){
-        return this.attackColLine;
-    }
-    
 
     //</editor-fold>
     
-    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Coordinate location, int hitPoints, String path, World w) throws SlickException {
         super(name, location, hitPoints, path);
+        this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
         this.cam = new Camera(1080, 720);
         this.dir = DirectionType.NORTH;
         this.moving = false;
-        this.colLine = new Line(540, 360, 540, 360 + 20);
         this.coordinate = new Coordinate(540,360);
-        this.cCheck = new CollisionCheck();
+        this.w = w;
     }
     
     public void setSpawnPoint(int x, int y){
         this.coordinate.setX(x);
         this.coordinate.setY(y);
     }
-    
-    public void move(Input input, List<Tile> tiles){     
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_W) && !cCheck.isNorthCol()){
-            this.colLine = new Line(540, 360, 540, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            dir = DirectionType.NORTH;
-            moving = true;
-        }
 
-        if(input.isKeyDown(Input.KEY_D) && input.isKeyDown(Input.KEY_S) && !cCheck.isSouthEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_D) && !cCheck.isEastCol()){
-            this.colLine = new Line(540, 360, 540 + 20, 360);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() + SPEED);
-            dir = DirectionType.EAST;
-            moving = true;
-        }
+    public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
+        moving = false;
+        xa = 0;
+        ya = 0;
+        
+        if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
+        if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}
+        if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
+        if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
+        
+        if(!collision(tiles, entities)){
+            if(xa != 0){
+                this.setCamX(this.getCamX() + xa);
+                notifyObservers();
+            }
+            if(ya != 0){
+                this.setCamY(this.getCamY() + ya);
+                notifyObservers();
+            }
 
-        if(input.isKeyDown(Input.KEY_S) && input.isKeyDown(Input.KEY_A) && !cCheck.isSouthWestCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            moving = true;
+            this.coordinate = cam.getCoordinate();
         }
-        else if(input.isKeyDown(Input.KEY_S) && !cCheck.isSouthCol()){
-            this.colLine = new Line(540, 360, 540, 360 + 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() + SPEED);
-            dir = DirectionType.SOUTH;
-            moving = true;
+        else{
+            moving = false;
         }
-
-        if(input.isKeyDown(Input.KEY_A) && input.isKeyDown(Input.KEY_W) && !cCheck.isNorthEastCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360 - 20);
-            cam.getCoordinate().setY(cam.getCoordinate().getY() - SPEED);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            moving = true;
-        }
-        else if(input.isKeyDown(Input.KEY_A) && !cCheck.isEastCol()){
-            this.colLine = new Line(540, 360, 540 - 20, 360);
-            cam.getCoordinate().setX(cam.getCoordinate().getX() - SPEED);
-            dir = DirectionType.WEST;
-            moving = true;
-        } 
-        cCheck.clearCol();
     }
     
     public void render(GameContainer con) throws SlickException{
@@ -181,167 +159,130 @@ public class Player extends LivingEntity{
             aManager.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), con.getWidth() / 2 - 16, con.getHeight() / 2 - 16);
+            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
         }
-    }
-    
-    public void collision(){
-        cCheck.clearCol();
-            switch(dir){
-                case DirectionType.NORTH:
-                    {
-                        System.out.println("North Collision");
-                        cCheck.setNorthCol(true);
-                    }
-                case DirectionType.NORTHEAST:
-                    {
-                        System.out.println("NorthEast Collision");
-                        cCheck.setNorthEastCol(true);
-                    }
-                case DirectionType.EAST:
-                    {
-                        System.out.println("East Collision");
-                        cCheck.setEastCol(true);
-                    }
-                case DirectionType.SOUTHEAST:
-                    {
-                        System.out.println("SouthEast Collision");
-                        cCheck.setSouthEastCol(true);
-                    }
-                case DirectionType.SOUTH:
-                    {
-                        System.out.println("South Collision");
-                        cCheck.setSouthCol(true);
-                    }
-                case DirectionType.SOUTHWEST:
-                    {
-                        System.out.println("SouthWest Collision");
-                        cCheck.setSouthWestCol(true);
-                    }
-                case DirectionType.WEST:
-                    {
-                        System.out.println("West Collision");
-                        cCheck.setWestCol(true);
-                    }
-                case DirectionType.NORTHWEST:
-                    {
-                        System.out.println("NorthWest Collision");
-                        cCheck.setNorthWestCol(true);
-                    }
-            }
-        }
-    
-    public void attackCollision()
-    {
-        attack = true;
-            switch(dir){
-                case DirectionType.NORTH:
-                    {
-                        this.attackColLine = new Line(540, 360, 540, 360 - 40);
-                        break;
-                        
-                    }
-                case DirectionType.NORTHEAST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 + 40, 360 - 40);
-                        break;
-                        
-                    }
-                case DirectionType.EAST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 + 40, 360);
-                        break;
-                        
-                        
-                    }
-                case DirectionType.SOUTHEAST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 + 40, 360 + 40);
-                        break;
-                        
-                    }
-                case DirectionType.SOUTH:
-                    {
-                        this.attackColLine = new Line(540, 360, 540, 360 + 40);
-                        break;
-                        
-                    }
-                case DirectionType.SOUTHWEST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 - 40, 360 + 40);
-                        break;
-                        
-                    }
-                case DirectionType.WEST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 - 40, 360);
-                        break;
-                        
-                    }
-                case DirectionType.NORTHWEST:
-                    {
-                        this.attackColLine = new Line(540, 360, 540 - 40, 360 - 40);
-                        break;
-                    }
-            }
-            //this.attackColLine = new Line(540, 360);
-        }
-    
-    public void attack(NPC n) throws SlickException
-    {
-        if(attack)
-        {
-            n.setHitPoints(n.hitPoints - 10);
-            System.out.println(n.hitPoints);
+        
+        if(attack){
+            aManager.DrawAttack(this.dir, con);
             attack = false;
-            n.onDeath();
         }
-        
-        this.attackColLine = new Line(540, 360);
+    }
 
+    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+        switch(dir){
+             case DirectionType.NORTH:
+                 colBox = new Rectangle(540-13, 360-14, 26, 1);
+                 break;
 
+             case DirectionType.EAST:
+                 colBox = new Rectangle(540+14, 360-13, 1, 26);
+                 break;
+
+             case DirectionType.SOUTH:
+                 colBox = new Rectangle(540-13, 360+14, 26, 1);
+                 break;
+
+             case DirectionType.WEST:
+                 colBox = new Rectangle(540-16, 360-13, 1, 26);
+                 break;
+        }
+        for(Tile tile : tiles){
+            if(this.getColBox().intersects(tile.getBounds())){
+                return true;
+            }
+        }
+        for(NPC npc : entities)
+        {
+            if(this.getColBox().intersects(npc.getBounds())){
+                return true;
+            }
+        }
+        return false;
+    }   
+    
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
+    {
+        final int RANGE = 10;
+        switch(dir){
+             case DirectionType.NORTH:
+                 attBox = new Rectangle(540-13, 360-24, 26, RANGE);
+                 break;
+
+             case DirectionType.EAST:
+                 attBox = new Rectangle(540+14, 360-13, RANGE, 26);
+                 break;
+
+             case DirectionType.SOUTH:
+                 attBox = new Rectangle(540-13, 360+14, 26, RANGE);
+                 break;
+
+             case DirectionType.WEST:
+                 attBox = new Rectangle(540-23, 360-13, RANGE, 26);
+                 break;
+        } 
+
+        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            attack = true;
+             for(Tile tile : tiles){
+                 if(this.getAttackBox().intersects(tile.getBounds())){
+                     tile.Destroy();
+                     tiles.remove(tile);
+                     break;
+                 }
+             }
+             for(NPC npc : entities)
+             {
+                 if(this.getAttackBox().intersects(npc.getBounds()) && "Test".equals(npc.name)){
+                     npc.loseHp(10);
+                     if(npc.isDead()){
+                         entities.remove(npc);
+                         break;
+                     }
+                 }
+             }
+             for(Contestant o : opponents)
+             {
+                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getId() == null ? this.name != null : !o.getId().equals(this.name))){
+                     this.attackOpponent(o);
+                     break;
+                 }
+             }
+        }
     }
     
-    public void attack(Tile t) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
     {
-        if(attack)
-        {
-            switch(t.getType())
-        {
-            case TileType.COAL:
-            {
-                Resource coal = new Resource("Coal", ResourceType.COAL, 100, 0);
-                this.inventory.add(coal);
-                System.out.println("Added Coal");
-                break;
-            }
-            case TileType.GEMSTONE:
-            {   
-                Resource gem = new Resource("Gemstone", ResourceType.GEMSTONE, 100, 0);
-                this.inventory.add(gem);
-                break;
-            }
-            case TileType.STONE:
-            {
-                Resource stone = new Resource("Stone", ResourceType.STONE, 100, 0);
-                this.inventory.add(stone);
-                break;
-            }
-            case TileType.TREE:
-            {
-                Resource wood = new Resource("Wood", ResourceType.WOOD, 100, 0);
-                this.inventory.add(wood);
-                break;
-            }
-        }
-        attack = false;
-        }
-        t.setDestroyed(true);
-        this.attackColLine = new Line(540, 360);
-        
+        attackCollision(tiles, entities, opponents, input);
     }
+    
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void attackOpponent(Contestant opponent)
+    {
+        System.out.println("Attack!");
+        int hp = opponent.getHealth() - 10;
+        opponent.setHealth(hp);
+        w.attackOpponent(opponent);
+    }
+
+    @Override
+    public void register(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void unregister(Observer o) {
+        int index = observers.indexOf(o);
+        observers.remove(index);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer ob : observers){
+            ob.update(this);
+        }
     }
 }
 

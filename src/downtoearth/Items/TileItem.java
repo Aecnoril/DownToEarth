@@ -6,31 +6,34 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.enums.Tooltype;
-import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.states.GameState;
+import downtoearth.world.Tile;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *
  * @author Demian
  */
 public class TileItem extends Item{
+    private Coordinate location;
     
     public TileItem(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
     
-    public void place(){
-        //TODO: implement
+    public Tile place() throws SlickException{
+        Tile tile;
+        location = GameState.w.getPlayer().getCoordinate();
+        
+        tile = new Tile((int)location.x, (int)location.y, this.type, this.name);
+        return tile;
     }  
      
     @Override
-    public void drop(Coordinate coord) throws SlickException {
+    public ItemEntity drop(Coordinate coord) throws SlickException {
         ItemEntity droppedEnt = new ItemEntity(name, coord, type, "res/TestItems.png", this);
         
-        GameState.w.itemEnts.add(droppedEnt);
+        return droppedEnt;
     }
 }

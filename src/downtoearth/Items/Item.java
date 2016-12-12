@@ -5,6 +5,7 @@
  */
 package downtoearth.Items;
 
+import downtoearth.entities.ItemEntity;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
 import downtoearth.gameUtil.Coordinate;
@@ -70,5 +71,5 @@ public abstract class Item{
         manager.scaleSprite(spritex, spritey, xpos, ypos, size);
     }
     
-    public abstract void drop(Coordinate coord) throws SlickException;
+    public abstract ItemEntity drop(Coordinate coord) throws SlickException;
 }

@@ -6,53 +6,44 @@
 package downtoearth.Items.crafting;
 
 import downtoearth.Items.Item;
-import java.util.ArrayList;
 
 /**
  *
  * @author Sanko
  */
 public class CraftingRecipe {
-    
-        private String name;
+
+    private final Item result;
+    private final int nrOfItems;
+    private final Object[] ingredients;
 
     /**
-     * Get the value of name
-     *
-     * @return the value of name
+     * this class is for storing which items are needed to craft a certain item and how many of that item are created.
+     * @param result
+     * @param nrOfItems
+     * @param ingredients 
      */
-    public String getName() {
-        return name;
+    public CraftingRecipe(Item result, int nrOfItems, Object[] ingredients) {
+        this.result = result;
+        this.nrOfItems = nrOfItems;
+        this.ingredients = ingredients;
     }
-
-    /**
-     * Set the value of name
-     *
-     * @param name new value of name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-        private ArrayList<Item> resources;
 
     /**
      * Get the value of resources
      *
      * @return the value of resources
      */
-    public ArrayList<Item> getResources() {
-        return resources;
+    public Object[] getIngredients() {
+        return ingredients;
     }
 
     /**
-     * Set the value of resources
-     *
-     * @param resources new value of resources
+     * Get the value of Result
+     * 
+     * @return 
      */
-    public void setResources(ArrayList<Item> resources) {
-        this.resources = resources;
+    public Item getResult() {
+        return result;
     }
-
-    
 }

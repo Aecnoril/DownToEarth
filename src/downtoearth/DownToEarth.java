@@ -24,6 +24,7 @@ public class DownToEarth extends StateBasedGame {
     
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        this.addState(new MultiplayerState());
         this.addState(new LoginState());
         this.addState(new MenuState());
         this.addState(new OptionState());

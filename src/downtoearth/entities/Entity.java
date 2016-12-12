@@ -6,6 +6,8 @@ import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Point;
@@ -15,15 +17,15 @@ import org.newdawn.slick.geom.Point;
  *
  * @author Demian
  */
-public abstract class Entity {
+public abstract class Entity{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
 
     protected String name;
     protected SpriteSheet sprite;
     protected Coordinate location;
-    protected int hitPoints;  
-    protected ArrayList<Item> inventory;
+    public int hitPoints;  
+    protected List<Item> inventory;
     protected SpriteManager spriteManager;
     
     protected final int bagSize = 20;
@@ -105,7 +107,7 @@ public abstract class Entity {
      *
      * @return the value of inventory
      */
-    public ArrayList<Item> getInventory() {
+    public List<Item> getInventory() {
         return inventory;
     }
 
@@ -114,7 +116,7 @@ public abstract class Entity {
      *
      * @param inventory new value of inventory
      */
-    public void setInventory(ArrayList<Item> inventory) {
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
     
@@ -124,7 +126,7 @@ public abstract class Entity {
         this.name=name;
         this.location = location;
         this.hitPoints = hitPoints;
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new ArrayList<>();
         this.spriteManager = new SpriteManager(path);
     }
 }
