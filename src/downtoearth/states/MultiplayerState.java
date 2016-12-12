@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Map;
 import downtoearth.Inventorys.Inventory;
 import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
@@ -12,6 +13,7 @@ import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
+import static downtoearth.states.GameState.w;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class MultiplayerState extends BasicGameState{
     private String id = UUID.randomUUID().toString();
     
     private GameContainer container;
-     
+    private Map map;
     private Contestant player;
     
     private GameCommunicator com;
@@ -67,6 +69,7 @@ public class MultiplayerState extends BasicGameState{
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        map = new Map(300,100);
     }
 
     @Override
@@ -94,6 +97,11 @@ public class MultiplayerState extends BasicGameState{
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -101,6 +109,8 @@ public class MultiplayerState extends BasicGameState{
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
     }
 
     @Override
