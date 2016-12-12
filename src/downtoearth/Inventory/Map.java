@@ -126,8 +126,7 @@ public class Map {
         if (map!=null)
         {
             map.getScaledCopy(0.1f).draw(width,height);
-            g.fill(new Circle((float) (cam.getX()*0.1)+310, (float) (cam.getY()*0.1+105),5));
-            //g.draw(new Circle((float) (x*0.1)+300, (float) (y*0.1+100),10));
+            g.fill(new Circle((float) (cam.getX()*0.1)+350, (float) (cam.getY()*0.1+135),5));
         }
     }
     

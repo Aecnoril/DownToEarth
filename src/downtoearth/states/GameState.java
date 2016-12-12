@@ -93,10 +93,6 @@ public class GameState extends BasicGameState {
     @Override
     public void mouseWheelMoved(int change) {          
         double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res);
-        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            System.out.println("Attack");
-            w.getPlayer().attackCollision();
-        }      
+        cs.setScroll((float)res);   
     }
 }
