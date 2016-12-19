@@ -1,4 +1,4 @@
-package downtoearth.Inventorys;
+package downtoearth.states.gui;
 
 import downtoearth.Items.Item;
 import org.newdawn.slick.Color;
@@ -18,7 +18,7 @@ public class InventorySlot {
 
     private Rectangle bounds;
     private Item item;
-    private downtoearth.Inventorys.Rectangle rectangle;
+    private downtoearth.states.gui.Rectangle rectangle;
     public String text;
     /**
      *
@@ -29,7 +29,7 @@ public class InventorySlot {
      * @param c
      */
     public InventorySlot(int x, int y, int width, int height, Color c) {
-        rectangle = new downtoearth.Inventorys.Rectangle(c, x, y, width, height);
+        rectangle = new downtoearth.states.gui.Rectangle(c, x, y, width, height);
         this.bounds = new Rectangle(x, y, width, height);
     }
 
@@ -43,7 +43,7 @@ public class InventorySlot {
      *
      * @return the value of rectangle
      */
-    public downtoearth.Inventorys.Rectangle getRectangle() {
+    public downtoearth.states.gui.Rectangle getRectangle() {
         return rectangle;
     }
 
@@ -52,7 +52,7 @@ public class InventorySlot {
      *
      * @param rectangle new value of rectangle
      */
-    public void setRectangle(downtoearth.Inventorys.Rectangle rectangle) {
+    public void setRectangle(downtoearth.states.gui.Rectangle rectangle) {
         this.rectangle = rectangle;
     }
 
