@@ -165,12 +165,9 @@ public class World implements Serializable, Observer {
 
         int startX = p.getCamera().getCenterPosX() - (con.getWidth() / 2);
         int startY = p.getCamera().getCenterPosY() - (con.getHeight() / 2);
-
-        if (startX < 0) startX = 0;
-        if (startY < 0) startY = 0;
         
-        int stopX = startX + con.getWidth();
-        int stopY = startX + con.getHeight();
+        int stopX = p.getCamera().getCenterPosX() + (con.getWidth() / 2);
+        int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
         
         p.render(con);
 
