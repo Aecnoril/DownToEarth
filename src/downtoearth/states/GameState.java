@@ -1,7 +1,5 @@
 package downtoearth.states;
 
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;

@@ -6,8 +6,6 @@
 package downtoearth.states;
 
 import downtoearth.Inventory.Map;
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
