@@ -4,6 +4,8 @@ import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;
 import downtoearth.gameUtil.Camera;
+import downtoearth.states.gui.CraftingScreen;
+import downtoearth.states.gui.Inventory;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;

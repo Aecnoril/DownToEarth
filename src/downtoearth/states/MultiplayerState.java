@@ -12,6 +12,8 @@ import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
 import static downtoearth.states.GameState.w;
+import downtoearth.states.gui.CraftingScreen;
+import downtoearth.states.gui.Inventory;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -110,7 +112,7 @@ public class MultiplayerState extends BasicGameState{
         inv.ePressed(gc);
         cs.cPressed(gc);
         map.mPressed(gc);  
-        map.setCamera(w.getPlayer().getCamera());
+        map.setCamera(w.getPlayer().getCamera());  
     }
 
     @Override

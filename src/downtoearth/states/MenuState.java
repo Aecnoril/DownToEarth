@@ -42,6 +42,7 @@ public class MenuState extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         if(rebound == 5){
             if (play.clicked(container.getInput())) {
+                container.getInput().clearKeyPressedRecord();
                 game.enterState(2);
             }
             if (stop.clicked(container.getInput())) {

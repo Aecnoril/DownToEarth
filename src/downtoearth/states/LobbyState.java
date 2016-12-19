@@ -55,8 +55,7 @@ public class LobbyState extends BasicGameState {
     @Override
     public void update(GameContainer container, StateBasedGame game, int i) throws SlickException {
         if (join.clicked(container.getInput()))
-        {
-            //check ip
+        {           
             game.enterState(1);
         }
     }
