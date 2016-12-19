@@ -5,10 +5,65 @@
  */
 package downtoearth.world;
 
+import downtoearth.entities.NPC;
+import downtoearth.enums.MobType;
+import downtoearth.gameUtil.Coordinate;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.newdawn.slick.SlickException;
+
 /**
  *
- * @author Sanko
+ * @author Tomt
  */
 public class SpawnManager {
+    private NPC npc;
+    private int nameint;
+    private Random random;
+    private MobType[] types = MobType.values();
+    private MobType type;
+    private Coordinate coordinate;
+
+    public SpawnManager() {
+        random = new Random();
+        nameint=1;
+    }
     
+    public void generateMobs(World world){
+        for (int i=0; i<5; i++)
+        {
+            type = randomMobType();
+            try {
+                npc = new NPC(type.toString()+nameint, randomCoordinate(world), (random.nextInt(30)+50), type, "Assets/SpriteSheets/NinjaBob2.png");
+            } catch (SlickException ex) {
+                Logger.getLogger(NPC.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            world.mobs.add(npc);
+            nameint++;
+            System.out.println("name: "+npc.getName()+"  Coordinate: "+ npc.getLocation().getXint()+","+npc.getLocation().getYint()+"  HP: "+ npc.getHitPoints());
+        }
+    }
+    
+    public MobType randomMobType()
+    {
+        return types[random.nextInt(types.length)];
+    }
+    
+    public Coordinate randomCoordinate(World world)
+    {    
+        coordinate = new Coordinate(random.nextInt(587)+1011, random.nextInt(2152)+1658);
+        
+        for (Tile t : world.tiles)
+        {
+            for (NPC n : world.mobs)
+            {
+                while (coordinate.getXint()==t.getPosition().getXint()||coordinate.getYint()==t.getPosition().getYint()||coordinate.getXint()==n.getLocation().getXint()||coordinate.getYint()==n.getLocation().getYint())
+                {
+                    coordinate = new Coordinate(random.nextInt(), random.nextInt());
+                }
+            }
+        }
+        return coordinate;
+    }
 }

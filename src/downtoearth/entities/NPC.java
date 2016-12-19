@@ -11,6 +11,10 @@ import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import static downtoearth.world.Tile.SPEED;
+import downtoearth.world.World;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -29,10 +33,12 @@ public class NPC extends LivingEntity {
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private MobType type;
     private int count;
-    
     private Rectangle bounds;
     private byte dir;
     private SpriteManager sManager;
+    private World world;
+    private NPC npc;
+    private int nameint;
 
     /**
      * Get the value of bounds
@@ -65,6 +71,7 @@ public class NPC extends LivingEntity {
         this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
         this.sManager = new SpriteManager("res/playerSprite.png");
+        nameint=0;
     }
     
     public void move(Input input){     

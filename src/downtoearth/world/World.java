@@ -27,9 +27,10 @@ public class World implements Serializable, Observer {
     private MultiplayerState state;
     private final float shaderTrans = 0.4f;
     private final Player p;
+    private SpawnManager spawnManager;
     public List<Tile> tiles;
     private List<Tile> removeTiles;
-    private List<NPC> mobs;
+    public List<NPC> mobs;
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
     public List<Contestant> opponents;
@@ -67,7 +68,7 @@ public class World implements Serializable, Observer {
     public Coordinate getCoordinate() {
         return size;
     }
-
+    
     public float[][] getHeightMap() {
         return heightMap;
     }
@@ -102,7 +103,7 @@ public class World implements Serializable, Observer {
 
         shader = new Image("res/HeightMap.png");
         p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png",this);
-        genTiles();
+        genTiles();        
     }
 
     public World(Coordinate size) throws SlickException {
@@ -136,10 +137,13 @@ public class World implements Serializable, Observer {
         this.colorMap = colorMap;
         this.size = size;
         map = new Image("res/ColorMap.png");
-
+        
         shader = new Image("res/HeightMap.png");
         p = new Player(playerID, new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png", this);
-        genTiles();
+        spawnManager=new SpawnManager();
+        spawnManager.generateMobs(this);
+        genTiles();   
+        
     }
 
     public void genTiles() {
@@ -151,7 +155,7 @@ public class World implements Serializable, Observer {
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+            //mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -175,7 +179,7 @@ public class World implements Serializable, Observer {
         for (Tile t : tiles) {
             if (t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX) {
                 if (t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY) {
-                    t.draw(startX, startY);;
+                    t.draw(startX, startY);
                 }
             }
         }
