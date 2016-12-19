@@ -91,9 +91,6 @@ public class GameState extends BasicGameState {
     }
 
     @Override
-    public void mouseWheelMoved(int change) {          
-        double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res); 
     public void mouseWheelMoved(int change) {   
         if(cs.isCsOpen()){
             double res = Math.floor(change * 0.15);
