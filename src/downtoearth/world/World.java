@@ -99,7 +99,7 @@ public class World implements Serializable, Observer {
         map = new Image("res/ColorMap.png");
 
         shader = new Image("res/HeightMap.png");
-        p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png",this);
         genTiles();
     }
 
@@ -117,11 +117,11 @@ public class World implements Serializable, Observer {
         map = new Image("res/ColorMap.png");
 
         shader = new Image("res/HeightMap.png");
-        p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png", this);
         genTiles();
     }
 
-    public World(Coordinate size, MultiplayerState state) throws SlickException {
+    public World(Coordinate size, MultiplayerState state, String playerID) throws SlickException {
         this.tiles = new ArrayList<Tile>();
         this.mobs = new ArrayList<NPC>();
         this.removeTiles = new ArrayList<Tile>();
@@ -136,7 +136,7 @@ public class World implements Serializable, Observer {
         map = new Image("res/ColorMap.png");
 
         shader = new Image("res/HeightMap.png");
-        p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png");
+        p = new Player(playerID, new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png", this);
         genTiles();
     }
 
@@ -166,8 +166,12 @@ public class World implements Serializable, Observer {
         int startX = p.getCamera().getCenterPosX() - (con.getWidth() / 2);
         int startY = p.getCamera().getCenterPosY() - (con.getHeight() / 2);
 
-        int stopX = p.getCamera().getCenterPosX() + (con.getWidth() / 2);
-        int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
+        if (startX < 0) startX = 0;
+        if (startY < 0) startY = 0;
+        
+        int stopX = startX + con.getWidth();
+        int stopY = startX + con.getHeight();
+        
         p.render(con);
 
         for (Tile t : tiles) {
@@ -195,7 +199,8 @@ public class World implements Serializable, Observer {
         if (opponents.size() != 0) {
             for (Contestant o : opponents) {
                 g.setColor(Color.red);
-                NPC n = new NPC("Test", new Coordinate(o.getX(), o.getY()), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+                NPC n = new NPC(o.getId(), new Coordinate(o.getX(), o.getY()), o.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+                o.setBounds(startX, startY);
                 n.draw(startX, startY);
             }
         }
@@ -213,11 +218,15 @@ public class World implements Serializable, Observer {
     }
 
     public void attack(Input input) throws SlickException {
-        this.p.attack(this.tiles, this.mobs, input);
+        this.p.attack(this.tiles, this.mobs, this.opponents, input);
     }
 
     @Override
     public void update(Player p) {
         state.updatePlayer(p.getCoordinate());
+    }
+
+    public void attackOpponent(Contestant opponent) {
+       state.attackOpponent(opponent);
     }
 }

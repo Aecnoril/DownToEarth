@@ -1,8 +1,8 @@
 package downtoearth.states;
 
 
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.CraftingScreen;
 import downtoearth.entities.ItemEntity;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.world.World;
@@ -44,9 +44,12 @@ public class GameState extends BasicGameState {
 
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-        g.setBackground(new Color(12, 54, 94));
+        
+        g.setBackground(new Color(20, 19, 156));
+        g.clear();
         
         try {
+            g.setBackground(new Color(20, 19, 156));
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
