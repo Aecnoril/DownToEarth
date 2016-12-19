@@ -5,8 +5,8 @@
  */
 package downtoearth.states;
 
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
