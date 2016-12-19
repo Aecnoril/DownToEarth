@@ -5,6 +5,7 @@
  */
 package downtoearth.gameUtil;
 
+import java.io.Serializable;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -13,7 +14,7 @@ import org.newdawn.slick.SpriteSheet;
  *
  * @author Demian
  */
-public class SpriteManager {
+public class SpriteManager{
     private final int resolution = 32;
     private final int size = 32;
     private SpriteSheet sprites;

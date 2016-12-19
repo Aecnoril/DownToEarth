@@ -5,7 +5,7 @@
  */
 package worldGen;
 
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.world.worldGen.SimplexNoise;
 
 /**

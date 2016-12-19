@@ -6,18 +6,16 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.Multiplayer.Contestant;
+import shared.RemotePlayer;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
-import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.GameContainer;
@@ -29,7 +27,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Demian
  */
-public class Player extends LivingEntity implements Subject{
+public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
@@ -114,10 +112,10 @@ public class Player extends LivingEntity implements Subject{
         this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
-        this.cam = new Camera(1080, 720);
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
+        this.cam = new Camera(1080, 720, this.coordinate);
         this.w = w;
     }
     
@@ -138,15 +136,13 @@ public class Player extends LivingEntity implements Subject{
         
         if(!collision(tiles, entities)){
             if(xa != 0){
-                this.setCamX(this.getCamX() + xa);
-                notifyObservers();
+                this.coordinate.setX(this.coordinate.getXint()+ xa);
             }
             if(ya != 0){
-                this.setCamY(this.getCamY() + ya);
-                notifyObservers();
+                this.coordinate.setX(this.coordinate.getYint() + ya);
             }
 
-            this.coordinate = cam.getCoordinate();
+            cam.setCoordinate(this.coordinate);
         }
         else{
             moving = false;
@@ -200,7 +196,7 @@ public class Player extends LivingEntity implements Subject{
         return false;
     }   
     
-    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents, Input input) throws SlickException
     {
         final int RANGE = 10;
         switch(dir){
@@ -240,17 +236,17 @@ public class Player extends LivingEntity implements Subject{
                      }
                  }
              }
-             for(Contestant o : opponents)
+             for(Opponent o : opponents)
              {
-                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getId() == null ? this.name != null : !o.getId().equals(this.name))){
-                     this.attackOpponent(o);
+                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getName()== null ? this.name != null : !o.getName().equals(this.name))){
+                     this.attackOpponent(o.getPlayer());
                      break;
                  }
              }
         }
     }
     
-    public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents, Input input) throws SlickException
     {
         attackCollision(tiles, entities, opponents, input);
     }
@@ -259,30 +255,11 @@ public class Player extends LivingEntity implements Subject{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public void attackOpponent(Contestant opponent)
+    public void attackOpponent(RemotePlayer opponent)
     {
         System.out.println("Attack!");
         int hp = opponent.getHealth() - 10;
         opponent.setHealth(hp);
-        w.attackOpponent(opponent);
-    }
-
-    @Override
-    public void register(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void unregister(Observer o) {
-        int index = observers.indexOf(o);
-        observers.remove(index);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer ob : observers){
-            ob.update(this);
-        }
     }
 }
 

@@ -8,7 +8,7 @@ package downtoearth.entities;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.MobType;
 import downtoearth.enums.SpriteLocation;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import static downtoearth.world.Tile.SPEED;
 import org.newdawn.slick.Color;
