@@ -16,6 +16,7 @@ import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
 import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
+import static downtoearth.world.Tile.SPEED;
 import downtoearth.world.World;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -137,13 +138,15 @@ public class Player extends LivingEntity implements Subject{
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
         if(!collision(tiles, entities)){
-            if(xa != 0){
-                this.setCamX(this.getCamX() + xa);
-                notifyObservers();
+            float newX = getCamX() + xa;
+            if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
+                this.setCamX(newX);
+//                notifyObservers();
             }
-            if(ya != 0){
-                this.setCamY(this.getCamY() + ya);
-                notifyObservers();
+            float newY = getCamY() + ya;
+            if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
+                this.setCamY(newY);
+//                notifyObservers();
             }
 
             this.coordinate = cam.getCoordinate();
