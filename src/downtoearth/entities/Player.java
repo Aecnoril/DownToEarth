@@ -232,7 +232,7 @@ public class Player extends LivingEntity implements Subject{
              }
              for(NPC npc : entities)
              {
-                 if(this.getAttackBox().intersects(npc.getBounds()) && "Test".equals(npc.name)){
+                 if(this.getAttackBox().intersects(npc.getBounds())){
                      npc.loseHp(10);
                      if(npc.isDead()){
                          entities.remove(npc);

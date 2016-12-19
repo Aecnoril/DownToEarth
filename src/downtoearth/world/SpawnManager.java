@@ -41,7 +41,7 @@ public class SpawnManager {
             }
             world.mobs.add(npc);
             nameint++;
-            System.out.println("name: "+npc.getName()+"  Coordinate: "+ npc.getLocation().getXint()+","+npc.getLocation().getYint()+"  HP: "+ npc.getHitPoints());
+            System.out.println("name: "+npc.getName()+"  Coordinate: "+ npc.getLocation().getXint()+", "+npc.getLocation().getYint()+"  HP: "+ npc.getHitPoints());
         }
     }
     

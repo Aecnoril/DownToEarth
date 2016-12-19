@@ -132,7 +132,7 @@ public class MultiplayerState extends BasicGameState{
     public void updatePlayer(Coordinate coords){
         this.player.setX(coords.getXint());
         this.player.setY(coords.getYint());
-        System.out.println("Update!");
+        //System.out.println("Update!");
         String property = "players";
         com.broadcast(property, player);
     }
