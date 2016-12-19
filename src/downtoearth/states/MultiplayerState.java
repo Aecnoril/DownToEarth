@@ -181,7 +181,8 @@ public class MultiplayerState extends BasicGameState{
     public void changePlayerValues(Contestant c){
         for(Contestant con : w.opponents){
             if(con.getId().equalsIgnoreCase(c.getId())){
-                con = c;
+                con.setX(c.getX());
+                con.setY(c.getY());
                 break;
             }
         }
