@@ -4,7 +4,7 @@ package downtoearth.states;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import downtoearth.entities.ItemEntity;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -28,6 +28,7 @@ public class GameState extends BasicGameState {
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
 
     public static void main(String[] args) {
+        System.out.println("hoi");
     }
 
     @Override

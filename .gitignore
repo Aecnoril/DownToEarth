@@ -13,3 +13,6 @@ hs_err_pid*
 /dist/
 nbproject/private/private.xml
 nbproject/private/private.properties
+/GameServer/build/
+/GameServer/dist/
+/GameServer/nbproject/private/
