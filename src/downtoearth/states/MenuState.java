@@ -33,7 +33,6 @@ public class MenuState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        //TODO: implement
         g.drawString("State 1: Menu", 0, 30);
         play.render(play.hover(container.getInput()));
         stop.render(stop.hover(container.getInput()));       
