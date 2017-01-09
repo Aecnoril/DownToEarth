@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.SlickException;
@@ -18,7 +19,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 
     private IServer server;
     private RemotePlayer player;
-    private List<RemotePlayer> otherClients;
+    private CopyOnWriteArrayList<RemotePlayer> otherClients;
     public List<Opponent> opponents;
     private String name;
 
@@ -30,7 +31,7 @@ public class Client extends UnicastRemoteObject implements IClient {
             String lookUpName = "rmi://" + ip + "/DownToEarth";
             this.server = (IServer) Naming.lookup(lookUpName);
             this.opponents = new ArrayList<Opponent>();
-            this.otherClients = new ArrayList<RemotePlayer>();
+            this.otherClients = new CopyOnWriteArrayList<RemotePlayer>();
             this.server.clientJoin(this);
             this.player = server.spawnPlayer(this);
             this.server.updatePlayers();
@@ -62,7 +63,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void updatePlayers(ArrayList<RemotePlayer> otherClients) {
+    public synchronized void updatePlayers(CopyOnWriteArrayList<RemotePlayer> otherClients) {
         this.otherClients = otherClients;
         if (opponents.size() != 0) {
             this.opponents.clear();

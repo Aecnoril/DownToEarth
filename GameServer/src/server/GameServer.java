@@ -8,6 +8,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.*;
@@ -101,12 +102,11 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     @Override
     public synchronized void updatePlayers() throws RemoteException {
         for (IClient client : this.clients) {
-            ArrayList<RemotePlayer> opponents = new ArrayList<RemotePlayer>();
+            CopyOnWriteArrayList<RemotePlayer> opponents = new CopyOnWriteArrayList<RemotePlayer>();
             for (IClient c : this.clients) {
                 if (!client.getClientName().equalsIgnoreCase(c.getClientName())) {
                     if (c.getPlayer() != null) {
                         opponents.add(c.getPlayer());
-                        System.out.println(client.getClientName() + " Found player: " + c.getClientName());
                     }
                     else
                     {

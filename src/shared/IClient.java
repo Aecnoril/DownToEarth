@@ -2,7 +2,7 @@ package shared;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface IClient extends Remote {
 
@@ -12,7 +12,7 @@ public interface IClient extends Remote {
  
     public RemotePlayer getPlayer() throws RemoteException;
     
-    public void updatePlayers(ArrayList<RemotePlayer> opponents) throws RemoteException;
+    public void updatePlayers(CopyOnWriteArrayList<RemotePlayer> opponents) throws RemoteException;
 
     public void sendMessage(String message) throws RemoteException;
 }
