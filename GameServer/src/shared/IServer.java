@@ -13,6 +13,8 @@ public interface IServer extends Remote{
     
     public void updateMobs(String message) throws RemoteException;
     
+    public void updatePlayers() throws RemoteException;
+    
     public void pickupItem(String message) throws RemoteException;
     
     public void dropItem(String message) throws RemoteException;

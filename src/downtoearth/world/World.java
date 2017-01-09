@@ -144,6 +144,10 @@ public class World implements Serializable{
         drawMobs(startX, startY, stopX, stopY);
         
         drawItems(startX, startY, stopX, stopY);
+        
+        drawOpponents(startX, startY, stopX, stopY);
+        
+        
 
         
     }
@@ -179,10 +183,10 @@ public class World implements Serializable{
     }
     
     public void drawOpponents(int startX, int startY, int stopX, int stopY){
-        if (opponents.size() != 0) {
+        if (!opponents.isEmpty()) {
             for (Opponent o : opponents) {
-                if (o.getLocation().getX() >= -16 && o.getLocation().getX() <= 1080) {
-                    if (o.getLocation().getY() >= -16 && o.getLocation().getY() <= 720) {
+                if (o.getLocation().getX() >= startX && o.getLocation().getX() <= stopX) {
+                    if (o.getLocation().getY() >= startY && o.getLocation().getY() <= stopY) {
                         o.draw(startX, startY);
                     }
                 }

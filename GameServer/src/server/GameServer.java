@@ -87,7 +87,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
         RemotePlayer player = new RemotePlayer(client.getClientName(), spawnpoints.get(count), 100);
         count++;
-        updatePlayers();
+        //updatePlayers();
         return player;
     }
 
@@ -98,17 +98,19 @@ public class GameServer extends UnicastRemoteObject implements IServer {
         }
     }
 
-    public void updatePlayers() throws RemoteException {
+    @Override
+    public synchronized void updatePlayers() throws RemoteException {
         for (IClient client : this.clients) {
             ArrayList<RemotePlayer> opponents = new ArrayList<RemotePlayer>();
             for (IClient c : this.clients) {
                 if (!client.getClientName().equalsIgnoreCase(c.getClientName())) {
                     if (c.getPlayer() != null) {
                         opponents.add(c.getPlayer());
+                        System.out.println(client.getClientName() + " Found player: " + c.getClientName());
                     }
                     else
                     {
-                        System.out.println(c.getClientName() + " No player found");
+                        System.out.println(client.getClientName() + " Could not find player: " + c.getClientName());
                     }
                 }
             }

@@ -54,5 +54,6 @@ public class RemotePlayer implements Serializable{
         this.coords = coords;
         this.health = health;
         this.bounds = new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
+        this.dir = DirectionType.NORTH;
     }
 }
