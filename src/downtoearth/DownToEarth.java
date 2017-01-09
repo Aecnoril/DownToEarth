@@ -28,5 +28,7 @@ public class DownToEarth extends StateBasedGame {
         this.addState(new OptionState());
         this.addState(new MultiplayerState());
         this.addState(new GameState());
+        this.addState(new MultiplayerState());
+        this.addState(new LobbyState());
     }
 }

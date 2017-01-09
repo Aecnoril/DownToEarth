@@ -128,7 +128,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      * @param property  color of draw event
      * @param drawEvent draw event
      */
-    public void broadcast(final String property, final Contestant data) {
+    public synchronized void broadcast(final String property, final Contestant data) {
         if (connected) {
             threadPool.execute(new Runnable() {
                 @Override

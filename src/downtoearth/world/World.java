@@ -1,11 +1,13 @@
 package downtoearth.world;
 
+import com.sun.glass.ui.Size;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.entities.Player;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.enums.*;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
 import downtoearth.states.MultiplayerState;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class World implements Serializable, Observer {
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
     public List<Contestant> opponents;
+    private SpriteManager sManager;
 
     float[][] heightMap;
 
@@ -52,6 +55,10 @@ public class World implements Serializable, Observer {
             }
         }
         return null;
+    }
+    
+    public Size getMapSize(){
+        return new Size(map.getWidth(), map.getHeight());
     }
 
     public List<NPC> getMobs() {
@@ -149,7 +156,7 @@ public class World implements Serializable, Observer {
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png", this));
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -195,10 +202,11 @@ public class World implements Serializable, Observer {
 
         if (!opponents.isEmpty()) {
             for (Contestant o : opponents) {
+                sManager = new SpriteManager("res/playerSprite.png");
+                SpriteLocation pos = DirectionType.getStandingSprite(DirectionType.SOUTH);
                 g.setColor(Color.red);
-                NPC n = new NPC(o.getId(), new Coordinate(o.getX(), o.getY()), o.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
+                sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), o.getX() - startX -16, o.getY() - startY -16);
                 o.setBounds(startX, startY);
-                n.draw(startX, startY);
             }
         }
     }
@@ -210,7 +218,7 @@ public class World implements Serializable, Observer {
             t.move(input);
         }
         for (NPC n : this.mobs) {
-            n.move(input);
+            n.move(input, this.tiles, this.mobs);
         }
     }
 

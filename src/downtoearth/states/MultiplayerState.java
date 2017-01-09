@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Map;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
@@ -12,6 +13,7 @@ import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
+import static downtoearth.states.GameState.w;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
@@ -37,7 +39,9 @@ public class MultiplayerState extends BasicGameState{
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
     private String id = UUID.randomUUID().toString();
-     
+    
+    private GameContainer container;
+    private Map map;
     private Contestant player;
     
     private GameCommunicator com;
@@ -65,6 +69,7 @@ public class MultiplayerState extends BasicGameState{
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        map = new Map(300,100);
     }
 
     @Override
@@ -93,6 +98,11 @@ public class MultiplayerState extends BasicGameState{
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -100,6 +110,8 @@ public class MultiplayerState extends BasicGameState{
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
     }
 
     @Override
@@ -133,7 +145,13 @@ public class MultiplayerState extends BasicGameState{
             }
             else if(data.isDead())
             {
-                w.opponents.remove(data);
+                for(Contestant o : w.opponents)
+                {
+                    if(o.getId() == null ? data.getId() == null : o.getId().equals(data.getId()))
+                    {
+                        w.opponents.remove(o);
+                    }
+                }
                 System.out.println("Death has come!");
             }
             else{
@@ -144,7 +162,6 @@ public class MultiplayerState extends BasicGameState{
         if(data.getId().equalsIgnoreCase(this.id))
         {
                  updateHealthValues(data);
-                System.out.println(this.id + "||" + data.getId());
 
         }
     }
@@ -163,7 +180,8 @@ public class MultiplayerState extends BasicGameState{
     public void changePlayerValues(Contestant c){
         for(Contestant con : w.opponents){
             if(con.getId().equalsIgnoreCase(c.getId())){
-                con = c;
+                con.setX(c.getX());
+                con.setY(c.getY());
                 break;
             }
         }
@@ -181,9 +199,14 @@ public class MultiplayerState extends BasicGameState{
                 player.setDead(true);
                 updatePlayer(w.getPlayer().getCoordinate());
                 com.unsubscribe("players");
-                game.enterState(2);
+                stop();
             }
             System.out.println(w.getPlayer().getHitPoints());
+    }
+    
+    private void stop()
+    {
+        game.enterState(5);
     }
 }
 

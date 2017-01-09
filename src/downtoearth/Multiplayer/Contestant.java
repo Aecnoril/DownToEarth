@@ -5,7 +5,11 @@
  */
 package downtoearth.Multiplayer;
 
+import downtoearth.enums.DirectionType;
+import downtoearth.enums.SpriteLocation;
+import downtoearth.gameUtil.SpriteManager;
 import java.io.Serializable;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -75,5 +79,5 @@ public class Contestant implements Serializable{
         this.health = health;
         this.bounds = new Rectangle(getX() + 2 , getY() + 2, 28, 28);
     }
-    
+        
 }

@@ -143,6 +143,7 @@ public class LoginState extends BasicGameState {
                 mode = "register";
             }
         }
+        //game.enterState(5);
     }
     
     public void initTextField(TextField t){
@@ -187,7 +188,8 @@ public class LoginState extends BasicGameState {
                     } catch (JSONException ex) {
                         Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    game.enterState(1);
+                    //game.enterState(1);
+                    game.enterState(5);
                 } else {
                     System.out.println(response.getResponse());
                     System.out.println("Something went wrong...");
