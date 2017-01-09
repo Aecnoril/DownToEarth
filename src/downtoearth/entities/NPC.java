@@ -135,15 +135,13 @@ public class NPC extends LivingEntity {
             }
             
             if(!collision(tiles, entities)){
-                this.location.setX(this.location.getX() + xa);
-                this.location.setY(this.location.getY() + ya);
                 float newX = this.location.getX() + xa;
                 if(xa != 0 && newX >= 0 && newX <= this.world.getMapSize().width){
                    this.location.setX(newX);
                 }
                 float newY = this.location.getY() + ya;
                 if(ya != 0 && newY >= 0 && newY <= this.world.getMapSize().height){
-                    this.location.setY(newX);
+                    this.location.setY(newY);
                 }
             }
         }
