@@ -6,8 +6,8 @@
 package downtoearth.states;
 
 import downtoearth.Inventory.Map;
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
@@ -74,8 +74,9 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-        g.setBackground(new Color(12, 54, 94));
 
+
+        
         try {
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {

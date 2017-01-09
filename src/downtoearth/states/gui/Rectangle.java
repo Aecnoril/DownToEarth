@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package downtoearth.Inventorys;
+package downtoearth.states.gui;
 
 import org.newdawn.slick.Color;
 
