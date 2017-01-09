@@ -23,11 +23,12 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
+        this.spawnpoints = new ArrayList<Coordinate>();
     }
     
     public static void main(String[] args) throws UnknownHostException {
         Registry registry;
-        
+        spawnpoints = new ArrayList<Coordinate>();
         spawnpoints.add(new Coordinate(780,1541));
         spawnpoints.add(new Coordinate(1137,2985));
         spawnpoints.add(new Coordinate(2291,2483));
