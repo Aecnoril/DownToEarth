@@ -58,7 +58,7 @@ public class MultiplayerState extends BasicGameState{
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
-            this.client = new Client(Integer.toString(random.nextInt(100)), "145.93.116.193");
+            this.client = new Client(Integer.toString(random.nextInt(100)), "145.93.84.202");
             w.getPlayer().setSpawnPoint(client.getPlayer().getCoords().getXint(), client.getPlayer().getCoords().getYint());
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +95,6 @@ public class MultiplayerState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
-        client.test();
         inv.ePressed(gc);
         cs.cPressed(gc);
     }
