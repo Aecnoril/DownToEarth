@@ -68,7 +68,7 @@ public class NPC extends LivingEntity {
         super(name, location, hitPoints, path);
         this.count = 0;
         this.type = type;
-        this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
+        this.bounds = new Rectangle(location.getXint() + 2, location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
         this.sManager = new SpriteManager("res/playerSprite.png");
         nameint=0;

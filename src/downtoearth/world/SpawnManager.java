@@ -18,6 +18,7 @@ import org.newdawn.slick.SlickException;
  * @author Tomt
  */
 public class SpawnManager {
+    
     private NPC npc;
     private int nameint;
     private Random random;
@@ -76,7 +77,14 @@ public class SpawnManager {
             {
                 while (coordinate.getXint()==t.getPosition().getXint()||coordinate.getYint()==t.getPosition().getYint()||coordinate.getXint()==n.getLocation().getXint()||coordinate.getYint()==n.getLocation().getYint())
                 {
-                    coordinate = new Coordinate(random.nextInt(), random.nextInt());
+                    if (randombool)
+                    {
+                        coordinate = new Coordinate(random.nextInt(587)+1011, random.nextInt(2152)+1658);
+                    }
+                    else
+                    {
+                        coordinate = new Coordinate(random.nextInt(680)+3406, random.nextInt(350)+2026);
+                    }
                 }
             }
         }
