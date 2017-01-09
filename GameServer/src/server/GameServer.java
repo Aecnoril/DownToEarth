@@ -18,18 +18,18 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     private static String bindingName = "DownToEarth";
     private ArrayList<IClient> clients;
     private static ArrayList<Coordinate> spawnpoints;
-    
+
     private int count = 0;
-    
+
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
         this.spawnpoints = new ArrayList<Coordinate>();
     }
-    
+
     public static void main(String[] args) throws UnknownHostException {
         Registry registry;
-        
-        try{
+
+        try {
             GameServer rmiServer = new GameServer();
             registry = LocateRegistry.createRegistry(portNumber);
             registry.rebind(bindingName, rmiServer);
@@ -37,7 +37,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
         } catch (RemoteException ex) {
             Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         InetAddress localhost = InetAddress.getLocalHost();
         System.out.println("Server: IP Address: " + localhost.getHostAddress());
     }
@@ -45,7 +45,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     @Override
     public void clientJoin(IClient client) throws RemoteException {
         this.clients.add(client);
-        updatePlayers();
+        //updatePlayers();
         System.out.println(client.getClientName() + " joined the server!");
     }
 
@@ -57,8 +57,8 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public IClient getClientByName(String clientName) throws RemoteException {
-        for(IClient client : this.clients) {
-            if(client.getClientName().equalsIgnoreCase(clientName)){
+        for (IClient client : this.clients) {
+            if (client.getClientName().equalsIgnoreCase(clientName)) {
                 return client;
             }
         }
@@ -67,24 +67,24 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public int getClientListIndex(String clientName) throws RemoteException {
-        for(int i = 0; i < this.clients.size(); i++) {
-            if(this.clients.get(i).getClientName().equals(clientName)) {
+        for (int i = 0; i < this.clients.size(); i++) {
+            if (this.clients.get(i).getClientName().equals(clientName)) {
                 return i;
             }
         }
-        
+
         return 0;
     }
 
     @Override
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException {
         spawnpoints = new ArrayList<Coordinate>();
-        spawnpoints.add(new Coordinate(780,1541));
-        spawnpoints.add(new Coordinate(1137,2985));
-        spawnpoints.add(new Coordinate(2291,2483));
-        spawnpoints.add(new Coordinate(3962,2392));
-        spawnpoints.add(new Coordinate(4205,3623));
-        
+        spawnpoints.add(new Coordinate(780, 1541));
+        spawnpoints.add(new Coordinate(1137, 2985));
+        spawnpoints.add(new Coordinate(2291, 2483));
+        spawnpoints.add(new Coordinate(3962, 2392));
+        spawnpoints.add(new Coordinate(4205, 3623));
+
         RemotePlayer player = new RemotePlayer(client.getClientName(), spawnpoints.get(count), 100);
         count++;
         updatePlayers();
@@ -93,17 +93,24 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public void updateTiles(String message) throws RemoteException {
-        for(IClient client : this.clients) {
+        for (IClient client : this.clients) {
             updateTiles(message);
         }
     }
 
-    public synchronized void updatePlayers() throws RemoteException {
-        for(IClient client : this.clients) {
+    @Override
+    public void updatePlayers() throws RemoteException {
+        for (IClient client : this.clients) {
             ArrayList<RemotePlayer> opponents = new ArrayList<RemotePlayer>();
-            for(IClient c : this.clients){ 
-                if(!client.getClientName().equalsIgnoreCase(c.getClientName())){
-                    opponents.add(c.getPlayer());
+            for (IClient c : this.clients) {
+                if (!client.getClientName().equalsIgnoreCase(c.getClientName())) {
+                    if (c.getPlayer() != null) {
+                        opponents.add(c.getPlayer());
+                    }
+                    else
+                    {
+                        System.out.println(c.getClientName() + " No player found");
+                    }
                 }
             }
             client.updatePlayers(opponents);
@@ -112,22 +119,22 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public void updateMobs(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 
     @Override
     public void pickupItem(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 
     @Override
     public void dropItem(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 }
