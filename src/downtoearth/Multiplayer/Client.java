@@ -17,14 +17,14 @@ public class Client extends UnicastRemoteObject implements IClient {
     private IServer server;
     private RemotePlayer player;
     private List<RemotePlayer> opponents;
-    private String name;  
-    
-    public Client(String name, String ip) throws RemoteException{
-        
+    private String name;
+
+    public Client(String name, String ip) throws RemoteException {
+
         this.name = name;
-        
+
         try {
-            String lookUpName = "rmi://" + ip + "/DownToEarth" ;
+            String lookUpName = "rmi://" + ip + "/DownToEarth";
             this.server = (IServer) Naming.lookup(lookUpName);
             this.server.clientJoin(this);
             this.player = server.spawnPlayer(this);
@@ -34,10 +34,14 @@ public class Client extends UnicastRemoteObject implements IClient {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void exitServer() throws RemoteException {
         this.server.clientLeave(this);
+    }
+
+    public void test() throws RemoteException {
+        this.server.updatePlayers();
     }
 
     @Override

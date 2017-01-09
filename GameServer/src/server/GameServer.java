@@ -96,6 +96,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
         }
     }
 
+    @Override
     public void updatePlayers() throws RemoteException {
         for(IClient client : this.clients) {
             ArrayList<RemotePlayer> opponents = new ArrayList<RemotePlayer>();

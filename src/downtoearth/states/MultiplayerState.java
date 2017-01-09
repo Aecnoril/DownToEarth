@@ -90,6 +90,7 @@ public class MultiplayerState extends BasicGameState{
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         w.update(gc.getInput());
+        client.test();
         inv.ePressed(gc);
         cs.cPressed(gc);
     }
