@@ -5,13 +5,16 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MenuState extends BasicGameState {
 
     private Button play;
+    private Button join;
     private Button exit;
+    
     private Image backgroundImage;
     
     private int rebound;
@@ -28,6 +31,7 @@ public class MenuState extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         rebound = 0;
+        Point middle = new Point(container.getWidth()/2, container.getHeight()/2);
         
         backgroundImage = new Image("res/Backgrounds/MenuBackground.png");
         play = new Button(container.getWidth()/2, (container.getHeight() / 2) - 60, "res/Buttons/startbtn.png");
@@ -37,7 +41,7 @@ public class MenuState extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawString("State 1: Menu", 0, 30);
-        g.drawImage(backgroundImage, 0, 0);
+        backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
         play.render(play.hover(container.getInput()));
         exit.render(exit.hover(container.getInput()));       
     }

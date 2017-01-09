@@ -82,7 +82,7 @@ public class LoginState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(backgroundImage, 0, 0);
+        backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
         if(registerb == true){
             g.drawString("Register was succesfull", (container.getWidth() / 2) - 25, 100);
         }

@@ -174,7 +174,7 @@ public class World implements Serializable, Observer {
         for (Tile t : tiles) {
             if (t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX) {
                 if (t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY) {
-                    t.draw(startX, startY);;
+                    t.draw(startX, startY);
                 }
             }
         }
@@ -193,7 +193,7 @@ public class World implements Serializable, Observer {
             }
         }
 
-        if (opponents.size() != 0) {
+        if (!opponents.isEmpty()) {
             for (Contestant o : opponents) {
                 g.setColor(Color.red);
                 NPC n = new NPC(o.getId(), new Coordinate(o.getX(), o.getY()), o.getHealth(), MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png");
