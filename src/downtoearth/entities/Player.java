@@ -247,7 +247,7 @@ public class Player extends LivingEntity implements Subject{
                      break;
                  }
              }
-        }
+        }    
     }
     
     public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException

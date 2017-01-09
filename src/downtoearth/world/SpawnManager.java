@@ -24,24 +24,33 @@ public class SpawnManager {
     private MobType[] types = MobType.values();
     private MobType type;
     private Coordinate coordinate;
+    private boolean randombool;
+    private int size;
 
     public SpawnManager() {
         random = new Random();
         nameint=1;
+        randombool=false;
+        size=0;
     }
     
     public void generateMobs(World world){
-        for (int i=0; i<5; i++)
+        size=world.mobs.size();
+        if (size<5)
         {
-            type = randomMobType();
-            try {
-                npc = new NPC(type.toString()+nameint, randomCoordinate(world), (random.nextInt(30)+50), type, "Assets/SpriteSheets/NinjaBob2.png");
-            } catch (SlickException ex) {
-                Logger.getLogger(NPC.class.getName()).log(Level.SEVERE, null, ex);
+            for (int i=0; i<5-size; i++)
+            {
+                randombool = random.nextBoolean();
+                type = randomMobType();
+                try {
+                    npc = new NPC(type.toString()+nameint, randomCoordinate(world, randombool), (random.nextInt(30)+50), type, "Assets/SpriteSheets/NinjaBob2.png");
+                } catch (SlickException ex) {
+                    Logger.getLogger(NPC.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                world.mobs.add(npc);
+                nameint++;
+                System.out.println("name: "+npc.getName()+"  Coordinate: "+ npc.getLocation().getXint()+", "+npc.getLocation().getYint()+"  HP: "+ npc.getHitPoints()+" bool: "+randombool);
             }
-            world.mobs.add(npc);
-            nameint++;
-            System.out.println("name: "+npc.getName()+"  Coordinate: "+ npc.getLocation().getXint()+", "+npc.getLocation().getYint()+"  HP: "+ npc.getHitPoints());
         }
     }
     
@@ -50,9 +59,16 @@ public class SpawnManager {
         return types[random.nextInt(types.length)];
     }
     
-    public Coordinate randomCoordinate(World world)
-    {    
-        coordinate = new Coordinate(random.nextInt(587)+1011, random.nextInt(2152)+1658);
+    public Coordinate randomCoordinate(World world, boolean randombool)
+    {   
+        if (randombool)
+        {
+            coordinate = new Coordinate(random.nextInt(587)+1011, random.nextInt(2152)+1658);
+        }
+        else
+        {
+            coordinate = new Coordinate(random.nextInt(680)+3406, random.nextInt(350)+2026);
+        }
         
         for (Tile t : world.tiles)
         {

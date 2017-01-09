@@ -218,6 +218,8 @@ public class World implements Serializable, Observer {
         for (NPC n : this.mobs) {
             n.move(input);
         }
+        
+        spawnManager.generateMobs(this);
     }
 
     public void attack(Input input) throws SlickException {
