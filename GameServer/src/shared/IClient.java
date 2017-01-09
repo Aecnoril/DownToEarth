@@ -12,7 +12,7 @@ public interface IClient extends Remote {
  
     public RemotePlayer getPlayer() throws RemoteException;
     
-    public void updatePlayers(ArrayList<RemotePlayer> opponents);
+    public void updatePlayers(ArrayList<RemotePlayer> opponents) throws RemoteException;
 
     public void sendMessage(String message) throws RemoteException;
 }

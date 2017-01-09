@@ -139,7 +139,7 @@ public class Player extends LivingEntity{
                 this.coordinate.setX(this.coordinate.getXint()+ xa);
             }
             if(ya != 0){
-                this.coordinate.setX(this.coordinate.getYint() + ya);
+                this.coordinate.setY(this.coordinate.getYint() + ya);
             }
 
             cam.setCoordinate(this.coordinate);
