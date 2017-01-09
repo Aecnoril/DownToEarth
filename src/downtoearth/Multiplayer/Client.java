@@ -40,10 +40,6 @@ public class Client extends UnicastRemoteObject implements IClient {
         this.server.clientLeave(this);
     }
 
-    public void test() throws RemoteException {
-        this.server.updatePlayers();
-    }
-
     @Override
     public String getClientName() throws RemoteException {
         return this.name;
