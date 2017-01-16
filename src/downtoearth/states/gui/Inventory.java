@@ -8,6 +8,7 @@ package downtoearth.states.gui;
 import downtoearth.Items.Item;
 import downtoearth.Items.TileItem;
 import downtoearth.enums.Tooltype;
+import downtoearth.gameUtil.SoundManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ public class Inventory {
     private boolean invOpen;
     private Rectangle rectangle;
     private Color color;
+    private SoundManager sm;
 
     /**
      *
@@ -51,6 +53,7 @@ public class Inventory {
             Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.generateInventory();
+        sm = new SoundManager();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -155,6 +158,7 @@ public class Inventory {
                 this.invOpen = false;
             } else {
                 this.invOpen = true;
+                sm.playSound("inventoryOpenB.wav");
             }
         }
         if (this.invOpen) {
