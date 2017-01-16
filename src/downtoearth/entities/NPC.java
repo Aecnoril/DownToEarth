@@ -76,7 +76,7 @@ public class NPC extends LivingEntity {
         this.type = type;
         this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.sManager = new SpriteManager(path);
         this.moving = true;
         this.world = world;
         this.shouldAttack = shouldAttack;
@@ -363,7 +363,18 @@ public class NPC extends LivingEntity {
     }   
 
     public void draw(int posX, int posY) {    
-        SpriteLocation pos = DirectionType.getStandingSprite(dir);
+        byte spriteDir = dir;
+        switch(spriteDir) {
+            case DirectionType.NORTHEAST:
+            case DirectionType.NORTHWEST:
+                spriteDir = DirectionType.NORTH;
+                break;
+            case DirectionType.SOUTHEAST:
+            case DirectionType.SOUTHWEST:
+                spriteDir = DirectionType.SOUTH;
+                break;
+        }
+        SpriteLocation pos = DirectionType.getStandingSprite(spriteDir);
         bounds.setX(location.getX()+2 - posX);
         bounds.setY(location.getY()+2 - posY);
         sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX -16, location.getYint() - posY -16);

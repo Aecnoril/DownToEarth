@@ -116,7 +116,7 @@ public class Player extends LivingEntity{
         super(name, location, hitPoints, path);
         this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.sManager = new SpriteManager("res/playersprite.png");
         this.dir = DirectionType.NORTH; 
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
@@ -206,7 +206,7 @@ public class Player extends LivingEntity{
             }
         }      
         for(Opponent opponent: opponents){
-            if(this.colBox.intersects(opponent.getBounds())){
+            if(this.getColBox().intersects(opponent.getBounds())){
                 return true;
             }
         }
