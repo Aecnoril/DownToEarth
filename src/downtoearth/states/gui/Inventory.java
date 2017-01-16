@@ -158,7 +158,7 @@ public class Inventory {
                 this.invOpen = false;
             } else {
                 this.invOpen = true;
-                sm.playSound("inventoryOpenB.wav");
+                sm.playSound("inventoryOpenB.wav",false);
             }
         }
         if (this.invOpen) {

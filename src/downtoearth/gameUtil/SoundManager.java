@@ -25,7 +25,6 @@ public class SoundManager {
     
     private InputStream in;
     private AudioStream audioStream;
-    private boolean loop=true;
     private Clip clip;
 
     /**
@@ -60,7 +59,7 @@ public class SoundManager {
         }.start();
     }*/
     
-    public void playSound(final String path){
+    public void playSound(final String path, final boolean loop){
         new Thread()
         {
             public void run()
@@ -71,39 +70,26 @@ public class SoundManager {
                     AudioInputStream sound = AudioSystem.getAudioInputStream(file);
                     clip = AudioSystem.getClip();
                     clip.open(sound);
-                    clip.start();
+                    if (loop)
+                    {
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    }
+                    else
+                    {
+                        clip.start();
+                    }      
                 }
-        }
-        catch (UnsupportedAudioFileException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IOException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (LineUnavailableException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*try {
-            File file = new File("C:\\Users\\Tomt\\Documents\\J2S1\\Proftaak\\Sfx\\Edit\\"+path);
-            if (file.exists()) {
-                AudioInputStream sound = AudioSystem.getAudioInputStream(file);
-                clip = AudioSystem.getClip();
-                clip.open(sound);
-                clip.start();
             }
-            else {
-                throw new RuntimeException("Sound: file not found: " + path);
+                catch (UnsupportedAudioFileException ex) {
+                     Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (IOException ex) {
+                     Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (LineUnavailableException ex) {
+                     Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }
-        catch (UnsupportedAudioFileException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IOException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (LineUnavailableException ex) {
-             Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }*/}
         }.start();
     }
 }

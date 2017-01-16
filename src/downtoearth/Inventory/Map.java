@@ -111,7 +111,7 @@ public class Map {
             {
                 this.x = cam.getX();
                 this.y = cam.getY();
-                sm.playSound("mapOpen.wav");
+                sm.playSound("mapOpen.wav",false);
                 mapOpen = true;
             }
             else {
