@@ -64,7 +64,7 @@ public class NPC extends LivingEntity {
         this.type = type;
         this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
         this.dir = DirectionType.SOUTH;
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.sManager = new SpriteManager("res/tigersprite.png");
     }
     
     public void move(Input input){     
