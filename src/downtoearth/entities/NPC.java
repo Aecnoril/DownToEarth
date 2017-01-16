@@ -5,7 +5,6 @@
  */
 package downtoearth.entities;
 
-import downtoearth.Multiplayer.Contestant;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.MobType;
 import downtoearth.enums.SpriteLocation;
@@ -16,12 +15,8 @@ import static downtoearth.world.Tile.SPEED;
 import downtoearth.world.World;
 import java.util.List;
 import java.util.Random;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -36,10 +31,10 @@ public class NPC extends LivingEntity {
     private int count;
     
     private long startedMovingBasedOnPlayer = System.currentTimeMillis();
-    private int timeToMoveBasedOnPlayer = 10000;
-    private boolean shouldAttack = true;
-    private int viewingAngle = 178; //Max 178 degrees
-    private int viewingDistance = 1000000;
+    private int timeToMoveBasedOnPlayer;
+    private boolean shouldAttack;
+    private int viewingAngle; //Max 178 degrees
+    private int viewingDistance;
     
     private Rectangle bounds;
     private byte dir;
@@ -75,7 +70,7 @@ public class NPC extends LivingEntity {
     
     //</editor-fold>
     
-    public NPC(String name, Coordinate location, int hitPoints, MobType type, String path, World world) throws SlickException {
+    public NPC(String name, Coordinate location, int hitPoints, MobType type, String path, World world, boolean shouldAttack, int viewingAngle, int viewingDistance, int timeToMoveBasedOnPlayer) throws SlickException {
         super(name, location, hitPoints, path);
         this.count = 0;
         this.type = type;
@@ -84,6 +79,10 @@ public class NPC extends LivingEntity {
         this.sManager = new SpriteManager("res/playerSprite.png");
         this.moving = true;
         this.world = world;
+        this.shouldAttack = shouldAttack;
+        this.viewingAngle = viewingAngle;
+        this.viewingDistance = viewingDistance;
+        this.timeToMoveBasedOnPlayer = timeToMoveBasedOnPlayer;
     }
     
     private void setRandomMovingDirection() {
@@ -309,7 +308,7 @@ public class NPC extends LivingEntity {
                     xa = SPEED * -1;
             }
             
-            if(!collision(tiles, entities)){
+            if(!collision(tiles, entities, opponents)){
                 float newX = this.location.getX() + xa;
                 if(xa != 0 && newX >= 0 && newX <= this.world.getMapSize().width){
                    this.location.setX(newX);
@@ -322,7 +321,7 @@ public class NPC extends LivingEntity {
         }
     }
     
-    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+    public boolean collision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{
         switch(dir){
              case DirectionType.NORTH:
              case DirectionType.NORTHEAST:
@@ -352,6 +351,11 @@ public class NPC extends LivingEntity {
         for(NPC npc : entities)
         {
             if(this.getColBox().intersects(npc.getBounds())){
+                return true;
+            }
+        }
+        for(Opponent opponent: opponents){
+            if(this.getColBox().intersects(opponent.getBounds())){
                 return true;
             }
         }
