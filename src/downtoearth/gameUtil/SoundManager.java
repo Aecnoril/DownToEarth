@@ -65,7 +65,7 @@ public class SoundManager {
             public void run()
             {
                 try {
-                File file = new File("C:\\Users\\Tomt\\Documents\\J2S1\\Proftaak\\Sfx\\Edit\\"+path);
+                File file = new File("res\\"+path);
                 if (file.exists()) {
                     AudioInputStream sound = AudioSystem.getAudioInputStream(file);
                     clip = AudioSystem.getClip();
