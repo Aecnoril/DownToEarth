@@ -74,7 +74,7 @@ public class NPC extends LivingEntity {
         super(name, location, hitPoints, path);
         this.count = 0;
         this.type = type;
-        this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
+        this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 32, 32);
         this.dir = DirectionType.SOUTH;
         this.sManager = new SpriteManager(path);
         this.moving = true;
@@ -375,8 +375,8 @@ public class NPC extends LivingEntity {
                 break;
         }
         SpriteLocation pos = DirectionType.getStandingSprite(spriteDir);
-        bounds.setX(location.getX()+2 - posX);
-        bounds.setY(location.getY()+2 - posY);
+        bounds.setX(location.getX()-16 - posX);
+        bounds.setY(location.getY()-16 - posY);
         sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX -16, location.getYint() - posY -16);
     }
 }
