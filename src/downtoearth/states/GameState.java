@@ -8,7 +8,7 @@ import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;
 import downtoearth.gameUtil.Camera;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.WorldGen;
+import downtoearth.world.worldGen.NoiseGen;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +25,7 @@ public class GameState extends BasicGameState {
     private Inventory inv;
     private CraftingScreen cs;
     private static int mapSize = 5012;
-    private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private static NoiseGen noiseGen = new NoiseGen();
     private Map map;
     private Camera cam;
 
@@ -39,6 +39,7 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        noiseGen.resized(mapSize, mapSize);
         w = new World(new Coordinate(mapSize, mapSize));
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));

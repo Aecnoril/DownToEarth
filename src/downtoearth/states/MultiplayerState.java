@@ -15,7 +15,7 @@ import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
 import static downtoearth.states.GameState.w;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.WorldGen;
+import downtoearth.world.worldGen.NoiseGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class MultiplayerState extends BasicGameState{
     private CraftingScreen cs;
     private StateBasedGame game;
     private static int mapSize = 5012;
-    private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private static NoiseGen noiseGen = new NoiseGen();
     private String id = UUID.randomUUID().toString();
     
     private GameContainer container;
