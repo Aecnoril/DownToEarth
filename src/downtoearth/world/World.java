@@ -172,15 +172,16 @@ public class World implements Serializable, Observer {
 
         int startX = p.getCamera().getCenterPosX() - (con.getWidth() / 2);
         int startY = p.getCamera().getCenterPosY() - (con.getHeight() / 2);
-
+        
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth() / 2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
+        
         p.render(con);
 
         for (Tile t : tiles) {
             if (t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX) {
                 if (t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY) {
-                    t.draw(startX, startY);;
+                    t.draw(startX, startY);
                 }
             }
         }
@@ -199,7 +200,7 @@ public class World implements Serializable, Observer {
             }
         }
 
-        if (opponents.size() != 0) {
+        if (!opponents.isEmpty()) {
             for (Contestant o : opponents) {
                 sManager = new SpriteManager("res/playerSprite.png");
                 SpriteLocation pos = DirectionType.getStandingSprite(DirectionType.SOUTH);
