@@ -23,7 +23,7 @@ public class SpriteManager{
         sprites = new SpriteSheet(spritesheet, resolution, resolution);
     }
 	
-	public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
+    public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
         Image spritesheet = new Image(path);
         sprites = new SpriteSheet(spritesheet, width, height, spacing, margin);
     }

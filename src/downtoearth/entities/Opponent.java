@@ -45,7 +45,7 @@ public class Opponent {
     public Opponent(RemotePlayer player) throws SlickException{
         this.player = player;
         this.bounds = new Rectangle(player.getCoords().getXint() + 2 , player.getCoords().getYint() + 2, 28, 28);
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.sManager = new SpriteManager("res/playersprite.png");
     }
     
     public void draw(int posX, int posY){
