@@ -26,7 +26,6 @@ public class SoundManager {
     private InputStream in;
     private AudioStream audioStream;
     private Clip clip;
-    private int count=0;
 
     /**
      * 
@@ -66,7 +65,7 @@ public class SoundManager {
             public void run()
             {
                 try {
-                File file = new File("res/"+path);
+                File file = new File("C:\\Users\\Tomt\\Documents\\J2S1\\Proftaak\\Sfx\\Edit\\"+path);
                 if (file.exists()) {
                     AudioInputStream sound = AudioSystem.getAudioInputStream(file);
                     clip = AudioSystem.getClip();

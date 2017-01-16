@@ -11,7 +11,6 @@ import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
-import downtoearth.gameUtil.SoundManager;
 import static downtoearth.states.GameState.w;
 import downtoearth.states.gui.CraftingScreen;
 import downtoearth.states.gui.Inventory;
@@ -49,8 +48,6 @@ public class MultiplayerState extends BasicGameState{
     
     private Map map;
 
-    private SoundManager sm;
-    
     public static void main(String[] args) {
     }
 
@@ -75,7 +72,6 @@ public class MultiplayerState extends BasicGameState{
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
         map = new Map(300,100);
-        sm = new SoundManager();
     }
 
     @Override
@@ -201,7 +197,6 @@ public class MultiplayerState extends BasicGameState{
             w.getPlayer().setHitPoints(data.getHealth());
             if(w.getPlayer().getHitPoints() == 0)
             {
-                sm.playSound("manDying.wav", false);
                 player.setDead(true);
                 updatePlayer(w.getPlayer().getCoordinate());
                 com.unsubscribe("players");
