@@ -257,7 +257,6 @@ public class Player extends LivingEntity{
     
     public void attackOpponent(RemotePlayer opponent)
     {
-        System.out.println("Attack!");
         int hp = opponent.getHealth() - 10;
         opponent.setHealth(hp);
     }

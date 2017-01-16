@@ -146,10 +146,7 @@ public class World implements Serializable{
         drawItems(startX, startY, stopX, stopY);
         
         drawOpponents(startX, startY, stopX, stopY);
-        
-        
 
-        
     }
     
     public void drawMobs(int startX, int startY, int stopX, int stopY){

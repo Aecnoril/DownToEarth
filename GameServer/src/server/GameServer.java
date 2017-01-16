@@ -117,6 +117,19 @@ public class GameServer extends UnicastRemoteObject implements IServer {
             client.updatePlayers(opponents);
         }
     }
+    
+    public void playerAttacked(RemotePlayer p){
+        for(IClient client : clients){
+            try{
+                if(p.getId().equalsIgnoreCase(client.getPlayer().getId())){
+                    client.getPlayer().setHealth(p.getHealth());
+                }
+            }
+            catch(Exception e){
+                
+            }
+        }
+    }
 
     @Override
     public void updateMobs(String message) throws RemoteException {
