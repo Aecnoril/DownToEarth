@@ -11,6 +11,7 @@ import downtoearth.enums.SpriteLocation;
 import org.newdawn.slick.GameContainer;
   import org.newdawn.slick.SlickException;
   import org.newdawn.slick.SpriteSheet;
+import shared.Coordinate;
   
   /**
    *
@@ -82,6 +83,21 @@ import org.newdawn.slick.GameContainer;
           }
       }
       
+      public void DrawAnimation(byte dir, Coordinate coords) throws SlickException {
+          if(dir == DirectionType.NORTH){
+              northAnim.draw(coords.getXint(), coords.getYint());
+          }
+          if(dir == DirectionType.WEST){
+              westAnim.draw(coords.getXint(), coords.getYint());
+          }
+          if(dir == DirectionType.EAST){
+              eastAnim.draw(coords.getXint(), coords.getYint());
+          }
+          if(dir == DirectionType.SOUTH){
+              southAnim.draw(coords.getXint(), coords.getYint());
+          }
+      }
+      
       public void DrawAttack(byte dir, GameContainer con) throws SlickException {
         if(dir == DirectionType.NORTH){
             northAttAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2 - 32);
@@ -94,6 +110,21 @@ import org.newdawn.slick.GameContainer;
         }
         if(dir == DirectionType.SOUTH){
             southAttAnim.draw(con.getWidth() / 2 - 16, con.getHeight() / 2);
+        } 
+      }
+      
+      public void DrawAttack(byte dir, Coordinate coords) throws SlickException {
+        if(dir == DirectionType.NORTH){
+            northAttAnim.draw(coords.getXint(), coords.getYint());
+        }
+        if(dir == DirectionType.EAST){
+            eastAttAnim.draw(coords.getXint(), coords.getYint());
+        }
+        if(dir == DirectionType.WEST){
+            westAttAnim.draw(coords.getXint(), coords.getYint());
+        }
+        if(dir == DirectionType.SOUTH){
+            southAttAnim.draw(coords.getXint(), coords.getYint());
         } 
       }
   }

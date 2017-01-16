@@ -1,18 +1,24 @@
 package downtoearth.gameUtil;
 
+import shared.Coordinate;
+
 public class Camera {
     
     private Coordinate c;
     private int width, height;
     
-    public Camera(int width, int height){
+    public Camera(int width, int height, Coordinate c){
         this.width= width;
         this.height = height;
-        c = new Coordinate(500,1050);
+        this.c = c;
     }
     
     public Coordinate getCoordinate(){
         return this.c;
+    }
+    
+    public void setCoordinate(Coordinate c){
+        this.c = c;
     }
     
     public int getX(){

@@ -1,4 +1,4 @@
-package downtoearth.gameUtil;
+package shared;
 
 import java.io.Serializable;
 

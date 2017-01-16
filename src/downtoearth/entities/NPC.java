@@ -9,7 +9,7 @@ import downtoearth.Multiplayer.Contestant;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.MobType;
 import downtoearth.enums.SpriteLocation;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.world.Tile;
 import static downtoearth.world.Tile.SPEED;
@@ -180,10 +180,10 @@ public class NPC extends LivingEntity {
         return false;
     }
     
-    private Contestant getContestantInRange(List<Contestant> contestants) {
-        for(Contestant contestant : contestants) {
-            if(isInRange(contestant.getX(), contestant.getY())) {
-                return contestant;
+    private Opponent getContestantInRange(List<Opponent> opponents) {
+        for(Opponent opponent : opponents) {
+            if(isInRange(opponent.getLocation().getX(), opponent.getLocation().getY())) {
+                return opponent;
             }
         }
         return null;
@@ -196,15 +196,15 @@ public class NPC extends LivingEntity {
         return null;
     }
     
-    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Contestant> contestants) throws SlickException {
+    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException {
         double inRangePlayerX = -1;
         double inRangePlayerY = -1;
         Player inRangePlayer = getPlayerInRange(world.getPlayer());
-        if(inRangePlayer == null && contestants != null) {
-            Contestant inRangeContestant = getContestantInRange(contestants);
+        if(inRangePlayer == null && opponents != null) {
+            Opponent inRangeContestant = getContestantInRange(opponents);
             if(inRangeContestant != null) {
-                inRangePlayerX = inRangeContestant.getX();
-                inRangePlayerY = inRangeContestant.getY();
+                inRangePlayerX = inRangeContestant.getLocation().getX();
+                inRangePlayerY = inRangeContestant.getLocation().getY();
             }
         } else if(inRangePlayer != null) {
             inRangePlayerX = inRangePlayer.getCamX();
