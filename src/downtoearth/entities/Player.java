@@ -12,6 +12,7 @@ import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
 import downtoearth.gameUtil.Coordinate;
+import downtoearth.gameUtil.SoundManager;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
 import downtoearth.interfaces.Subject;
@@ -46,6 +47,7 @@ public class Player extends LivingEntity implements Subject{
     private Rectangle colBox;
     private Rectangle attBox;
     private World w;
+    private SoundManager sm;
     
     private AnimationManager aManager;
     private SpriteManager sManager;
@@ -119,6 +121,7 @@ public class Player extends LivingEntity implements Subject{
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
         this.w = w;
+        sm = new SoundManager();
     }
     
     public void setSpawnPoint(int x, int y){

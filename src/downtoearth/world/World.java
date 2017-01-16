@@ -19,7 +19,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 
 public class World implements Serializable, Observer {
 
@@ -143,7 +142,6 @@ public class World implements Serializable, Observer {
         spawnManager=new SpawnManager();
         spawnManager.generateMobs(this);
         genTiles();   
-        
     }
 
     public void genTiles() {

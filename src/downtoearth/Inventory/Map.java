@@ -5,9 +5,8 @@
  */
 package downtoearth.Inventory;
 
-import downtoearth.entities.Player;
 import downtoearth.gameUtil.Camera;
-import downtoearth.states.GameState;
+import downtoearth.gameUtil.SoundManager;
 import downtoearth.world.World;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +27,7 @@ public class Map {
     private int y;
     private Camera cam;
     private int width;
+    private SoundManager sm;
 
     /**
      * Get the value of width
@@ -102,17 +102,15 @@ public class Map {
         } catch (SlickException ex) {   
             Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
         }
+        sm = new SoundManager();
     }
     
     public void mPressed(GameContainer gc) {
         if (gc.getInput().isKeyPressed(Input.KEY_M)) {
             if (mapOpen==false)
             {
-                //x= world.getPlayer().getCamera().getX();
-                //y= world.getPlayer().getCamera().getY();
                 this.x = cam.getX();
                 this.y = cam.getY();
-                System.out.println(x+" "+y);
                 mapOpen = true;
             }
             else {

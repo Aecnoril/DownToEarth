@@ -5,7 +5,6 @@
  */
 package downtoearth.gameUtil;
 
-import downtoearth.entities.NPC;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,17 +25,21 @@ public class SoundManager {
     public SoundManager() {
     }
     
-    public void playSound(String path)
+    public void playSound(final String path)
     {
-        try {
-             in = new FileInputStream("C:\\Users\\Tomt\\Documents\\J2S1\\Proftaak\\Sfx\\Edit\\"+path);
-             audioStream = new AudioStream(in);
-        }
-        catch (IOException ex)
+        new Thread()
         {
-            Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        AudioPlayer.player.start (audioStream);
+            public void run (){
+                try {
+                in = new FileInputStream("C:\\Users\\Tomt\\Documents\\J2S1\\Proftaak\\Sfx\\Edit\\"+path);
+                audioStream = new AudioStream(in);
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(SoundManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    AudioPlayer.player.start (audioStream);
+            }
+        }.start();
     }  
 }
