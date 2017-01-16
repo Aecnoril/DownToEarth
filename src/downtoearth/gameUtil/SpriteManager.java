@@ -5,7 +5,6 @@
  */
 package downtoearth.gameUtil;
 
-import java.io.Serializable;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;

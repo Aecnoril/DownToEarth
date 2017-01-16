@@ -62,7 +62,7 @@ public class NPC extends LivingEntity {
         super(name, location, hitPoints, path);
         this.count = 0;
         this.type = type;
-        this.bounds = new Rectangle(location.getXint() - 12 , location.getYint() - 14, 24, 32);
+        this.bounds = new Rectangle(location.getXint() - 16 , location.getYint() - 16, 32, 32);
         this.dir = DirectionType.SOUTH;
         this.sManager = new SpriteManager("res/tigersprite.png");
     }
@@ -73,8 +73,8 @@ public class NPC extends LivingEntity {
 
     public void draw(int posX, int posY) {    
         SpriteLocation pos = DirectionType.getStandingSprite(dir);
-        bounds.setX(location.getX()-12 - posX);
-        bounds.setY(location.getY()-15 - posY);
+        bounds.setX(location.getX()-16 - posX);
+        bounds.setY(location.getY()-16 - posY);
         sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint() - posX -16, location.getYint() - posY -16);
     }
 }

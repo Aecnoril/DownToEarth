@@ -143,14 +143,6 @@ public class World implements Serializable{
         
         drawMobs(startX, startY, stopX, stopY);
         
-        for (NPC n : mobs) {
-            if (n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX) {
-                if (n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY) {
-                    g.draw(n.getBounds());
-                }
-            }
-        }
-        
         drawItems(startX, startY, stopX, stopY);
         
         drawOpponents(startX, startY, stopX, stopY);
