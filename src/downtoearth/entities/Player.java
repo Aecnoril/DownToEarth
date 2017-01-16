@@ -250,6 +250,7 @@ public class Player extends LivingEntity implements Subject{
                      break;
                  }
              }
+             sm.playSound("swordMissA.wav");
         }    
     }
     
