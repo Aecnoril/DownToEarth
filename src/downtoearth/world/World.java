@@ -118,7 +118,7 @@ public class World implements Serializable{
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "res/tigersprite.png"));
+            mobs.add(new NPC("Test", new Coordinate(700, 1250), 100, MobType.Sheep, "res/tigersprite.png"));
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -142,6 +142,14 @@ public class World implements Serializable{
         drawTiles(startX, startY, stopX, stopY);
         
         drawMobs(startX, startY, stopX, stopY);
+        
+        for (NPC n : mobs) {
+            if (n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX) {
+                if (n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY) {
+                    g.draw(n.getBounds());
+                }
+            }
+        }
         
         drawItems(startX, startY, stopX, stopY);
         
