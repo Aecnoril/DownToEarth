@@ -13,6 +13,10 @@ public interface IClient extends Remote {
     public RemotePlayer getPlayer() throws RemoteException;
     
     public void updatePlayers(CopyOnWriteArrayList<RemotePlayer> opponents) throws RemoteException;
+    
+    public void attackPlayer(RemotePlayer p) throws RemoteException;
+    
+    public void recieveDamage() throws RemoteException;
 
     public void sendMessage(String message) throws RemoteException;
 }

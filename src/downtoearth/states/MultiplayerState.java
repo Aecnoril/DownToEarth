@@ -58,11 +58,13 @@ public class MultiplayerState extends BasicGameState{
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
-            this.client = new Client(Integer.toString(random.nextInt(100)), "143.93.116.104");
+            this.client = new Client(Integer.toString(random.nextInt(100)), "localhost", w.getPlayer());
             w.getPlayer().setSpawnPoint(client.getPlayer().getCoords().getXint(), client.getPlayer().getCoords().getYint());
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        this.w.getPlayer().setClient(client);
     }
 
     @Override

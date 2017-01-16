@@ -118,15 +118,15 @@ public class GameServer extends UnicastRemoteObject implements IServer {
         }
     }
     
-    public void playerAttacked(RemotePlayer p){
-        for(IClient client : clients){
+    @Override
+    public void attackPlayer(RemotePlayer player){
+        for(IClient client : this.clients){
             try{
-                if(p.getId().equalsIgnoreCase(client.getPlayer().getId())){
-                    client.getPlayer().setHealth(p.getHealth());
+                if(client.getPlayer().getId().equalsIgnoreCase(player.getId())){
+                    client.recieveDamage();
                 }
-            }
-            catch(Exception e){
-                
+            }catch(Exception e){
+                Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }

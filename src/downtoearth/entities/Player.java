@@ -6,6 +6,7 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.Multiplayer.Client;
 import shared.RemotePlayer;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
@@ -38,6 +39,7 @@ public class Player extends LivingEntity{
     private int hunger;
     private byte dir;
     private Camera cam;
+    private Client c;
     private boolean moving;
     private Coordinate coordinate;
     private boolean attack;
@@ -112,7 +114,7 @@ public class Player extends LivingEntity{
         this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
         this.sManager = new SpriteManager("res/playerSprite.png");
-        this.dir = DirectionType.NORTH;
+        this.dir = DirectionType.NORTH; 
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
         this.cam = new Camera(1080, 720, this.coordinate);
@@ -123,8 +125,12 @@ public class Player extends LivingEntity{
         this.coordinate.setX(x);
         this.coordinate.setY(y);
     }
+    
+    public void setClient(Client c){
+        this.c = c;
+    }
 
-    public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
+    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{   
         moving = false;
         xa = 0;
         ya = 0;
@@ -134,7 +140,7 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(tiles, entities)){
+        if(!collision(tiles, entities, opponents)){
             if(xa != 0){
                 this.coordinate.setX(this.coordinate.getXint()+ xa);
             }
@@ -164,7 +170,7 @@ public class Player extends LivingEntity{
         }
     }
 
-    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+    public boolean collision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{
         switch(dir){
              case DirectionType.NORTH:
                  colBox = new Rectangle(540-13, 360-14, 26, 1);
@@ -190,6 +196,11 @@ public class Player extends LivingEntity{
         for(NPC npc : entities)
         {
             if(this.getColBox().intersects(npc.getBounds())){
+                return true;
+            }
+        }      
+        for(Opponent opponent: opponents){
+            if(this.colBox.intersects(opponent.getBounds())){
                 return true;
             }
         }
@@ -257,8 +268,9 @@ public class Player extends LivingEntity{
     
     public void attackOpponent(RemotePlayer opponent)
     {
-        int hp = opponent.getHealth() - 10;
-        opponent.setHealth(hp);
+        c.attackPlayer(opponent);
+        opponent.setHealth(opponent.getHealth() - 10);
+        System.out.println("player attacked: " + opponent.getId());
     }
 }
 

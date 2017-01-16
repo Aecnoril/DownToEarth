@@ -192,7 +192,7 @@ public class World implements Serializable{
     }
 
     public void update(Input input) throws SlickException {
-        this.p.move(input, this.tiles, this.mobs);
+        this.p.move(input, this.tiles, this.mobs, this.opponents);
         this.p.attack(this.tiles, this.mobs, this.opponents, input);
         for (ItemEntity t : this.itemEnts) {
             t.move(input);

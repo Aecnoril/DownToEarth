@@ -18,12 +18,13 @@ import shared.*;
 public class Client extends UnicastRemoteObject implements IClient {
 
     private IServer server;
-    private RemotePlayer player;
+    private RemotePlayer remotePlayer;
+    private Player player;
     private CopyOnWriteArrayList<RemotePlayer> otherClients;
     public List<Opponent> opponents;
     private String name;
 
-    public Client(String name, String ip) throws RemoteException {
+    public Client(String name, String ip, Player p) throws RemoteException {
 
         this.name = name;
 
@@ -33,8 +34,9 @@ public class Client extends UnicastRemoteObject implements IClient {
             this.opponents = new ArrayList<Opponent>();
             this.otherClients = new CopyOnWriteArrayList<RemotePlayer>();
             this.server.clientJoin(this);
-            this.player = server.spawnPlayer(this);
+            this.remotePlayer = server.spawnPlayer(this);
             this.server.updatePlayers();
+            this.player = p;
         } catch (NotBoundException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -59,7 +61,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 
     @Override
     public RemotePlayer getPlayer() throws RemoteException {
-        return this.player;
+        return this.remotePlayer;
     }
 
     @Override
@@ -77,14 +79,31 @@ public class Client extends UnicastRemoteObject implements IClient {
 
         }
     }
+    
+    @Override
+    public void attackPlayer(RemotePlayer p){
+        try{
+            server.attackPlayer(p);
+        }catch(Exception e){
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    @Override
+    public void recieveDamage() throws RemoteException {
+        this.player.hitPoints =- 10;
+        System.out.println("player damaged");
+    }
 
     public void movePlayer(Player player) {
-               this.player.setCoords(player.getCoordinate().getXint(), player.getCoordinate().getYint());
-               this.player.dir = player.getDir();
+               this.remotePlayer.setCoords(player.getCoordinate().getXint(), player.getCoordinate().getYint());
+               this.remotePlayer.dir = player.getDir();
         try {
             this.server.updatePlayers();
         } catch (RemoteException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
 }

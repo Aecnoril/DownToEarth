@@ -19,6 +19,8 @@ public interface IServer extends Remote{
     
     public void dropItem(String message) throws RemoteException;
     
+    public void attackPlayer(RemotePlayer player) throws RemoteException;
+    
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException;
 
     public IClient getClientByName(String clientName) throws RemoteException;
