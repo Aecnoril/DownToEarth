@@ -21,6 +21,8 @@ import downtoearth.world.World;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -141,12 +143,12 @@ public class Player extends LivingEntity implements Subject{
             float newX = getCamX() + xa;
             if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
                 this.setCamX(newX);
-//                notifyObservers();
+                notifyObservers();
             }
             float newY = getCamY() + ya;
             if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
                 this.setCamY(newY);
-//                notifyObservers();
+                notifyObservers();
             }
 
             this.coordinate = cam.getCoordinate();
@@ -284,7 +286,11 @@ public class Player extends LivingEntity implements Subject{
     @Override
     public void notifyObservers() {
         for(Observer ob : observers){
-            ob.update(this);
+            try{
+                ob.update(this);
+            }catch(NullPointerException ex){
+                Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

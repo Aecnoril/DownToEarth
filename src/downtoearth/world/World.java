@@ -217,7 +217,7 @@ public class World implements Serializable, Observer {
             t.move(input);
         }
         for (NPC n : this.mobs) {
-            n.move(input, this.tiles, this.mobs);
+            n.move(input, this.tiles, this.mobs, this.opponents);
         }
     }
 
