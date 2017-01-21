@@ -5,19 +5,12 @@
  */
 package downtoearth.states.gui;
 
-import downtoearth.states.gui.Inventory;
-import downtoearth.states.gui.InventorySlot;
-import downtoearth.states.gui.Rectangle;
-import downtoearth.items.Item;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 /**
@@ -121,7 +114,7 @@ public class CraftingScreen {
                 Font awtfont = new Font("Arial", Font.PLAIN, 24);
                 TrueTypeFont f = new TrueTypeFont(awtfont, false);
                 g.setFont(f);
-                g.drawString(r.text, r.getRectangle().getX(), r.getRectangle().getY() - scroll);
+                g.drawString(r.getText(), r.getRectangle().getX(), r.getRectangle().getY() - scroll);
             }
         }
 
@@ -131,8 +124,8 @@ public class CraftingScreen {
         Font awtfont = new Font("Arial", Font.PLAIN, 24);
         TrueTypeFont f = new TrueTypeFont(awtfont, false);
         g.setFont(f);
-        if (selectedSlot.text != null) {
-            g.drawString(selectedSlot.text, selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY());
+        if (selectedSlot.getText() != null) {
+            g.drawString(selectedSlot.getText(), selectedSlot.getRectangle().getX(), selectedSlot.getRectangle().getY());
         }
     }
 

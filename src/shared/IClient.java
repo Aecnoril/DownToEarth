@@ -23,7 +23,7 @@ public interface IClient extends Remote {
     public String getClientName() throws RemoteException;
  
     /**
-     * @return all th information of an enemy player
+     * @return all the information of an enemy player
      * @throws RemoteException 
      */
     public RemotePlayer getPlayer() throws RemoteException;

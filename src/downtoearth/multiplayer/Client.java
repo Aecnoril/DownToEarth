@@ -1,7 +1,6 @@
 package downtoearth.Multiplayer;
 
 import downtoearth.entities.Opponent;
-import downtoearth.entities.Player;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -18,7 +17,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     private IServer server;
     private RemotePlayer player;
     private List<RemotePlayer> otherClients;
-    public List<Opponent> opponents;
+    private List<Opponent> opponents;
     private String name;  
     
     public Client(String name, String ip) throws RemoteException{
@@ -59,13 +58,17 @@ public class Client extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void updatePlayers(ArrayList<RemotePlayer> otherClients) {
+    public void updatePlayers(List<RemotePlayer> otherClients){
         this.otherClients = otherClients;
-        if(opponents.size() != 0){
+        if(!opponents.isEmpty()){
             this.opponents.clear();
         }
         for(RemotePlayer p : this.otherClients){
             opponents.add(new Opponent(p));
         }
+    }
+
+    public List<Opponent> getOpponents() throws RemoteException {
+        return this.opponents;
     }
 }

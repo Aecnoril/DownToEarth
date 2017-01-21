@@ -5,7 +5,6 @@
  */
 package downtoearth.world.worldGen;
 
-import downtoearth.database.ServerAPI;
 import shared.Coordinate;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import org.newdawn.slick.SlickException;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,8 +24,7 @@ public class WorldGen {
     private Coordinate size;
     private SimplexNoise noise;
 
-    public float[][] map;
-    public int[][] colorMap;
+    private float[][] map;
 
     public int[] getFlatMap() {
 
@@ -50,7 +47,6 @@ public class WorldGen {
 
     public World GenerateWorld() throws SlickException {
         map = new float[size.getXint()][size.getYint()];
-        double total = 0.0;
         int octaves = 8;
         float roughness = 0.4f;
         float layerFreq = 0.00025f;
@@ -71,14 +67,11 @@ public class WorldGen {
     }
 
     private float[][] generateGradient(float[][] radiatedMatrix) {
-        Coordinate middle = size;
         size.setX(size.getX() / 2);
         size.setY(size.getY() / 2);
 
         for (int i = 0; i < radiatedMatrix.length; i++) {
             for (int j = 0; j < radiatedMatrix[i].length; j++) {
-
-                int distance = Math.round(Coordinate.distance(Coordinate.origin(), new Coordinate(i, j)));
 
             }
         }
@@ -87,7 +80,7 @@ public class WorldGen {
     }
 
     private World saveWorld() throws SlickException {
-
+        int[][] colorMap;
         BufferedImage bImage = new BufferedImage(size.getXint(), size.getYint(), BufferedImage.TYPE_INT_RGB);
         colorMap = new int[size.getXint()][size.getYint()];
         
@@ -162,7 +155,6 @@ public class WorldGen {
                     if (height < 0.45f && !pixelSet) {
                         colorMap[j][i] = top.getRGB();
                         bImage.setRGB(j, i, sea.hashCode());
-                        pixelSet = true;
                     }
                 }
             }

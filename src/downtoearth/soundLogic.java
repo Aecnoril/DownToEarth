@@ -45,17 +45,14 @@ public final class soundLogic {
         }
         AudioListener listener = new AudioListener();
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(clipFile);
+        Clip clip = AudioSystem.getClip();
         try {
-            Clip clip = AudioSystem.getClip();
             clip.addLineListener(listener);
             clip.open(audioInputStream);
-            try {
-                clip.start();
-                listener.waitUntilDone();
-            } finally {
-                clip.close();
-            }
+            clip.start();
+            listener.waitUntilDone();
         } finally {
+            clip.close();
             audioInputStream.close();
         }
     }

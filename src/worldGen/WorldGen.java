@@ -17,7 +17,7 @@ public class WorldGen {
     private Coordinate size;
     private SimplexNoise noise;
 
-    public float[][] map;
+    private float[][] map;
 
     public int[] getFlatMap() {
 
@@ -40,7 +40,6 @@ public class WorldGen {
 
     public void GenerateMatrix() {
         map = new float[size.getXint()][size.getYint()];
-        double total = 0.0;
         int octaves = 8;
         float roughness = 0.4f;
         float layerFreq = 0.003f;
@@ -62,15 +61,11 @@ public class WorldGen {
     }
 
     private float[][] generateGradient(float[][] radiatedMatrix) {
-
-        Coordinate middle = size;
         size.setX(size.getX() / 2);
         size.setY(size.getY() / 2);
 
         for (int i = 0; i < radiatedMatrix.length; i++) {
             for (int j = 0; j < radiatedMatrix[i].length; j++) {
-
-                int distance = Math.round(Coordinate.distance(Coordinate.origin(), new Coordinate(i, j)));
 
             }
         }

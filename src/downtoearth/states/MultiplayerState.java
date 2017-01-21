@@ -10,14 +10,12 @@ import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import shared.RemotePlayer;
 import downtoearth.entities.ItemEntity;
-import downtoearth.entities.Opponent;
 import shared.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Random;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
@@ -29,7 +27,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MultiplayerState extends BasicGameState{
 
-    public World w;
+    private World w;
     private Inventory inv;
     private CraftingScreen cs;
     private StateBasedGame game;
@@ -69,17 +67,17 @@ public class MultiplayerState extends BasicGameState{
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 
         try {
-            w.opponents = client.opponents;
+            w.setOpponent(client.getOpponents());
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);       
         } catch (IOException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
         g.drawString("State 3: MultiplayerGame", 10, 30);
 
-        for (ItemEntity i : w.itemEnts) {
+        for (ItemEntity i : w.getItemEnt()) {
             if (w.getPlayer().getBounds().intersects(i.getBounds())) {
                 inv.generateInventory();
-                w.itemEnts.remove(i);
+                w.removeFromItemEntities(i);
                 break;
             }
         }

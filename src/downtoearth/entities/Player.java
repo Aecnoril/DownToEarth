@@ -30,8 +30,6 @@ import org.newdawn.slick.geom.Rectangle;
 public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    
-    public float xa, ya;
     private List<Observer> observers;
     
     private int thirst;
@@ -125,9 +123,9 @@ public class Player extends LivingEntity{
     }
 
     public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
+        float xa = 0;
+        float ya = 0;
         moving = false;
-        xa = 0;
-        ya = 0;
         
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_W)){ dir = DirectionType.NORTH; ya = -1.3f; moving = true;}

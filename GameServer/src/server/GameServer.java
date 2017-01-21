@@ -30,7 +30,6 @@ public class GameServer extends UnicastRemoteObject implements IServer {
      */
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
-        this.spawnpoints = new ArrayList<Coordinate>();
     }
     
     /**
@@ -90,7 +89,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException {
-        spawnpoints = new ArrayList<Coordinate>();
+        spawnpoints = new ArrayList<>();
         spawnpoints.add(new Coordinate(780,1541));
         spawnpoints.add(new Coordinate(1137,2985));
         spawnpoints.add(new Coordinate(2291,2483));

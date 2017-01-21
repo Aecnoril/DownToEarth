@@ -5,12 +5,9 @@
  */
 package downtoearth.items;
 
-import downtoearth.items.Item;
 import downtoearth.entities.ItemEntity;
-import downtoearth.enums.Tooltype;
 import shared.Coordinate;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *

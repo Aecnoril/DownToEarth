@@ -20,7 +20,7 @@ public abstract class Entity{
     protected String name;
     protected SpriteSheet sprite;
     protected Coordinate location;
-    public int hitPoints;  
+    protected int hitPoints;  
     protected List<Item> inventory;
     protected SpriteManager spriteManager;
     

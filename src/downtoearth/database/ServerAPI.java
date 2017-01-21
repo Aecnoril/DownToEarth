@@ -13,8 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -282,7 +280,7 @@ public class ServerAPI {
                     if(tokenId != null){
                         authorization += "tokenId=" + tokenId + ";";
                     }
-                    if(!authorization.equals("")) {
+                    if(!"".equals(authorization)) {
                         httpsURLConnection.setRequestProperty("Authorization", authorization);
                     }
                     httpsURLConnection.setDoInput(true);

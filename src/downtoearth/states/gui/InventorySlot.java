@@ -19,7 +19,7 @@ public class InventorySlot {
     private Rectangle bounds;
     private Item item;
     private downtoearth.states.gui.Rectangle rectangle;
-    public String text;
+    private String text;
     /**
      *
      * @param x
@@ -33,11 +33,21 @@ public class InventorySlot {
         this.bounds = new Rectangle(x, y, width, height);
     }
 
+   
+    
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    /**
+     * set the value of text
+     * @param x 
+     */
     public void setText(String x){
         text = x;
     }
     
-    //<editor-fold defaultstate="collapsed" desc="Properties">
+    public String getText(){
+        return this.text;
+    }
+     
     /**
      * Get the value of rectangle
      *
