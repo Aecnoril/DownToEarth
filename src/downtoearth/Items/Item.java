@@ -6,8 +6,9 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
+import downtoearth.enums.ResourceType;
 import downtoearth.enums.SpriteLocation;
-import downtoearth.enums.Tooltype;
+import downtoearth.enums.Type;
 import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import java.io.Serializable;
@@ -20,18 +21,27 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class Item implements Serializable, Remote{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-    private final String PATH = "res/TestItems.png";
+    private final String PATH = "res/ToolAndResourceSprites.png";
     
     protected String name;
     protected byte type;
     protected double durability;
     protected double breakChange;
     protected SpriteManager manager;
+    private int slot;
     
     private int spritex = Integer.MIN_VALUE, spritey = Integer.MIN_VALUE;
     
     public byte getType(){
         return type;
+    }
+    
+    public int getSlot(){
+        return slot;
+    }
+    
+    public void setSlot(int slotnumber){
+        this.slot = slotnumber;
     }
     
     public String getName(){
@@ -44,7 +54,8 @@ public abstract class Item implements Serializable, Remote{
     
     //</editor-fold>
     
-    public Item(String name, byte type, double durability, double breakChange) throws SlickException{
+    public Item(String name, byte type, double durability, double breakChange) throws SlickException{        
+        this.slot = -1;
         this.name = name;
         this.type = type;
 
@@ -56,7 +67,7 @@ public abstract class Item implements Serializable, Remote{
     //normal draw
     public void render(int xpos, int ypos) throws SlickException{
         if(spritex == Integer.MIN_VALUE){
-            SpriteLocation sl = Tooltype.getSpriteLocation(type);
+            SpriteLocation sl = Type.getSpriteLocation(type);
             spritex = sl.getSpriteX();
             spritey = sl.getSpriteY(); 
         }
@@ -66,7 +77,7 @@ public abstract class Item implements Serializable, Remote{
     //scale draw
     public void render(int xpos, int ypos, int size) throws SlickException{
         if(spritex == Integer.MIN_VALUE){
-            SpriteLocation sl = Tooltype.getSpriteLocation(type);
+            SpriteLocation sl = Type.getSpriteLocation(type);
             spritex = sl.getSpriteX();
             spritey = sl.getSpriteY(); 
         }

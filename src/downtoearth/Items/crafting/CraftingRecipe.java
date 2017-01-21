@@ -46,4 +46,13 @@ public class CraftingRecipe {
     public Item getResult() {
         return result;
     }
+    
+       /**
+     * Get the value of nrOfItems
+     *
+     * @return
+     */
+    public int getnrOfItems() {
+        return nrOfItems;
+    }
 }

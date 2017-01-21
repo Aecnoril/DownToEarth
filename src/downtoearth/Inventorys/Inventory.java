@@ -8,6 +8,7 @@ package downtoearth.Inventorys;
 import downtoearth.Items.Item;
 import downtoearth.Items.Resource;
 import downtoearth.enums.ResourceType;
+import downtoearth.enums.Type;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +27,9 @@ public class Inventory {
     private ArrayList<InventorySlot> inventorySlots = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private InventorySlot selectedSlot = null;
-    private boolean invOpen;
     private Rectangle rectangle;
     private Color color;
+    private boolean invOpen;
 
     /**
      *
@@ -41,19 +42,28 @@ public class Inventory {
     public Inventory(int x, int y, int width, int height, Color c) {
         rectangle = new Rectangle(c, x, y, width, height);
         this.invOpen = false;
-
         try {
-            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
-            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
-            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
-            items.add(new Resource("Wood", ResourceType.WOOD, 100, 0));
-            items.add(new Resource("Stick", ResourceType.STICK, 100, 0));
-            items.add(new Resource("Gravel", ResourceType.GRAVEL, 100, 0));
-            items.add(new Resource("Steel", ResourceType.STEEL, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Wood", Type.WOOD, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Stick", Type.STICK, 100, 0));
+            items.add(new Resource("Gravel", Type.GRAVEL, 100, 0));
+            items.add(new Resource("Steel", Type.STEEL, 100, 0));
+            items.add(new Resource("Steel", Type.STEEL, 100, 0));
         } catch (SlickException ex) {
             Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.generateInventory();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
@@ -119,7 +129,7 @@ public class Inventory {
         int temporaryY = rectangle.getY();
         int leftborder = 25;
         int topborder = 25;
-
+        this.inventorySlots.clear();
         for (int i = 0; i < 40; i++) {
             if (i == 10 || i == 20) {
                 temporaryY += 100;
@@ -134,11 +144,6 @@ public class Inventory {
 
             temporaryX += r.getRectangle().getWidth() + leftborder;
         }
-
-        for (InventorySlot is : inventorySlots) {
-            is.setItem(null);
-        }
-
         int i = 1;
         for (Item it : items) {
             boolean dubbelItem = false;
@@ -151,9 +156,18 @@ public class Inventory {
                     }
                 }
             }
-            if (r.getItem() == null && dubbelItem == false) {
+            if (r.getItem() == null && dubbelItem == false && it.getSlot() == -1) {
                 r.setItem(it);
+                ((Item) r.getItem()).setSlot(inventorySlots.indexOf(r));
                 i++;
+            } else if (dubbelItem == false) {
+                if (it.getSlot() == -1) {
+                    i++;
+                    it.setSlot(inventorySlots.indexOf(inventorySlots.size() - i));
+                }
+                inventorySlots.get(it.getSlot()).setItem(it);
+                i++;
+
             }
         }
     }
@@ -197,6 +211,7 @@ public class Inventory {
                 for (Item i : items) {
                     System.out.println(i.getName());
                 }
+                this.generateInventory();
             }
         }
         if (this.invOpen) {
@@ -224,11 +239,16 @@ public class Inventory {
                         int quantity = selectedSlot.getItemQuantity();
                         selectedSlot.setItem((Item) is.getItem());
                         selectedSlot.setItemQuantity(is.getItemQuantity());
+                        if (i != null) {
+                            i.setSlot(inventorySlots.indexOf(is));
+                        }
+                        ((Item) is.getItem()).setSlot(inventorySlots.indexOf(selectedSlot));
                         is.setItem(i);
                         is.setItemQuantity(quantity);
                     } else if (selectedSlot != null) {
                         is.setItem((Item) selectedSlot.getItem());
                         is.setItemQuantity(selectedSlot.getItemQuantity());
+                        ((Item) selectedSlot.getItem()).setSlot(inventorySlots.indexOf(is));
                         selectedSlot.setItem(null);
                     }
                     if (selectedSlot == null) {
@@ -237,6 +257,15 @@ public class Inventory {
                         selectedSlot = null;
                     }
                 }
+            }
+        }
+    }
+
+    public void removeItem(Item i) {
+        items.remove(i);
+        for (InventorySlot is : inventorySlots) {
+            if (is.getItem() == i) {
+                is.setItem(null);
             }
         }
     }

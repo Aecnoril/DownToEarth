@@ -20,13 +20,13 @@ public class ArmorType {
     public static SpriteLocation getSpriteLocation(byte index){
         switch(index){
             case WOODENARMOR:
-                return new SpriteLocation(4,2);
+                return new SpriteLocation(4, 4);
             case STONEARMOR:
-                return new SpriteLocation(5,2);
+                return new SpriteLocation(5, 4);
             case STEELARMOR:
-                return new SpriteLocation(6,2);
+                return new SpriteLocation(6, 4);
             case GEMARMOR:
-                return new SpriteLocation(7,2); 
+                return new SpriteLocation(7, 4);
         }
         return null;
     }

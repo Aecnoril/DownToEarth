@@ -34,7 +34,7 @@ public class GameState extends BasicGameState {
 
     @Override
     public int getID() {
-        return 2;
+        return 0;
     }
 
     @Override
@@ -54,7 +54,6 @@ public class GameState extends BasicGameState {
         g.drawString("State 3: Game", 10, 30);
         for (ItemEntity i : w.itemEnts) {
             if (w.getPlayer().getBounds().intersects(i.getBounds())) {
-                inv.generateInventory();
                 w.itemEnts.remove(i);
                 break;
             }

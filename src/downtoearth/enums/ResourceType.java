@@ -27,27 +27,27 @@ public class ResourceType {
     public static SpriteLocation getSpriteLocation(byte index){
         switch(index){
             case COWHIDE:
-                return new SpriteLocation(0,3);
+                return new SpriteLocation(4, 2);
             case WOOL:
-                return new SpriteLocation(1,3);
+                return new SpriteLocation(5, 2);
             case GRAVEL:
-                return new SpriteLocation(2,3);
+                return new SpriteLocation(6, 2);
             case SAND:
-                return new SpriteLocation(3,3);
+                return new SpriteLocation(7, 2);
             case STONE:
-                return new SpriteLocation(4,3);
+                return new SpriteLocation(0, 3);
             case WOOD:
-                return new SpriteLocation(5,3);
+                return new SpriteLocation(1, 3);
             case COAL:
-                return new SpriteLocation(6,3);
+                return new SpriteLocation(2, 3);
             case STEEL:
-                return new SpriteLocation(7,3);
+                return new SpriteLocation(3, 3);
             case GEMSTONE:
-                return new SpriteLocation(0,4);
+                return new SpriteLocation(4, 3);
             case BUCKET:
-                return new SpriteLocation(1,4);  
+                return new SpriteLocation(5, 3);
             case STICK:
-                return new SpriteLocation(0, 0);
+                return new SpriteLocation(6, 3);
         }
         return null;
     }
