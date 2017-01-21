@@ -16,7 +16,7 @@ import org.newdawn.slick.SpriteSheet;
 public class SpriteManager{
     private final int resolution = 32;
     private final int size = 32;
-    private SpriteSheet sprites;
+    private final SpriteSheet sprites;
     
     public SpriteManager(String path) throws SlickException{
         Image spritesheet = new Image(path); 

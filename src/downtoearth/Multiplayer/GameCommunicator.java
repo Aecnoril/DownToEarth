@@ -23,8 +23,8 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
     // Remote publisher
     private IRemotePublisherForDomain publisherForDomain;
     private IRemotePublisherForListener publisherForListener;
-    private static int portNumber = 1099;
-    private static String bindingName = "publisher";
+    private static final int PORT_NUMBER = 1099;
+    private static final String BINDING_NAME = "publisher";
     private boolean connected = false;
     
     // Thread pool
@@ -46,13 +46,13 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      */
     public void connectToPublisher() {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", portNumber);
+            Registry registry = LocateRegistry.getRegistry("localhost", PORT_NUMBER);
             for(String text : registry.list()){
                 System.out.println(text);
             }
             if(registry.list().length < 5){
-                publisherForDomain = (IRemotePublisherForDomain) registry.lookup(bindingName);
-                publisherForListener = (IRemotePublisherForListener) registry.lookup(bindingName);
+                publisherForDomain = (IRemotePublisherForDomain) registry.lookup(BINDING_NAME);
+                publisherForListener = (IRemotePublisherForListener) registry.lookup(BINDING_NAME);
                 connected = true;
                 System.out.println("Connection with remote publisher established");
             }else{

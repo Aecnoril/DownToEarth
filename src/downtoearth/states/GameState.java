@@ -24,8 +24,8 @@ public class GameState extends BasicGameState {
     public static World w;
     private Inventory inv;
     private CraftingScreen cs;
-    private static int mapSize = 5012;
-    private static NoiseGen noiseGen = new NoiseGen();
+    private static final int mapSize = 5012;
+    private static final NoiseGen noiseGen = new NoiseGen();
     private Map map;
     private Camera cam;
 
