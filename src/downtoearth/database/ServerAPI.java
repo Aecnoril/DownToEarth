@@ -2,7 +2,6 @@ package downtoearth.database;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -60,19 +59,20 @@ public class ServerAPI {
     
     public static class Response{
         
-        private boolean success;
-        private int statusCode;
-        private String response;
-        private Error error;
+        private final boolean success;
+        private final int statusCode;
+        private final String response;
+        private final Error error;
         
         /**
          * Create error response
          * @param error the error
          */
         public Response(Error error){
-            this.statusCode = statusCode;
+            this.statusCode = -1;
             this.error = error;
             this.success = false;
+            this.response = null;
         }
         
         /**
@@ -84,6 +84,7 @@ public class ServerAPI {
             this.statusCode = statusCode;
             this.response = response;
             this.success = true;
+            this.error = null;
         }
         
         /**
@@ -100,6 +101,14 @@ public class ServerAPI {
          */
         public int getStatusCode(){
             return statusCode;
+        }
+        
+        /**
+         * Get the occurred error
+         * @return the error that occurred
+         */
+        public Error getError() {
+            return error;
         }
         
         /**

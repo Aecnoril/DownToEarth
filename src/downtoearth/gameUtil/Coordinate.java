@@ -2,6 +2,10 @@ package downtoearth.gameUtil;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author koenv
+ */
 public class Coordinate implements Serializable{
     
     public float x;

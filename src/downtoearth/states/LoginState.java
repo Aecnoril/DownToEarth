@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.database.DatabaseAPI;
 import downtoearth.states.gui.Button;
 import downtoearth.states.gui.PasswordTextField;
 import downtoearth.database.ServerAPI;
@@ -31,8 +32,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class LoginState extends BasicGameState {
 
     private String mode;
-    private String tokenTF;
-    private String tokenIdTF;
     
     private int rebound;
     
@@ -82,6 +81,11 @@ public class LoginState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        if(DatabaseAPI.getInstance().isUserAvailable()) {
+            game.enterState(1);
+            return;
+        }
+        
         backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
         if(registerb == true){
             g.drawString("Register was succesfull", (container.getWidth() / 2) - 25, 100);
@@ -110,8 +114,6 @@ public class LoginState extends BasicGameState {
             g.drawString("Password", loginPassword.getX(), loginPassword.getY() - 20);
             loginPassword.render(container, g);
         }
-        
-
     }
 
     @Override
@@ -125,7 +127,6 @@ public class LoginState extends BasicGameState {
                 }
                 else{
                     login(game);
-                    logout();
                 } 
             }
         }
@@ -136,8 +137,7 @@ public class LoginState extends BasicGameState {
         if (register.clicked(container.getInput())) {
             registerb = false;
             if(mode == "register"){
-                register();
-                logout();
+                register(game);
             }
             else{
                 mode = "register";
@@ -152,7 +152,7 @@ public class LoginState extends BasicGameState {
         t.setTextColor(Color.black);
     }
 
-    private void register() {
+    private void register(final StateBasedGame game) {
         if(rebound == 5){
             ServerAPI.register(registerEmail.getText(), loginUsername.getText(), loginPassword.getText(), new ServerAPI.ResponseListener() {
                 @Override
@@ -160,13 +160,11 @@ public class LoginState extends BasicGameState {
                     if(response.isSuccess() && response.getStatusCode() == 200){
                         try {
                             JSONObject sessionInfo = response.getJSONObjectResponse();
-                            tokenTF = sessionInfo.getString("token");
-                            tokenIdTF = sessionInfo.getString("tokenId");
+                            DatabaseAPI.getInstance().setUser(sessionInfo.getInt("tokenId"), sessionInfo.getString("token"));
                         } catch (JSONException ex) {
                             Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        registerb = true;
-                        mode = "login";
+                        game.enterState(1);
                     } else {
                         System.out.println(response.getResponse());
                         System.out.println("Something went wrong..."); 
@@ -183,30 +181,14 @@ public class LoginState extends BasicGameState {
                 if(response.isSuccess() && response.getStatusCode() == 200){
                     try {
                         JSONObject sessionInfo = response.getJSONObjectResponse();
-                        tokenTF = sessionInfo.getString("token");
-                        tokenIdTF = sessionInfo.getString("tokenId");
+                        DatabaseAPI.getInstance().setUser(sessionInfo.getInt("tokenId"), sessionInfo.getString("token"));
                     } catch (JSONException ex) {
                         Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    //game.enterState(1);
-                    game.enterState(5);
+                    game.enterState(1);
                 } else {
                     System.out.println(response.getResponse());
                     System.out.println("Something went wrong...");
-                }
-            }
-        });
-    }
-    
-    private void logout(){
-        ServerAPI.logout(tokenTF, tokenIdTF, new ServerAPI.ResponseListener() {
-            @Override
-            public void onResponse(ServerAPI.Response response) {
-                if(response.isSuccess() && response.getStatusCode() == 200){
-                    tokenTF = "";
-                    tokenIdTF = "";
-                } else {
-                    System.out.println("Logout went wrong...");
                 }
             }
         });

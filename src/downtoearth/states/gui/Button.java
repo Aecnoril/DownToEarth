@@ -5,10 +5,9 @@
  */
 package downtoearth.states.gui;
 
-import downtoearth.gameUtil.*;
+import shared.Coordinate;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;

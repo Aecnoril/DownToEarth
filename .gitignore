@@ -13,5 +13,11 @@ hs_err_pid*
 /dist/
 nbproject/private/private.xml
 nbproject/private/private.properties
+<<<<<<< HEAD
 /GameServer/nbproject/private/
 /GameServer/build/
+=======
+/GameServer/build/
+/GameServer/dist/
+/GameServer/nbproject/private/
+>>>>>>> rmi-test

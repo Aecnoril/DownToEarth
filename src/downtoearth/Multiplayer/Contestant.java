@@ -5,11 +5,7 @@
  */
 package downtoearth.Multiplayer;
 
-import downtoearth.enums.DirectionType;
-import downtoearth.enums.SpriteLocation;
-import downtoearth.gameUtil.SpriteManager;
 import java.io.Serializable;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 /**

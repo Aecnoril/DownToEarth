@@ -1,8 +1,6 @@
 package downtoearth.states.gui;
 
-import downtoearth.entities.Player;
 import downtoearth.gameUtil.Camera;
-import downtoearth.states.GameState;
 import downtoearth.world.World;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import shared.Coordinate;
 
 /**
  *
@@ -88,7 +87,7 @@ public class Map {
     
     public Map(int width, int height) throws SlickException
     {
-        cam = new Camera(1080,720);
+        cam = new Camera(1080,720, new Coordinate(0,0));
         this.width = width;
         this.height = height;
         this.mapOpen = false;

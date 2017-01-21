@@ -4,9 +4,9 @@ import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;
 import downtoearth.gameUtil.Camera;
+import shared.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.NoiseGen;
 import java.io.IOException;
@@ -30,6 +30,7 @@ public class GameState extends BasicGameState {
     private Camera cam;
 
     public static void main(String[] args) {
+        System.out.println("hoi");
     }
 
     @Override

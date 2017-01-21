@@ -1,16 +1,12 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.enums.DirectionType;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
-import org.newdawn.slick.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Point;
 
 
 /**

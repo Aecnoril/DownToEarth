@@ -5,11 +5,15 @@
  */
 package downtoearth.gameUtil;
 
+import shared.Coordinate;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.newdawn.slick.GameContainer;
 import downtoearth.gameUtil.Camera;
+
 
 /**
  *
@@ -22,7 +26,7 @@ public class CameraTest {
     
     @Before
     public void setUp() {
-        camera = new Camera(1080, 720);
+        camera = new Camera(1080, 720, new Coordinate(0,0));
         c = new Coordinate(500,950);
         speed = 0.5f;
     }

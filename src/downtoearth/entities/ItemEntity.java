@@ -6,11 +6,9 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
-import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import static downtoearth.world.Tile.SPEED;
 import org.newdawn.slick.Input;

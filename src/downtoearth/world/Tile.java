@@ -3,13 +3,11 @@ package downtoearth.world;
 import downtoearth.Items.Resource;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.TileType;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import java.util.Random;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  *

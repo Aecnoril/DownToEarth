@@ -6,11 +6,8 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.enums.Tooltype;
-import downtoearth.enums.SpriteLocation;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 
 /**
  *
