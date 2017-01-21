@@ -30,6 +30,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
      */
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
+        this.spawnpoints = new ArrayList<Coordinate>();
     }
     
     /**
@@ -39,12 +40,6 @@ public class GameServer extends UnicastRemoteObject implements IServer {
      */
     public static void main(String[] args) throws UnknownHostException {
         Registry registry;
-        
-        spawnpoints.add(new Coordinate(780,1541));
-        spawnpoints.add(new Coordinate(1137,2985));
-        spawnpoints.add(new Coordinate(2291,2483));
-        spawnpoints.add(new Coordinate(3962,2392));
-        spawnpoints.add(new Coordinate(4205,3623));
         
         try{
             GameServer rmiServer = new GameServer();
@@ -95,6 +90,13 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException {
+        spawnpoints = new ArrayList<Coordinate>();
+        spawnpoints.add(new Coordinate(780,1541));
+        spawnpoints.add(new Coordinate(1137,2985));
+        spawnpoints.add(new Coordinate(2291,2483));
+        spawnpoints.add(new Coordinate(3962,2392));
+        spawnpoints.add(new Coordinate(4205,3623));
+        
         RemotePlayer player = new RemotePlayer(client.getClientName(), spawnpoints.get(count), 100);
         count++;
         updatePlayers();
@@ -108,8 +110,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
         }
     }
 
-    @Override
-    public void updatePlayers() throws RemoteException {
+    public synchronized void updatePlayers() throws RemoteException {
         for(IClient client : this.clients) {
             ArrayList<RemotePlayer> opponents = new ArrayList<>();
             for(IClient c : this.clients){ 

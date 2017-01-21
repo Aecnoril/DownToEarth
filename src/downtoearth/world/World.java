@@ -120,7 +120,7 @@ public class World implements Serializable{
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+            //mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         } catch (SlickException e) {
             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();

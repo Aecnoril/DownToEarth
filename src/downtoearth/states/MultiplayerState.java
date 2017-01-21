@@ -5,16 +5,18 @@
  */
 package downtoearth.states;
 
-import downtoearth.multiplayer.Client;
+import downtoearth.Multiplayer.Client;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import shared.RemotePlayer;
 import downtoearth.entities.ItemEntity;
+import downtoearth.entities.Opponent;
 import shared.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +37,7 @@ public class MultiplayerState extends BasicGameState{
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
      
     private RemotePlayer player;
-    
+    private Random random;
     private Client client;
 
     public static void main(String[] args) {
@@ -49,13 +51,15 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        this.random = new Random();
         this.game = game;
         w = new World(new Coordinate(mapSize, mapSize));
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
-            this.client = new Client("Jeroen", "145.93.52.143");
+            this.client = new Client(Integer.toString(random.nextInt(100)), "145.93.84.202");
+            w.getPlayer().setSpawnPoint(client.getPlayer().getCoords().getXint(), client.getPlayer().getCoords().getYint());
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,7 +69,8 @@ public class MultiplayerState extends BasicGameState{
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 
         try {
-            w.draw(gc.getWidth(), gc.getHeight(), gc, g);
+            w.opponents = client.opponents;
+            w.draw(gc.getWidth(), gc.getHeight(), gc, g);       
         } catch (IOException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,14 +94,9 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        try {
-            w.update(gc.getInput());
-            client.test();
-            inv.ePressed(gc);
-            cs.cPressed(gc);
-        } catch (RemoteException ex) {
-            Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        w.update(gc.getInput());
+        inv.ePressed(gc);
+        cs.cPressed(gc);
     }
 
     @Override

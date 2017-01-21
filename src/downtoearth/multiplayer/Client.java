@@ -1,5 +1,6 @@
-package downtoearth.multiplayer;
+package downtoearth.Multiplayer;
 
+import downtoearth.entities.Opponent;
 import downtoearth.entities.Player;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -16,16 +17,18 @@ public class Client extends UnicastRemoteObject implements IClient {
 
     private IServer server;
     private RemotePlayer player;
-    private List<RemotePlayer> opponents;
-    private String name;
-
-    public Client(String name, String ip) throws RemoteException {
-
+    private List<RemotePlayer> otherClients;
+    public List<Opponent> opponents;
+    private String name;  
+    
+    public Client(String name, String ip) throws RemoteException{
         this.name = name;
 
         try {
             String lookUpName = "rmi://" + ip + "/DownToEarth";
             this.server = (IServer) Naming.lookup(lookUpName);
+            this.opponents = new ArrayList<Opponent>();
+            this.otherClients = new ArrayList<RemotePlayer>();
             this.server.clientJoin(this);
             this.player = server.spawnPlayer(this);
         } catch (NotBoundException ex) {
@@ -38,10 +41,6 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Override
     public void exitServer() throws RemoteException {
         this.server.clientLeave(this);
-    }
-
-    public void test() throws RemoteException {
-        this.server.updatePlayers();
     }
 
     @Override
@@ -60,7 +59,13 @@ public class Client extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void updatePlayers(List<RemotePlayer> opponents)  {
-        this.opponents = opponents;
+    public void updatePlayers(ArrayList<RemotePlayer> otherClients) {
+        this.otherClients = otherClients;
+        if(opponents.size() != 0){
+            this.opponents.clear();
+        }
+        for(RemotePlayer p : this.otherClients){
+            opponents.add(new Opponent(p));
+        }
     }
 }
