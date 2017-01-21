@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package downtoearth.Items.crafting;
+package downtoearth.states.gui;
 
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Inventorys.InventorySlot;
-import downtoearth.Inventorys.Rectangle;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.InventorySlot;
+import downtoearth.states.gui.Rectangle;
 import downtoearth.Items.Item;
 import java.awt.Font;
 import java.util.ArrayList;

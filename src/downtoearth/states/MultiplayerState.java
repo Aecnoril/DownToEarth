@@ -5,15 +5,17 @@
  */
 package downtoearth.states;
 
-import downtoearth.Inventorys.Inventory;
-import downtoearth.Items.crafting.CraftingScreen;
+import downtoearth.Inventory.Map;
+import downtoearth.states.gui.Inventory;
+import downtoearth.states.gui.CraftingScreen;
 import downtoearth.Multiplayer.Contestant;
 import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.Player;
 import downtoearth.gameUtil.Coordinate;
+import static downtoearth.states.GameState.w;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.WorldGen;
+import downtoearth.world.worldGen.NoiseGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -33,10 +35,13 @@ public class MultiplayerState extends BasicGameState{
     public World w;
     private Inventory inv;
     private CraftingScreen cs;
+    private StateBasedGame game;
     private static int mapSize = 5012;
-    private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private static NoiseGen noiseGen = new NoiseGen();
     private String id = UUID.randomUUID().toString();
-     
+    
+    private GameContainer container;
+    private Map map;
     private Contestant player;
     
     private GameCommunicator com;
@@ -51,10 +56,11 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        w = new World(new Coordinate(mapSize, mapSize), this);
+        this.game = game;
+        w = new World(new Coordinate(mapSize, mapSize), this, id);
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
-        this.player = new Contestant(this.id, w.getPlayer().getCoordinate().getXint(), w.getPlayer().getCoordinate().getYint(), 10);
+        this.player = new Contestant(this.id, w.getPlayer().getCoordinate().getXint(), w.getPlayer().getCoordinate().getYint(), w.getPlayer().getHitPoints());
         try {
             this.com = new GameCommunicator(this);
             com.connectToPublisher();
@@ -63,12 +69,14 @@ public class MultiplayerState extends BasicGameState{
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        map = new Map(300,100);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-        g.setBackground(new Color(12, 54, 94));
 
+
+        
         try {
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
@@ -90,6 +98,11 @@ public class MultiplayerState extends BasicGameState{
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -97,6 +110,8 @@ public class MultiplayerState extends BasicGameState{
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
     }
 
     @Override
@@ -123,15 +138,31 @@ public class MultiplayerState extends BasicGameState{
     
     public void dataIn(Contestant data){
         System.out.println(data.getId());
-        if(!data.getId().equalsIgnoreCase(this.id.toString())){
+        if(!data.getId().equalsIgnoreCase(this.id)){
             System.out.println("Data Recieved");
-            if(checkPlayerList(data)){
+            if(checkPlayerList(data) && !data.isDead()){
                 changePlayerValues(data);
+            }
+            else if(data.isDead())
+            {
+                for(Contestant o : w.opponents)
+                {
+                    if(o.getId() == null ? data.getId() == null : o.getId().equals(data.getId()))
+                    {
+                        w.opponents.remove(o);
+                    }
+                }
+                System.out.println("Death has come!");
             }
             else{
                 System.out.println("Opponents Added!");
                 w.opponents.add(data);
             }
+        }
+        if(data.getId().equalsIgnoreCase(this.id))
+        {
+                 updateHealthValues(data);
+
         }
     }
     
@@ -149,10 +180,33 @@ public class MultiplayerState extends BasicGameState{
     public void changePlayerValues(Contestant c){
         for(Contestant con : w.opponents){
             if(con.getId().equalsIgnoreCase(c.getId())){
-                con = c;
+                con.setX(c.getX());
+                con.setY(c.getY());
                 break;
             }
         }
+    }
+    public void attackOpponent(Contestant opponent) {
+        System.out.println("Update attack!" + opponent.getId());
+        String property = "players";
+        com.broadcast(property, opponent);
+    }
+
+    private void updateHealthValues(Contestant data) {
+            w.getPlayer().setHitPoints(data.getHealth());
+            if(w.getPlayer().getHitPoints() == 0)
+            {
+                player.setDead(true);
+                updatePlayer(w.getPlayer().getCoordinate());
+                com.unsubscribe("players");
+                stop();
+            }
+            System.out.println(w.getPlayer().getHitPoints());
+    }
+    
+    private void stop()
+    {
+        game.enterState(5);
     }
 }
 

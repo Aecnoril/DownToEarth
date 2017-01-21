@@ -6,6 +6,7 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
+import downtoearth.Multiplayer.Contestant;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
@@ -15,6 +16,7 @@ import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
 import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
+import static downtoearth.world.Tile.SPEED;
 import downtoearth.world.World;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -108,7 +110,7 @@ public class Player extends LivingEntity implements Subject{
 
     //</editor-fold>
     
-    public Player(String name, Coordinate location, int hitPoints, String path) throws SlickException {
+    public Player(String name, Coordinate location, int hitPoints, String path, World w) throws SlickException {
         super(name, location, hitPoints, path);
         this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
@@ -117,6 +119,7 @@ public class Player extends LivingEntity implements Subject{
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
+        this.w = w;
     }
     
     public void setSpawnPoint(int x, int y){
@@ -135,13 +138,15 @@ public class Player extends LivingEntity implements Subject{
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
         if(!collision(tiles, entities)){
-            if(xa != 0){
-                this.setCamX(this.getCamX() + xa);
-                notifyObservers();
+            float newX = getCamX() + xa;
+            if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
+                this.setCamX(newX);
+//                notifyObservers();
             }
-            if(ya != 0){
-                this.setCamY(this.getCamY() + ya);
-                notifyObservers();
+            float newY = getCamY() + ya;
+            if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
+                this.setCamY(newY);
+//                notifyObservers();
             }
 
             this.coordinate = cam.getCoordinate();
@@ -198,7 +203,7 @@ public class Player extends LivingEntity implements Subject{
         return false;
     }   
     
-    public void attackCollision(List<Tile> tiles, List<NPC> entities, Input input) throws SlickException
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
     {
         final int RANGE = 10;
         switch(dir){
@@ -230,7 +235,7 @@ public class Player extends LivingEntity implements Subject{
              }
              for(NPC npc : entities)
              {
-                 if(this.getAttackBox().intersects(npc.getBounds())){
+                 if(this.getAttackBox().intersects(npc.getBounds()) && "Test".equals(npc.name)){
                      npc.loseHp(10);
                      if(npc.isDead()){
                          entities.remove(npc);
@@ -238,16 +243,31 @@ public class Player extends LivingEntity implements Subject{
                      }
                  }
              }
+             for(Contestant o : opponents)
+             {
+                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getId() == null ? this.name != null : !o.getId().equals(this.name))){
+                     this.attackOpponent(o);
+                     break;
+                 }
+             }
         }
     }
     
-    public void attack(List<Tile> tiles, List<NPC> entities, Input input) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
     {
-        attackCollision(tiles, entities, input);
+        attackCollision(tiles, entities, opponents, input);
     }
     
     public void useItem(Item item){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void attackOpponent(Contestant opponent)
+    {
+        System.out.println("Attack!");
+        int hp = opponent.getHealth() - 10;
+        opponent.setHealth(hp);
+        w.attackOpponent(opponent);
     }
 
     @Override
