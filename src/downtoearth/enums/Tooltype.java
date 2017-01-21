@@ -5,11 +5,6 @@
  */
 package downtoearth.enums;
 
-import static downtoearth.enums.TileType.COAL;
-import static downtoearth.enums.TileType.GEMSTONE;
-import static downtoearth.enums.TileType.STONE;
-import static downtoearth.enums.TileType.TREE;
-
 /**
  *
  * @author Demian

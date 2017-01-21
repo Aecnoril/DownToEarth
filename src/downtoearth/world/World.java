@@ -1,7 +1,6 @@
 package downtoearth.world;
 
 import com.sun.glass.ui.Size;
-import downtoearth.Multiplayer.Contestant;
 import downtoearth.entities.Player;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;

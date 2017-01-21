@@ -1,6 +1,12 @@
 package downtoearth.states;
 
+import downtoearth.database.DatabaseAPI;
+import downtoearth.database.ServerAPI;
 import downtoearth.states.gui.Button;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -49,16 +55,36 @@ public class MenuState extends BasicGameState {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         if(rebound == 5){
+            rebound = 0;
             if (play.clicked(container.getInput())) {
                 game.enterState(3);
             }
             if (exit.clicked(container.getInput())) {
-                container.exit();
+                logout(container);
             } 
         }
         else{
            rebound++; 
         }
         
+    }
+    
+    private void logout(final GameContainer container){
+        JSONObject user = DatabaseAPI.getInstance().getUser();
+        try {
+            ServerAPI.logout(user.getString("token"), user.getString("tokenId"), new ServerAPI.ResponseListener() {
+                @Override
+                public void onResponse(ServerAPI.Response response) {
+                    if(response.isSuccess() && response.getStatusCode() == 200){
+                        DatabaseAPI.getInstance().removeUser();
+                    } else {
+                        System.out.println("Logout went wrong...");
+                    }
+                    container.exit();
+                }
+            });
+        } catch (JSONException ex) {
+            Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

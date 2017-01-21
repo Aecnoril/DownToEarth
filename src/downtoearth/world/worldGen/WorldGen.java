@@ -12,7 +12,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import org.newdawn.slick.SlickException;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.*;
 
 /**
  *
