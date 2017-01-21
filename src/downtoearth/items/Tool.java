@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package downtoearth.Items;
+package downtoearth.items;
 
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 import downtoearth.entities.ItemEntity;
 import downtoearth.enums.Tooltype;
 import shared.Coordinate;

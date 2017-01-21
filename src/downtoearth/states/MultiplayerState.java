@@ -5,7 +5,7 @@
  */
 package downtoearth.states;
 
-import downtoearth.Multiplayer.Client;
+import downtoearth.multiplayer.Client;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import shared.RemotePlayer;
@@ -55,7 +55,7 @@ public class MultiplayerState extends BasicGameState{
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
-            this.client = new Client("Demian", "145.93.116.191");
+            this.client = new Client("Jeroen", "145.93.52.143");
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,10 +89,14 @@ public class MultiplayerState extends BasicGameState{
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-        w.update(gc.getInput());
-        client.test();
-        inv.ePressed(gc);
-        cs.cPressed(gc);
+        try {
+            w.update(gc.getInput());
+            client.test();
+            inv.ePressed(gc);
+            cs.cPressed(gc);
+        } catch (RemoteException ex) {
+            Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -7,13 +7,25 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-
+/**
+ * Main class of the game
+ * @author Vernoxius
+ */
 public class DownToEarth extends StateBasedGame { 
     
+    /**
+     * Creates the game
+     * @param name 
+     */
     public DownToEarth(String name){
         super(name);
     }
 
+    /**
+     * Applies settings before the game starts
+     * @param args
+     * @throws SlickException 
+     */
     public static void main(String[] args) throws SlickException {
         AppGameContainer appgc = new AppGameContainer(new DownToEarth("DownToEarth"));
         appgc.setDisplayMode(1080, 720, false);

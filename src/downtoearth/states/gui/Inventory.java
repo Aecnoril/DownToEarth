@@ -5,8 +5,8 @@
  */
 package downtoearth.states.gui;
 
-import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
+import downtoearth.items.Item;
+import downtoearth.items.TileItem;
 import downtoearth.enums.Tooltype;
 import java.util.ArrayList;
 import java.util.logging.Level;

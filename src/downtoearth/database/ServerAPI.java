@@ -2,7 +2,6 @@ package downtoearth.database;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,8 +13,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javax.net.ssl.HttpsURLConnection;
@@ -35,11 +38,24 @@ public class ServerAPI {
     private static final String SERVER_URL = "https://downtoearth.clephas.synology.me";
     
     private static final X509TrustManager trustManagers = new X509TrustManager() {
+        
+        /**
+         * method is required for self signed certificate
+         * @param x509Certificates
+         * @param s
+         * @throws CertificateException 
+         */
         @Override
         public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
 
         }
 
+        /**
+         * method is required for self signed certificate
+         * @param x509Certificates
+         * @param s
+         * @throws CertificateException 
+         */
         @Override
         public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
 
@@ -47,31 +63,25 @@ public class ServerAPI {
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
-            return null;
+            return new X509Certificate[0];
         }
     };
-
-    public enum Error{
-        /**
-         * Something went horrible wrong
-         */
-        FATAL
-    }
     
+    /**
+     * class for getting responses
+     */
     public static class Response{
         
         private boolean success;
         private int statusCode;
-        private String response;
-        private Error error;
+        private String responseMessage;
         
         /**
          * Create error response
          * @param error the error
          */
-        public Response(Error error){
+        public Response(){
             this.statusCode = statusCode;
-            this.error = error;
             this.success = false;
         }
         
@@ -82,7 +92,7 @@ public class ServerAPI {
          */
         public Response(int statusCode, String response){
             this.statusCode = statusCode;
-            this.response = response;
+            this.responseMessage = response;
             this.success = true;
         }
         
@@ -107,7 +117,7 @@ public class ServerAPI {
          * @return 
          */
         public String getResponse(){
-            return response;
+            return responseMessage;
         }
         
         /**
@@ -116,8 +126,10 @@ public class ServerAPI {
          */
         public JSONObject getJSONObjectResponse(){
             try {
-                return new JSONObject(response);
-            } catch (JSONException ex) {}
+                return new JSONObject(responseMessage);
+            } catch (JSONException ex) {
+                Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return null;
         }
         
@@ -127,13 +139,16 @@ public class ServerAPI {
          */
         public JSONArray getJSONArrayResponse(){
             try {
-                return new JSONArray(response);
-            } catch (JSONException ex) {}
+                return new JSONArray(responseMessage);
+            } catch (JSONException ex) {
+                Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return null;
         }
         
     }
     
+    @FunctionalInterface
     public static interface ResponseListener{
         /**
          * Callback called when the request has a response
@@ -156,7 +171,9 @@ public class ServerAPI {
             body.put("username", username);
             body.put("password", password);
             sendRequest("PUT", "user", null, null, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
         
     /**
@@ -171,7 +188,9 @@ public class ServerAPI {
             body.put("username", username);
             body.put("password", password);
             sendRequest("PUT", "session", null, null, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -206,7 +225,9 @@ public class ServerAPI {
                 body.put("password", password);
             }
             sendRequest("POST", "user", token, tokenId, body.toString(), null, responseListener);
-        } catch (JSONException ex) {}
+        } catch (JSONException ex) {
+            Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -236,11 +257,16 @@ public class ServerAPI {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Response response = new Response(Error.FATAL);
+                Response response = new Response();
                 String urlArgs = "";
                 if(args != null){
                     for(Map.Entry<String, String> arg : args.entrySet()){
-                        urlArgs += "&" + arg.getKey() + "=" + arg.getValue();
+                        StringBuilder str = new StringBuilder();
+                        str.append(urlArgs); 
+                        str.append("&");
+                        str.append(arg.getKey());
+                        str.append("=");
+                        str.append(arg.getValue());
                     }
                     urlArgs = urlArgs.replaceFirst("&", "?");
                 }
@@ -276,7 +302,8 @@ public class ServerAPI {
                     InputStream inputStream;
                     try{
                         inputStream = httpsURLConnection.getInputStream();
-                    } catch (Exception e){
+                    } catch (Exception ex){
+                        Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
                         inputStream = httpsURLConnection.getErrorStream();
                     }
                     try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))){
@@ -290,6 +317,7 @@ public class ServerAPI {
 
                     response = new Response(httpsURLConnection.getResponseCode(), stringBuilder.toString());
                 } catch (IOException | KeyManagementException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ServerAPI.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex.toString());
                 }
                 if(responseListener != null){

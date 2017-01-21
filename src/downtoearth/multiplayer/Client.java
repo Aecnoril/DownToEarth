@@ -1,4 +1,4 @@
-package downtoearth.Multiplayer;
+package downtoearth.multiplayer;
 
 import downtoearth.entities.Player;
 import java.net.MalformedURLException;
@@ -60,7 +60,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     }
 
     @Override
-    public void updatePlayers(ArrayList<RemotePlayer> opponents) {
+    public void updatePlayers(List<RemotePlayer> opponents)  {
         this.opponents = opponents;
     }
 }

@@ -11,7 +11,6 @@ import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.SpriteManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import shared.Coordinate;
 import shared.RemotePlayer;
@@ -51,17 +50,17 @@ public class Opponent {
         bounds.setX(player.getCoords().getX()+2 - posX);
         bounds.setY(player.getCoords().getY()+2 - posY);
         try{
-            if(player.moving){
-                player.moving = false;
-                aManager.DrawAnimation(player.dir, player.getCoords());
+            if(player.getMoving()){
+                player.setMoving(false);
+                aManager.DrawAnimation(player.getDir(), player.getCoords());
             }else{
-                SpriteLocation pos = DirectionType.getStandingSprite(player.dir);
+                SpriteLocation pos = DirectionType.getStandingSprite(player.getDir());
                 sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), player.getCoords().getXint() - posX -16, player.getCoords().getYint() - posY -16);
             }
 
-            if(player.attack){
-                aManager.DrawAttack(player.dir, player.getCoords());
-                player.attack = false;
+            if(player.getAttacking()){
+                aManager.DrawAttack(player.getDir(), player.getCoords());
+                player.setAttacking(false);
             }
         }catch(Exception e){
             Logger.getLogger(Opponent.class.getName()).log(Level.SEVERE, null, e);

@@ -5,6 +5,7 @@
  */
 package downtoearth.world.worldGen;
 
+import downtoearth.database.ServerAPI;
 import shared.Coordinate;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,8 @@ import javax.imageio.ImageIO;
 import org.newdawn.slick.SlickException;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -69,13 +72,13 @@ public class WorldGen {
 
     private float[][] generateGradient(float[][] radiatedMatrix) {
         Coordinate middle = size;
-        size.x /= 2;
-        size.y /= 2;
+        size.setX(size.getX() / 2);
+        size.setY(size.getY() / 2);
 
         for (int i = 0; i < radiatedMatrix.length; i++) {
             for (int j = 0; j < radiatedMatrix[i].length; j++) {
 
-                int distance = Math.round(Coordinate.distance(Coordinate.Origin(), new Coordinate(i, j)));
+                int distance = Math.round(Coordinate.distance(Coordinate.origin(), new Coordinate(i, j)));
 
             }
         }
@@ -100,9 +103,9 @@ public class WorldGen {
                         Color newColor = new Color(grey, grey, grey);
                         bImage.setRGB(j, i, newColor.getRGB());
                     } catch (IllegalArgumentException iEx) {
+                        Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, iEx);
                         System.out.println(map[i][j]);
                         System.out.println(grey);
-                        iEx.printStackTrace();
                         return null;
                     }
                 }
@@ -110,7 +113,7 @@ public class WorldGen {
             File output = new File("res/HeightMap.png");
             ImageIO.write(bImage, "png", output);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, e);
         }
 
         try {
@@ -166,7 +169,7 @@ public class WorldGen {
             File output = new File("res/ColorMap.png");
             ImageIO.write(bImage, "png", output);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(WorldGen.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
         

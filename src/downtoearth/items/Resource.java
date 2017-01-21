@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package downtoearth.Items;
+package downtoearth.items;
 
 import downtoearth.entities.ItemEntity;
 import shared.Coordinate;

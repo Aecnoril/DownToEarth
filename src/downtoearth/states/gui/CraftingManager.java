@@ -5,10 +5,10 @@
  */
 package downtoearth.states.gui;
 
-import downtoearth.Items.Armor;
-import downtoearth.Items.Item;
-import downtoearth.Items.Resource;
-import downtoearth.Items.Tool;
+import downtoearth.items.Armor;
+import downtoearth.items.Item;
+import downtoearth.items.Resource;
+import downtoearth.items.Tool;
 import downtoearth.enums.ArmorType;
 import downtoearth.enums.ResourceType;
 import downtoearth.enums.Tooltype;

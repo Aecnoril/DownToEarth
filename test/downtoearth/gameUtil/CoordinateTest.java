@@ -88,8 +88,8 @@ public class CoordinateTest {
      */
     @Test
     public void testOrigin() {
-        assertEquals(0,Coordinate.Origin().getXint());
-        assertEquals(0,Coordinate.Origin().getYint());
+        assertEquals(0,Coordinate.origin().getXint());
+        assertEquals(0,Coordinate.origin().getYint());
     }
     
 }

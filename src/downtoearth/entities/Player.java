@@ -5,7 +5,7 @@
  */
 package downtoearth.entities;
 
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 import shared.RemotePlayer;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;

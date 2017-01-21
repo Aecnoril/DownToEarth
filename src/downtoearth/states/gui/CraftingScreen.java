@@ -8,7 +8,7 @@ package downtoearth.states.gui;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.InventorySlot;
 import downtoearth.states.gui.Rectangle;
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -159,9 +159,6 @@ public class CraftingScreen {
             for (InventorySlot is : Craftables) {
                 if (is.detectMouse(gc.getInput())) {
                     if (is.detectMouse(gc.getInput()) && gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
-                        if (selectedSlot == null) {
-                            selectedSlot.setText(is.text);
-                        }
                     }
                 }
             }

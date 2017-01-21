@@ -1,6 +1,6 @@
 package downtoearth.states.gui;
 
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;

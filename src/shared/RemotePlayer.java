@@ -9,7 +9,7 @@ import java.io.Serializable;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
- *
+ * represents a player character for the other players
  * @author Demian
  */
 public class RemotePlayer implements Serializable{
@@ -18,12 +18,25 @@ public class RemotePlayer implements Serializable{
     private Rectangle bounds;
     
     private int health;
-    public byte dir;
+    private byte dir;
 
-    public boolean moving;
-    public boolean attack;
-    public boolean dead;
+    private boolean moving;
+    private boolean attack;
+    private boolean dead;
 
+    /**
+     * Creates a new opponent player
+     * @param id
+     * @param coords
+     * @param health 
+     */
+    public RemotePlayer(String id, Coordinate coords, int health){
+        this.id = id;
+        this.coords = coords;
+        this.health = health;
+        this.bounds = new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
+    }
+    
     public String getId() {
         return id;
     }
@@ -32,6 +45,11 @@ public class RemotePlayer implements Serializable{
         return this.coords;
     }
     
+    /**
+     * sets the x and y of the coordinates
+     * @param x
+     * @param y 
+     */
     public void setCoords(int x, int y){
         this.coords.setX(x);
         this.coords.setY(y);
@@ -49,10 +67,29 @@ public class RemotePlayer implements Serializable{
         return new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
     }
     
-    public RemotePlayer(String id, Coordinate coords, int health){
-        this.id = id;
-        this.coords = coords;
-        this.health = health;
-        this.bounds = new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
+    public byte getDir(){
+        return this.dir;
     }
+    
+    public boolean getMoving(){
+        return this.moving;
+    }
+    
+    public void setMoving(boolean moving){
+        this.moving = moving;
+    }
+    
+    public boolean getAttacking(){
+        return this.attack;
+    }
+    
+    public void setAttacking(boolean attacking){
+        this.attack = attacking;
+    }
+    
+    public boolean getDead(){
+        return this.dead;
+    }
+    
+    
 }

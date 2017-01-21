@@ -5,7 +5,7 @@
  */
 package downtoearth.states.gui;
 
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 
 /**
  *

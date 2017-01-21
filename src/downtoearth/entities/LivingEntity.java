@@ -5,7 +5,7 @@
  */
 package downtoearth.entities;
 
-import downtoearth.Items.Item;
+import downtoearth.items.Item;
 import downtoearth.enums.DirectionType;
 import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;

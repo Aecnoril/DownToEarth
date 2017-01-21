@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package downtoearth.Items;
+package downtoearth.items;
 
 import downtoearth.entities.ItemEntity;
 import shared.Coordinate;
-import downtoearth.states.GameState;
 import downtoearth.world.Tile;
+import downtoearth.world.World;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Point;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -20,17 +19,29 @@ import org.lwjgl.input.Mouse;
 public class TileItem extends Item{
     private Coordinate location;
     
+    /**
+     * creates a tile item with the given parameters
+     * @param name
+     * @param type
+     * @param durability
+     * @param breakChange
+     * @throws SlickException 
+     */
     public TileItem(String name, byte type, double durability, double breakChange) throws SlickException {
         super(name, type, durability, breakChange);
     }
     
+    /**
+     * draws the tile item at the mouse location
+     * @throws SlickException 
+     */
     public void place() throws SlickException{
         Tile tile;
-        location.x = Mouse.getX();
-        location.y = Mouse.getY();
+        location.setX(Mouse.getX());
+        location.setY(Mouse.getY());
         
-        tile = new Tile((int)location.x, (int)location.y, this.type, this.name);
-        //GameState.w.tiles.add(tile);
+        tile = new Tile(location.getXint(), location.getYint(), this.type, this.name);
+        World.placeTileItem(tile);
     }  
      
     @Override

@@ -64,13 +64,13 @@ public class WorldGen {
     private float[][] generateGradient(float[][] radiatedMatrix) {
 
         Coordinate middle = size;
-        size.x /= 2;
-        size.y /= 2;
+        size.setX(size.getX() / 2);
+        size.setY(size.getY() / 2);
 
         for (int i = 0; i < radiatedMatrix.length; i++) {
             for (int j = 0; j < radiatedMatrix[i].length; j++) {
 
-                int distance = Math.round(Coordinate.distance(Coordinate.Origin(), new Coordinate(i, j)));
+                int distance = Math.round(Coordinate.distance(Coordinate.origin(), new Coordinate(i, j)));
 
             }
         }

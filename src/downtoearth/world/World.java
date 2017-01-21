@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -25,12 +27,12 @@ public class World implements Serializable{
     private MultiplayerState state;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    public List<Tile> tiles;
+    public transient static List<Tile> tiles;
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
-    public List<Opponent> opponents;
+    public transient List<Opponent> opponents;
 
     float[][] heightMap;
 
@@ -120,6 +122,7 @@ public class World implements Serializable{
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
             mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
         } catch (SlickException e) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
         }
     }
@@ -199,5 +202,9 @@ public class World implements Serializable{
         for (NPC n : this.mobs) {
             n.move(input);
         }
+    }
+    
+    public static void placeTileItem(Tile tile){
+        World.tiles.add(tile);
     }
 }

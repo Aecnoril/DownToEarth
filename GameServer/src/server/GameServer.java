@@ -7,24 +7,36 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.*;
 
+/**
+ * Game server for Down to Earth
+ * @author Vernoxius
+ */
 public class GameServer extends UnicastRemoteObject implements IServer {
 
     private static int portNumber = 1099;
     private static String bindingName = "DownToEarth";
     private ArrayList<IClient> clients;
-    private static ArrayList<Coordinate> spawnpoints;
+    private static ArrayList<Coordinate> spawnpoints = new ArrayList<>();
     
     private int count = 0;
     
+    /**
+     * Adds the clients that want to connect  as the server is created to the server
+     * @throws RemoteException 
+     */
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
     }
     
+    /**
+     * main class to start the server
+     * @param args
+     * @throws UnknownHostException 
+     */
     public static void main(String[] args) throws UnknownHostException {
         Registry registry;
         
@@ -38,26 +50,26 @@ public class GameServer extends UnicastRemoteObject implements IServer {
             GameServer rmiServer = new GameServer();
             registry = LocateRegistry.createRegistry(portNumber);
             registry.rebind(bindingName, rmiServer);
-            System.out.println("RMI server runs...");
+            Logger.getLogger("RMI server runs...");
         } catch (RemoteException ex) {
             Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         InetAddress localhost = InetAddress.getLocalHost();
-        System.out.println("Server: IP Address: " + localhost.getHostAddress());
+        Logger.getLogger("Server: IP Address: " + localhost.getHostAddress());
     }
 
     @Override
     public void clientJoin(IClient client) throws RemoteException {
         this.clients.add(client);
         updatePlayers();
-        System.out.println(client.getClientName() + " joined the server!");
+        Logger.getLogger(client.getClientName() + " joined the server!");
     }
 
     @Override
     public void clientLeave(IClient client) throws RemoteException {
         this.clients.remove(client);
-        System.out.println(client.getClientName() + " left the server!");
+        Logger.getLogger(client.getClientName() + " left the server!");
     }
 
     @Override
@@ -99,7 +111,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     @Override
     public void updatePlayers() throws RemoteException {
         for(IClient client : this.clients) {
-            ArrayList<RemotePlayer> opponents = new ArrayList<RemotePlayer>();
+            ArrayList<RemotePlayer> opponents = new ArrayList<>();
             for(IClient c : this.clients){ 
                 if(!client.getClientName().equalsIgnoreCase(c.getClientName())){
                     opponents.add(c.getPlayer());
