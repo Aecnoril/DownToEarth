@@ -209,7 +209,7 @@ public class Player extends LivingEntity{
     
     public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents, Input input) throws SlickException
     {
-        final int RANGE = 10;
+        final int RANGE = 20;
         switch(dir){
              case DirectionType.NORTH:
                  attBox = new Rectangle(540-13, 360-24, 26, RANGE);
@@ -249,7 +249,7 @@ public class Player extends LivingEntity{
              }
              for(Opponent o : opponents)
              {
-                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getName()== null ? this.name != null : !o.getName().equals(this.name))){
+                 if(this.getAttackBox().intersects(o.getBounds())){
                      this.attackOpponent(o.getPlayer());
                      break;
                  }

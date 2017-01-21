@@ -44,13 +44,13 @@ public class Opponent {
     
     public Opponent(RemotePlayer player) throws SlickException{
         this.player = player;
-        this.bounds = new Rectangle(player.getCoords().getXint() + 2 , player.getCoords().getYint() + 2, 28, 28);
+        this.bounds = new Rectangle(getLocation().getXint() - 16 , getLocation().getYint() -16, 28, 28);
         this.sManager = new SpriteManager("res/playersprite.png");
     }
     
     public void draw(int posX, int posY){
-        bounds.setX(player.getCoords().getX()+2 - posX);
-        bounds.setY(player.getCoords().getY()+2 - posY);
+        bounds.setX(getLocation().getX()-16 - posX);
+        bounds.setY(getLocation().getY() -14 - posY);
         try{
             if(player.moving){
                 player.moving = false;
