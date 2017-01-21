@@ -1,8 +1,6 @@
 package downtoearth.states.gui;
 
-import downtoearth.entities.Player;
 import downtoearth.gameUtil.Camera;
-import downtoearth.states.GameState;
 import downtoearth.world.World;
 import java.util.logging.Level;
 import java.util.logging.Logger;

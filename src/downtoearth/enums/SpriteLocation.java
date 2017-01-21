@@ -10,8 +10,8 @@ package downtoearth.enums;
  * @author Demian
  */
 public class SpriteLocation {
-    private int spriteX;
-    private int spriteY;
+    private final int spriteX;
+    private final int spriteY;
     
     public SpriteLocation(int x, int y){
         this.spriteX = x;

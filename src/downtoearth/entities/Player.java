@@ -140,12 +140,15 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
+
         if(!collision(tiles, entities, opponents)){
-            if(xa != 0){
-                this.coordinate.setX(this.coordinate.getXint()+ xa);
+            float newX = this.coordinate.getXint() + xa;
+            if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
+                this.coordinate.setX(newX);
             }
-            if(ya != 0){
-                this.coordinate.setY(this.coordinate.getYint() + ya);
+            float newY = this.coordinate.getYint() + ya;
+            if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
+                this.coordinate.setY(newY);
             }
 
             cam.setCoordinate(this.coordinate);

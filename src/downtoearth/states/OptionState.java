@@ -8,6 +8,7 @@ package downtoearth.states;
 import downtoearth.states.gui.Button;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -20,6 +21,7 @@ public class OptionState extends BasicGameState {
 
     private Button play;
     private Button stop;
+    private Image backgroundImage;
 
     public static void main(String[] args) {
     }
@@ -31,27 +33,28 @@ public class OptionState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        play = new Button(container.getWidth() / 2, (container.getHeight() / 2) - 60, "res/startbtn.png");
-        stop = new Button(container.getWidth() / 2, (container.getHeight() / 2) + 60, "res/stopbtn.png");
+        backgroundImage = new Image("res/Backgrounds/OptionsBackground.png");
+        play = new Button(container.getWidth() / 2, (container.getHeight() / 2) - 60, "res/Buttons/startbtn.png");
+        stop = new Button(container.getWidth() / 2, (container.getHeight() / 2) + 60, "res/Buttons/exitbtn.png");
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawString("State 2: Option", 10, 30);
+        backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
+        g.drawString("State 2: Option", 10, 30);       
         play.render(play.hover(container.getInput()));
         stop.render(stop.hover(container.getInput()));
+        
 
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
         if (play.clicked(gc.getInput())) {
-            game.enterState(3);
-
-            if (stop.clicked(gc.getInput())) {
                 game.enterState(2);
-            }
-
+        }
+        if (stop.clicked(gc.getInput())) {
+                game.enterState(3);
         }
     }
 }

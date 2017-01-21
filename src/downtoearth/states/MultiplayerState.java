@@ -5,7 +5,9 @@
  */
 package downtoearth.states;
 
+import downtoearth.Inventory.Map;
 import downtoearth.Multiplayer.Client;
+import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import shared.RemotePlayer;
@@ -33,6 +35,12 @@ public class MultiplayerState extends BasicGameState{
     private StateBasedGame game;
     private static int mapSize = 5012;
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private String id = UUID.randomUUID().toString();
+    
+    private GameContainer container;
+    private Map map;
+    
+    private GameCommunicator com;
      
     private RemotePlayer player;
     private Random random;
@@ -61,6 +69,7 @@ public class MultiplayerState extends BasicGameState{
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        map = new Map(300,100);
         
         this.w.getPlayer().setClient(client);
     }
@@ -68,6 +77,8 @@ public class MultiplayerState extends BasicGameState{
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 
+
+        
         try {
             w.opponents = client.opponents;
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);       
@@ -90,6 +101,11 @@ public class MultiplayerState extends BasicGameState{
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -97,6 +113,8 @@ public class MultiplayerState extends BasicGameState{
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
         client.movePlayer(w.getPlayer());
     }
 

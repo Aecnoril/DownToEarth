@@ -1,10 +1,12 @@
 package downtoearth.world;
 
+import com.sun.glass.ui.Size;
 import downtoearth.entities.Player;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.entities.Opponent;
 import downtoearth.enums.*;
+import downtoearth.gameUtil.SpriteManager;
 import shared.Coordinate;
 import downtoearth.states.MultiplayerState;
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class World implements Serializable {
     private List<NPC> removeMobs;
     public ArrayList<ItemEntity> itemEnts;
     public List<Opponent> opponents;
+    private SpriteManager sManager;
 
     float[][] heightMap;
 
@@ -51,6 +54,10 @@ public class World implements Serializable {
             }
         }
         return null;
+    }
+    
+    public Size getMapSize(){
+        return new Size(map.getWidth(), map.getHeight());
     }
 
     public List<NPC> getMobs() {
@@ -117,7 +124,7 @@ public class World implements Serializable {
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            //mobs.add(new NPC("Test", new Coordinate(700, 1250), 100, MobType.Sheep, "res/tigersprite.png"));
+            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "res/tigersprite.png", this, true , 178, 1000000, 10000));
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -133,9 +140,10 @@ public class World implements Serializable {
 
         int startX = p.getCamera().getCenterPosX() - (con.getWidth() / 2);
         int startY = p.getCamera().getCenterPosY() - (con.getHeight() / 2);
-
+        
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth() / 2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
+        
         p.render(con);
         if(p.getAttackBox() != null)
         {
@@ -212,7 +220,7 @@ public class World implements Serializable {
             t.move(input);
         }
         for (NPC n : this.mobs) {
-            n.move(input);
+            n.move(input, this.tiles, this.mobs, this.opponents);
         }
     }
 }

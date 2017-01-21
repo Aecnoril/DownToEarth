@@ -6,8 +6,6 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.Items.TileItem;
-import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.enums.Tooltype;
 import shared.Coordinate;

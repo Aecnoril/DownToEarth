@@ -1,16 +1,14 @@
 package downtoearth;
 
-
 import downtoearth.states.*;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+public class DownToEarth extends StateBasedGame {
 
-public class DownToEarth extends StateBasedGame { 
-    
-    public DownToEarth(String name){
+    public DownToEarth(String name) {
         super(name);
     }
 
@@ -21,15 +19,14 @@ public class DownToEarth extends StateBasedGame {
         appgc.setShowFPS(false);
         appgc.start();
     }
-    
+
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
-        
-        this.addState(new MultiplayerState());
         this.addState(new LoginState());
         this.addState(new MenuState());
-        this.addState(new GameState());
         this.addState(new OptionState());
-        
+        this.addState(new MultiplayerState());
+        this.addState(new GameState());
+        this.addState(new LobbyState());
     }
 }

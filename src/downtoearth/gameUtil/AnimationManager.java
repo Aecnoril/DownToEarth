@@ -1,16 +1,15 @@
- /*
-   * To change this license header, choose License Headers in Project Properties.
-   * To change this template file, choose Tools | Templates
-   * and open the template in the editor.
-   */
-  package downtoearth.gameUtil;
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package downtoearth.gameUtil;
   
 import downtoearth.enums.DirectionType;
-import downtoearth.enums.SpriteLocation;
-  import org.newdawn.slick.Animation;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
-  import org.newdawn.slick.SlickException;
-  import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import shared.Coordinate;
   
   /**

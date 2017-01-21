@@ -5,6 +5,7 @@
  */
 package downtoearth.states;
 
+import downtoearth.database.DatabaseAPI;
 import downtoearth.states.gui.Button;
 import downtoearth.states.gui.PasswordTextField;
 import downtoearth.database.ServerAPI;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
@@ -30,8 +32,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class LoginState extends BasicGameState {
 
     private String mode;
-    private String tokenTF;
-    private String tokenIdTF;
     
     private int rebound;
     
@@ -39,6 +39,9 @@ public class LoginState extends BasicGameState {
     
     private Button login;
     private Button register;
+    private Image backgroundImage;
+        
+    
     private TextField loginUsername;
     private PasswordTextField loginPassword;
     private TextField registerEmail;
@@ -61,8 +64,9 @@ public class LoginState extends BasicGameState {
         rebound = 5;
         registerb = false;
         
-        login = new Button(gc.getWidth() / 2, 400, "res/loginbtn.png");
-        register = new Button(gc.getWidth() / 2, 550, "res/registerbtn.png");
+        login = new Button(gc.getWidth() / 2, 400, "res/Buttons/loginbtn.png");
+        register = new Button(gc.getWidth() / 2, 550, "res/Buttons/registerbtn.png");
+        backgroundImage = new Image("res/Backgrounds/OptionsBackground.png");
         
         Font awtfont = new Font("Arial", Font.PLAIN, 24);
         TrueTypeFont f = new TrueTypeFont(awtfont, false);
@@ -77,6 +81,12 @@ public class LoginState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        if(DatabaseAPI.getInstance().isUserAvailable()) {
+            game.enterState(1);
+            return;
+        }
+        
+        backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
         if(registerb == true){
             g.drawString("Register was succesfull", (container.getWidth() / 2) - 25, 100);
         }
@@ -117,7 +127,6 @@ public class LoginState extends BasicGameState {
                 }
                 else{
                     login(game);
-                    logout();
                 } 
             }
         }
@@ -128,13 +137,13 @@ public class LoginState extends BasicGameState {
         if (register.clicked(container.getInput())) {
             registerb = false;
             if(mode == "register"){
-                register();
-                logout();
+                register(game);
             }
             else{
                 mode = "register";
             }
         }
+        //game.enterState(5);
     }
     
     public void initTextField(TextField t){
@@ -143,7 +152,7 @@ public class LoginState extends BasicGameState {
         t.setTextColor(Color.black);
     }
 
-    private void register() {
+    private void register(final StateBasedGame game) {
         if(rebound == 5){
             ServerAPI.register(registerEmail.getText(), loginUsername.getText(), loginPassword.getText(), new ServerAPI.ResponseListener() {
                 @Override
@@ -151,13 +160,11 @@ public class LoginState extends BasicGameState {
                     if(response.isSuccess() && response.getStatusCode() == 200){
                         try {
                             JSONObject sessionInfo = response.getJSONObjectResponse();
-                            tokenTF = sessionInfo.getString("token");
-                            tokenIdTF = sessionInfo.getString("tokenId");
+                            DatabaseAPI.getInstance().setUser(sessionInfo.getInt("tokenId"), sessionInfo.getString("token"));
                         } catch (JSONException ex) {
                             Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        registerb = true;
-                        mode = "login";
+                        game.enterState(1);
                     } else {
                         System.out.println(response.getResponse());
                         System.out.println("Something went wrong..."); 
@@ -174,8 +181,7 @@ public class LoginState extends BasicGameState {
                 if(response.isSuccess() && response.getStatusCode() == 200){
                     try {
                         JSONObject sessionInfo = response.getJSONObjectResponse();
-                        tokenTF = sessionInfo.getString("token");
-                        tokenIdTF = sessionInfo.getString("tokenId");
+                        DatabaseAPI.getInstance().setUser(sessionInfo.getInt("tokenId"), sessionInfo.getString("token"));
                     } catch (JSONException ex) {
                         Logger.getLogger(LoginState.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -183,20 +189,6 @@ public class LoginState extends BasicGameState {
                 } else {
                     System.out.println(response.getResponse());
                     System.out.println("Something went wrong...");
-                }
-            }
-        });
-    }
-    
-    private void logout(){
-        ServerAPI.logout(tokenTF, tokenIdTF, new ServerAPI.ResponseListener() {
-            @Override
-            public void onResponse(ServerAPI.Response response) {
-                if(response.isSuccess() && response.getStatusCode() == 200){
-                    tokenTF = "";
-                    tokenIdTF = "";
-                } else {
-                    System.out.println("Logout went wrong...");
                 }
             }
         });
