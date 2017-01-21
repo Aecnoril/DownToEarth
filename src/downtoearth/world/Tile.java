@@ -1,0 +1,72 @@
+package downtoearth.world;
+
+import downtoearth.Items.Resource;
+import downtoearth.enums.SpriteLocation;
+import downtoearth.enums.TileType;
+import shared.Coordinate;
+import downtoearth.gameUtil.SpriteManager;
+import java.util.Random;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+
+/**
+ *
+ * @author Sanko
+ */
+public class Tile {
+    public static final float SPEED = 1.3f;
+    private int spritex, spritey;
+    private Random random;
+    private Circle bounds;
+    private Coordinate position;
+    private byte type;
+    private SpriteManager manager;
+    private String name;
+    private boolean destroyed;
+    
+    public Coordinate getPosition(){
+        return position;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public Circle getBounds(){
+        return this.bounds;
+    }
+    
+    public byte getType(){
+        return this.type;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+    
+    public Tile(int xpos, int ypos, byte type, String name) throws SlickException{
+        this.random = new Random();
+        this.position = new Coordinate(xpos, ypos);
+        this.manager = new SpriteManager("res/tiles.png");
+        this.type = type;
+        this.name = name;
+        this.bounds = new Circle(position.getXint() + 2 , position.getYint() + 2, 14, 14);
+    }
+    
+    public void draw(int portX, int portY){
+        SpriteLocation sl = TileType.getSpritePosition(this.type);
+        spritex = sl.getSpriteX();
+        spritey = sl.getSpriteY();
+        bounds.setX((position.getX()+2 - portX)-16);
+        bounds.setY((position.getY()+2 - portY)-16);
+        manager.drawSprite(spritex, spritey, (position.getXint()) - (portX )-16, (position.getYint()) - (portY)-16);
+    }
+    
+    public Resource Destroy(){
+        return null;
+    }
+}
