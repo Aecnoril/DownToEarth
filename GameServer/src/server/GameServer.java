@@ -53,6 +53,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     @Override
     public void clientLeave(IClient client) throws RemoteException {
         this.clients.remove(client);
+        count--;
         System.out.println(client.getClientName() + " left the server!");
     }
 
@@ -119,7 +120,7 @@ public class GameServer extends UnicastRemoteObject implements IServer {
     }
     
     @Override
-    public void attackPlayer(RemotePlayer player){
+    public synchronized void attackPlayer(RemotePlayer player){
         for(IClient client : this.clients){
             try{
                 if(client.getPlayer().getId().equalsIgnoreCase(player.getId())){

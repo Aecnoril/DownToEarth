@@ -57,12 +57,8 @@ public class MultiplayerState extends BasicGameState{
     }
 
     @Override
-    public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        this.random = new Random();
-        this.game = game;
-        w = new World(new Coordinate(mapSize, mapSize));
-        inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
-        cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+
         
         try {
             this.client = new Client(Integer.toString(random.nextInt(100)), "localhost", w.getPlayer(), game);
@@ -73,6 +69,16 @@ public class MultiplayerState extends BasicGameState{
         map = new Map(300,100);
         
         this.w.getPlayer().setClient(client);
+        
+    }
+
+    @Override
+    public void init(GameContainer container, StateBasedGame game) throws SlickException {
+                this.random = new Random();
+        this.game = game;
+        w = new World(new Coordinate(mapSize, mapSize));
+        inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
+        cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
     }
 
     @Override

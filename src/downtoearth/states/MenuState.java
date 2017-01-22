@@ -33,6 +33,7 @@ public class MenuState extends BasicGameState {
     public int getID() {
         return 1;
     }
+    
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
