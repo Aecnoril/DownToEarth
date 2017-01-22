@@ -49,8 +49,8 @@ public class Opponent {
     }
     
     public void draw(int posX, int posY){
-        bounds.setX(getLocation().getX()-16 - posX);
-        bounds.setY(getLocation().getY() -14 - posY);
+        BOUNDS.setX(getLocation().getX()-16 - posX);
+        BOUNDS.setY(getLocation().getY() -14 - posY);
         try{
             if(PLAYER.moving){
                 PLAYER.moving = false;
