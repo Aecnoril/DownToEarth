@@ -27,12 +27,12 @@ public class World implements Serializable {
     private MultiplayerState state;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    public List<Tile> tiles;
+    private List<Tile> tiles;
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;
-    public ArrayList<ItemEntity> itemEnts;
-    public List<Opponent> opponents;
+    private ArrayList<ItemEntity> itemEnts;
+    private List<Opponent> opponents;
     private SpriteManager sManager;
 
     float[][] heightMap;
@@ -82,6 +82,18 @@ public class World implements Serializable {
 
     public void addDrop(ItemEntity item) {
         this.itemEnts.add(item);
+    }
+    
+    public List<ItemEntity> getItemEnt(){
+        return this.itemEnts;
+    }
+    
+    public void removeFromItemEntities(ItemEntity i){
+        this.itemEnts.remove(i);
+    }
+    
+    public void setOpponent(List<Opponent> o){
+        this.opponents = opponents;
     }
     //</editor-fold>
 

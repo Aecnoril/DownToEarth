@@ -52,17 +52,17 @@ public class Opponent {
         BOUNDS.setX(getLocation().getX()-16 - posX);
         BOUNDS.setY(getLocation().getY() -14 - posY);
         try{
-            if(PLAYER.moving){
-                PLAYER.moving = false;
-                aManager.DrawAnimation(PLAYER.dir, PLAYER.getCoords());
+            if(PLAYER.getMoving()){
+                PLAYER.setMoving(false);
+                aManager.DrawAnimation(PLAYER.getDir(), PLAYER.getCoords());
             }else{
-                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.dir);
+                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.getDir());
                 SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX -16, PLAYER.getCoords().getYint() - posY -16);
             }
 
-            if(PLAYER.attack){
-                aManager.DrawAttack(PLAYER.dir, PLAYER.getCoords());
-                PLAYER.attack = false;
+            if(PLAYER.getAttacking()){
+                aManager.DrawAttack(PLAYER.getDir(), PLAYER.getCoords());
+                PLAYER.setAttacking(false);
             }
         }catch(Exception e){
             Logger.getLogger(Opponent.class.getName()).log(Level.SEVERE, null, e);
