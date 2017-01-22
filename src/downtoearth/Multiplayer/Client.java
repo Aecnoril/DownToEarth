@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import shared.*;
 
 public class Client extends UnicastRemoteObject implements IClient {
@@ -23,8 +24,9 @@ public class Client extends UnicastRemoteObject implements IClient {
     private CopyOnWriteArrayList<RemotePlayer> otherClients;
     public List<Opponent> opponents;
     private String name;
+    private StateBasedGame game;
 
-    public Client(String name, String ip, Player p) throws RemoteException {
+    public Client(String name, String ip, Player p, StateBasedGame game ) throws RemoteException {
 
         this.name = name;
 
@@ -37,6 +39,7 @@ public class Client extends UnicastRemoteObject implements IClient {
             this.remotePlayer = server.spawnPlayer(this);
             this.server.updatePlayers();
             this.player = p;
+            this.game = game;
         } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,8 +92,17 @@ public class Client extends UnicastRemoteObject implements IClient {
     
     @Override
     public void recieveDamage() throws RemoteException {
-        this.player.hitPoints =- 10;
-        System.out.println("player damaged");
+        if(this.player.hitPoints <= 0)
+        {
+            this.server.clientLeave(this);
+            this.game.enterState(1);
+        }
+        else
+        {
+                    this.player.hitPoints =- 10;
+                    System.out.println("player damaged");
+        }
+
     }
 
     public void movePlayer(Player player) {

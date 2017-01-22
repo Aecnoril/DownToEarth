@@ -42,15 +42,15 @@ public class Opponent {
         return PLAYER;
     }
     
-    public Opponent(RemotePlayer PLAYER) throws SlickException{
-        this.PLAYER = PLAYER;
-        this.BOUNDS = new Rectangle(PLAYER.getCoords().getXint() + 2 , PLAYER.getCoords().getYint() + 2, 28, 28);
-        this.SMANAGER = new SpriteManager("res/PLAYERSprite.png");
+    public Opponent(RemotePlayer player) throws SlickException{
+        this.PLAYER = player;
+        this.BOUNDS = new Rectangle(getLocation().getXint() - 16 , getLocation().getYint() -16, 28, 28);
+        this.SMANAGER = new SpriteManager("res/playersprite.png");
     }
     
     public void draw(int posX, int posY){
-        BOUNDS.setX(PLAYER.getCoords().getX()+2 - posX);
-        BOUNDS.setY(PLAYER.getCoords().getY()+2 - posY);
+        BOUNDS.setX(getLocation().getX()-16 - posX);
+        BOUNDS.setY(getLocation().getY() -14 - posY);
         try{
             if(PLAYER.moving){
                 PLAYER.moving = false;

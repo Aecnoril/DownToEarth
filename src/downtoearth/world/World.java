@@ -20,7 +20,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class World implements Serializable{
+public class World implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private final int zoom = 4;
@@ -43,7 +43,6 @@ public class World implements Serializable{
     Image map;
     Image shader;
 
-    
     public List<Tile> getTiles() {
         return tiles;
     }
@@ -94,8 +93,8 @@ public class World implements Serializable{
             return false;
         }
     }
-    
-    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
+
+    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException {
         p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png", this);
     }
 
@@ -146,18 +145,18 @@ public class World implements Serializable{
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
         
         p.render(con);
-        
+
         drawTiles(startX, startY, stopX, stopY);
-        
+
         drawMobs(startX, startY, stopX, stopY);
-        
+
         drawItems(startX, startY, stopX, stopY);
-        
+
         drawOpponents(startX, startY, stopX, stopY);
 
     }
-    
-    public void drawMobs(int startX, int startY, int stopX, int stopY){
+
+    public void drawMobs(int startX, int startY, int stopX, int stopY) {
         for (NPC n : mobs) {
             if (n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX) {
                 if (n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY) {
@@ -166,8 +165,8 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawTiles(int startX, int startY, int stopX, int stopY){
+
+    public void drawTiles(int startX, int startY, int stopX, int stopY) {
         for (Tile t : tiles) {
             if (t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX) {
                 if (t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY) {
@@ -176,8 +175,8 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawItems(int startX, int startY, int stopX, int stopY){
+
+    public void drawItems(int startX, int startY, int stopX, int stopY) {
         for (ItemEntity n : itemEnts) {
             if (n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080) {
                 if (n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720) {
@@ -186,13 +185,14 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawOpponents(int startX, int startY, int stopX, int stopY){
+
+    public void drawOpponents(int startX, int startY, int stopX, int stopY) {
         if (!opponents.isEmpty()) {
             for (Opponent o : opponents) {
                 if (o.getLocation().getX() >= startX && o.getLocation().getX() <= stopX) {
                     if (o.getLocation().getY() >= startY && o.getLocation().getY() <= stopY) {
                         o.draw(startX, startY);
+
                     }
                 }
             }
