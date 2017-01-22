@@ -46,6 +46,7 @@ public class DatabaseAPI {
                 try(Connection connection = getConnection()){
                     Statement statement = connection.createStatement();
                     statement.execute("CREATE TABLE User(id INT NOT NULL UNIQUE DEFAULT 0 CHECK(id = 0), tokenId INT NOT NULL, token TEXT NOT NULL)");
+                    connection.close();
                 }
             } catch (IOException | SQLException ex) {
                 Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,6 +60,7 @@ public class DatabaseAPI {
             statement.setInt(1, tokenId);
             statement.setString(2, token);
             statement.executeUpdate();
+            connection.close();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,7 +71,9 @@ public class DatabaseAPI {
             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(id) FROM User");
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return resultSet.getInt(1) == 1;
+            boolean result = resultSet.getInt(1) == 1;
+            connection.close();
+            return result;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -85,6 +89,7 @@ public class DatabaseAPI {
                 user = new JSONObject();
                 user.put("tokenId", resultSet.getInt(1));
                 user.put("token", resultSet.getString(2));
+                connection.close();
             }
         } catch (SQLException | JSONException ex) {
             Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,6 +101,7 @@ public class DatabaseAPI {
         try(Connection connection = getConnection()){
             PreparedStatement statement = connection.prepareStatement("DELETE FROM User");
             statement.executeUpdate();
+            connection.close();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseAPI.class.getName()).log(Level.SEVERE, null, ex);
         }

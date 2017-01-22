@@ -29,7 +29,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
     
     // Thread pool
     private final int nrThreads = 10;
-    private ExecutorService threadPool = null;
+    private transient ExecutorService threadPool = null;
     
     public GameCommunicator(MultiplayerState state)throws RemoteException{
         this.state = state;

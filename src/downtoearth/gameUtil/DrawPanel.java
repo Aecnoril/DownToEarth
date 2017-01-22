@@ -15,12 +15,11 @@ import java.awt.event.MouseListener;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JPanel;
-import org.newdawn.slick.AppletGameContainer;
 
 @SuppressWarnings( "serial" )
 public class DrawPanel extends JPanel implements MouseListener, ComponentListener
 {
-	private Map<Point, Image> map;
+	private transient Map<Point, Image> map;
 	private NoiseGen generator;
 	
 	public DrawPanel( NoiseGen generator )

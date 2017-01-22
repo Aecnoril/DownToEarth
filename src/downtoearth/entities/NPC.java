@@ -116,7 +116,7 @@ public class NPC extends LivingEntity {
         float ownY = this.location.getY();
 
         if (dir == DirectionType.NORTH || dir == DirectionType.NORTHEAST || dir == DirectionType.NORTHWEST) {
-            double alpha = viewingAngle / 2;
+            double alpha = (double)viewingAngle / 2;
             double x = Math.sin(alpha) * viewingDistance;
             double y = Math.cos(alpha) * viewingDistance;
             double leftYX = y / (x * -1);
@@ -131,7 +131,7 @@ public class NPC extends LivingEntity {
                 }
             }
         } else if (dir == DirectionType.SOUTH || dir == DirectionType.SOUTHEAST || dir == DirectionType.SOUTHWEST) {
-            double alpha = viewingAngle / 2;
+            double alpha = (double)viewingAngle / 2;
             double x = Math.sin(alpha) * viewingDistance;
             double y = Math.cos(alpha) * viewingDistance;
             double leftYX = (y * -1) / (x * -1);
@@ -146,7 +146,7 @@ public class NPC extends LivingEntity {
                 }
             }
         } else if (dir == DirectionType.WEST) {
-            double alpha = viewingAngle / 2;
+            double alpha = (double)viewingAngle / 2;
             double y = Math.sin(alpha) * viewingDistance;
             double x = Math.cos(alpha) * viewingDistance;
             double bottomXY = (x * -1) / (y * -1);
@@ -161,7 +161,7 @@ public class NPC extends LivingEntity {
                 }
             }
         } else if (dir == DirectionType.EAST) {
-            double alpha = viewingAngle / 2;
+            double alpha = (double)viewingAngle / 2;
             double y = Math.sin(alpha) * viewingDistance;
             double x = Math.cos(alpha) * viewingDistance;
             double topXY = (x * -1) / (y * -1);
