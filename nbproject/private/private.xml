@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+<<<<<<< HEAD
+=======
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/multiplayer/Client.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/Player.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/DownToEarth.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/states/gui/Inventory.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/items/TileItem.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/world/World.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/NPC.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/states/MultiplayerState.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/shared/IClient.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/shared/RemotePlayer.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/items/Item.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/shared/IServer.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/states/GameState.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/database/ServerAPI.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/items/Armor.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/Opponent.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/gameUtil/SpriteManager.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/DownToEarth.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/entities/Opponent.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/world/World.java</file>
+            <file>file:/D:/School/Semester%203/PTT/code/src/downtoearth/states/MultiplayerState.java</file>
         </group>
+>>>>>>> ace11cc3ae615bfc938a74ff455f2d13138296da
     </open-files>
+>>>>>>> 6e7c1786d7a17255594346455d1ba15e0d161ef1
 </project-private>

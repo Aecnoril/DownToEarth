@@ -21,65 +21,51 @@ import shared.RemotePlayer;
  * @author Demian
  */
 public class Opponent {
-
     private final RemotePlayer PLAYER;
     private final SpriteManager SMANAGER;
-    private  AnimationManager aManager;
-    private Rectangle bounds;
-
-    public Coordinate getLocation() {
+    private AnimationManager aManager;
+    private final Rectangle BOUNDS;
+    
+    public Coordinate getLocation(){
         return PLAYER.getCoords();
     }
-
-    public String getName() {
+    
+    public String getName(){
         return PLAYER.getId();
     }
-
-    public Rectangle getBounds() {
-        return bounds;
+    
+    public Rectangle getBounds(){
+        return BOUNDS;
     }
-
-    public RemotePlayer getPlayer() {
+    
+    public RemotePlayer getPlayer(){
         return PLAYER;
     }
-
-    public Opponent(RemotePlayer player) throws SlickException {
+    
+    public Opponent(RemotePlayer player) throws SlickException{
         this.PLAYER = player;
-        this.bounds = new Rectangle(player.getCoords().getXint() + 2, player.getCoords().getYint() + 2, 28, 28);
-        this.SMANAGER = new SpriteManager("res/PLAYERSprite.png");
+        this.BOUNDS = new Rectangle(getLocation().getXint() - 16 , getLocation().getYint() -16, 28, 28);
+        this.SMANAGER = new SpriteManager("res/playersprite.png");
     }
-
-    public void draw(int posX, int posY) {
-        bounds.setX(PLAYER.getCoords().getX() + 2 - posX);
-        bounds.setY(PLAYER.getCoords().getY() + 2 - posY);
-        try {
-            if (PLAYER.getMoving()) {
-                PLAYER.setMoving(false);
-                aManager.DrawAnimation(PLAYER.getDir(), PLAYER.getCoords());
-            } else {
-                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.getDir());
-                SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX - 16, PLAYER.getCoords().getYint() - posY - 16);
+    
+    public void draw(int posX, int posY){
+        BOUNDS.setX(getLocation().getX()-16 - posX);
+        BOUNDS.setY(getLocation().getY() -14 - posY);
+        try{
+            if(PLAYER.moving){
+                PLAYER.moving = false;
+                aManager.DrawAnimation(PLAYER.dir, PLAYER.getCoords());
+            }else{
+                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.dir);
+                SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX -16, PLAYER.getCoords().getYint() - posY -16);
             }
 
-            if (PLAYER.getAttacking()) {
-                aManager.DrawAttack(PLAYER.getDir(), PLAYER.getCoords());
-                PLAYER.setAttacking(false);
-                if (PLAYER.getMoving()) {
-                    PLAYER.setMoving(false);
-                    aManager.DrawAnimation(PLAYER.getDir(), PLAYER.getCoords());
-                } else {
-                    SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.getDir());
-                    SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX - 16, PLAYER.getCoords().getYint() - posY - 16);
-                }
-
-                if (PLAYER.getAttacking()) {
-                    aManager.DrawAttack(PLAYER.getDir(), PLAYER.getCoords());
-                    PLAYER.setAttacking(false);
-                }
+            if(PLAYER.attack){
+                aManager.DrawAttack(PLAYER.dir, PLAYER.getCoords());
+                PLAYER.attack = false;
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             Logger.getLogger(Opponent.class.getName()).log(Level.SEVERE, null, e);
         }
-
     }
 }

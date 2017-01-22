@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,19 +20,19 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class World implements Serializable{
+public class World implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     private final int zoom = 4;
     private MultiplayerState state;
     private final float shaderTrans = 0.4f;
     private final Player p;
-    protected transient static List<Tile> tiles;
+    public List<Tile> tiles;
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;
-    private ArrayList<ItemEntity> itemEnts;
-    private transient List<Opponent> opponents;
+    public ArrayList<ItemEntity> itemEnts;
+    public List<Opponent> opponents;
     private SpriteManager sManager;
 
     float[][] heightMap;
@@ -45,7 +43,6 @@ public class World implements Serializable{
     Image map;
     Image shader;
 
-    
     public List<Tile> getTiles() {
         return tiles;
     }
@@ -57,10 +54,6 @@ public class World implements Serializable{
             }
         }
         return null;
-    }
-    
-    public void setOpponent(List<Opponent> o){
-        this.opponents = o;
     }
     
     public Size getMapSize(){
@@ -86,21 +79,22 @@ public class World implements Serializable{
     public int[][] getColorMap() {
         return colorMap;
     }
-    
-    public List<ItemEntity> getItemEnt(){
-        return this.itemEnts;
-    }
-    
-    public void removeFromItemEntities(ItemEntity i){
-        itemEnts.remove(i);
-    }
 
     public void addDrop(ItemEntity item) {
         this.itemEnts.add(item);
     }
     //</editor-fold>
-    
-    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException{
+
+    public static boolean checkMap() throws SlickException {
+        Image test = new Image("src/resources/ColorMap.png");
+        if (test != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public World(float[][] heightMap, int[][] colorMap, Coordinate size) throws SlickException {
         p = new Player("henk", new Coordinate(540, 360), 100, "Assets/SpriteSheets/NinjaBob2.png", this);
     }
 
@@ -132,12 +126,12 @@ public class World implements Serializable{
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
             mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "res/tigersprite.png", this, true , 178, 1000000, 10000));
         } catch (SlickException e) {
-            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
         }
     }
 
     public void draw(int width, int height, GameContainer con, Graphics g) throws IOException, SlickException {
+        Color myFilter = new Color(1f, 1f, 1f, 0.5f);   //50%
         Image img = map.getSubImage(p.getCamera().getCenterPosX() - (con.getWidth() / 2), p.getCamera().getCenterPosY() - (con.getHeight() / 2), width, height);
         Image shd = shader.getSubImage(p.getCamera().getCenterPosX() - (con.getWidth() / 2), p.getCamera().getCenterPosY() - (con.getHeight() / 2), width, height);
         img.setFilter(Image.FILTER_NEAREST);
@@ -146,21 +140,23 @@ public class World implements Serializable{
 
         int startX = p.getCamera().getCenterPosX() - (con.getWidth() / 2);
         int startY = p.getCamera().getCenterPosY() - (con.getHeight() / 2);
-
+        
         int stopX = p.getCamera().getCenterPosX() + (con.getWidth() / 2);
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
+        
         p.render(con);
-        
+
         drawTiles(startX, startY, stopX, stopY);
-        
+
         drawMobs(startX, startY, stopX, stopY);
-        
+
         drawItems(startX, startY, stopX, stopY);
-        
+
         drawOpponents(startX, startY, stopX, stopY);
+
     }
-    
-    public void drawMobs(int startX, int startY, int stopX, int stopY){
+
+    public void drawMobs(int startX, int startY, int stopX, int stopY) {
         for (NPC n : mobs) {
             if (n.getLocation().getX() >= startX && n.getLocation().getX() <= stopX) {
                 if (n.getLocation().getY() >= startY && n.getLocation().getY() <= stopY) {
@@ -169,8 +165,8 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawTiles(int startX, int startY, int stopX, int stopY){
+
+    public void drawTiles(int startX, int startY, int stopX, int stopY) {
         for (Tile t : tiles) {
             if (t.getPosition().getX() >= startX && t.getPosition().getX() <= stopX) {
                 if (t.getPosition().getY() >= startY && t.getPosition().getY() <= stopY) {
@@ -179,8 +175,8 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawItems(int startX, int startY, int stopX, int stopY){
+
+    public void drawItems(int startX, int startY, int stopX, int stopY) {
         for (ItemEntity n : itemEnts) {
             if (n.getLocation().getX() >= -16 && n.getLocation().getX() <= 1080) {
                 if (n.getLocation().getY() >= -16 && n.getLocation().getY() <= 720) {
@@ -189,13 +185,14 @@ public class World implements Serializable{
             }
         }
     }
-    
-    public void drawOpponents(int startX, int startY, int stopX, int stopY){
+
+    public void drawOpponents(int startX, int startY, int stopX, int stopY) {
         if (!opponents.isEmpty()) {
             for (Opponent o : opponents) {
                 if (o.getLocation().getX() >= startX && o.getLocation().getX() <= stopX) {
                     if (o.getLocation().getY() >= startY && o.getLocation().getY() <= stopY) {
                         o.draw(startX, startY);
+
                     }
                 }
             }
@@ -211,9 +208,5 @@ public class World implements Serializable{
         for (NPC n : this.mobs) {
             n.move(input, this.tiles, this.mobs, this.opponents);
         }
-    }
-    
-    public static void placeTileItem(Tile tile){
-        World.tiles.add(tile);
     }
 }
