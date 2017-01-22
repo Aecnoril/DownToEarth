@@ -5,6 +5,7 @@
  */
 package downtoearth.states.gui;
 
+import shared.Coordinate;
 import downtoearth.gameUtil.*;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;

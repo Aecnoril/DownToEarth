@@ -5,7 +5,7 @@
  */
 package downtoearth.world.worldGen;
 
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;

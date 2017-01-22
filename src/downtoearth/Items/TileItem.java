@@ -6,7 +6,7 @@
 package downtoearth.Items;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.states.GameState;
 import downtoearth.world.Tile;
 import org.newdawn.slick.SlickException;

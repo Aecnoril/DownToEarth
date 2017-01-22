@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
@@ -39,6 +40,9 @@ public class LoginState extends BasicGameState {
     
     private Button login;
     private Button register;
+    private Image backgroundImage;
+        
+    
     private TextField loginUsername;
     private PasswordTextField loginPassword;
     private TextField registerEmail;
@@ -61,8 +65,9 @@ public class LoginState extends BasicGameState {
         rebound = 5;
         registerb = false;
         
-        login = new Button(gc.getWidth() / 2, 400, "res/loginbtn.png");
-        register = new Button(gc.getWidth() / 2, 550, "res/registerbtn.png");
+        login = new Button(gc.getWidth() / 2, 400, "res/Buttons/loginbtn.png");
+        register = new Button(gc.getWidth() / 2, 550, "res/Buttons/registerbtn.png");
+        backgroundImage = new Image("res/Backgrounds/OptionsBackground.png");
         
         Font awtfont = new Font("Arial", Font.PLAIN, 24);
         TrueTypeFont f = new TrueTypeFont(awtfont, false);
@@ -77,6 +82,7 @@ public class LoginState extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        backgroundImage.draw(0, 0, container.getWidth(), container.getHeight());
         if(registerb == true){
             g.drawString("Register was succesfull", (container.getWidth() / 2) - 25, 100);
         }
@@ -104,6 +110,8 @@ public class LoginState extends BasicGameState {
             g.drawString("Password", loginPassword.getX(), loginPassword.getY() - 20);
             loginPassword.render(container, g);
         }
+        
+
     }
 
     @Override

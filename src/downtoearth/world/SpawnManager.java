@@ -7,7 +7,7 @@ package downtoearth.world;
 
 import downtoearth.entities.NPC;
 import downtoearth.enums.MobType;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +46,7 @@ public class SpawnManager {
                 try {
                     npc = new NPC(type.toString()+nameint, randomCoordinate(world, randombool), (random.nextInt(30)+50), type, "Assets/SpriteSheets/NinjaBob2.png");
                 } catch (SlickException ex) {
-                    Logger.getLogger(NPC.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SpawnManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 world.mobs.add(npc);
                 nameint++;

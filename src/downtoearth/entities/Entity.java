@@ -2,7 +2,7 @@ package downtoearth.entities;
 
 import downtoearth.Items.Item;
 import downtoearth.enums.DirectionType;
-import downtoearth.gameUtil.Coordinate;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import org.newdawn.slick.Graphics;
 import java.util.ArrayList;

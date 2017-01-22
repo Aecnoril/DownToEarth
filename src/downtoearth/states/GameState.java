@@ -1,24 +1,20 @@
 package downtoearth.states;
 
 import downtoearth.entities.ItemEntity;
-import downtoearth.gameUtil.Coordinate;
 import downtoearth.Inventory.Map;
 import downtoearth.gameUtil.Camera;
 import downtoearth.states.gui.CraftingScreen;
 import downtoearth.states.gui.Inventory;
-import downtoearth.world.Tile;
+import shared.Coordinate;
 import downtoearth.world.World;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -33,6 +29,7 @@ public class GameState extends BasicGameState {
     private Camera cam;
 
     public static void main(String[] args) {
+        System.out.println("hoi");
     }
 
     @Override
@@ -52,7 +49,11 @@ public class GameState extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
         g.setBackground(new Color(12, 54, 94));
         
+        g.setBackground(new Color(20, 19, 156));
+        g.clear();
+        
         try {
+            g.setBackground(new Color(20, 19, 156));
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);

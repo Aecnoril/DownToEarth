@@ -1,7 +1,5 @@
 package downtoearth.Multiplayer;
 
-import downtoearth.entities.Player;
-import downtoearth.gameUtil.Coordinate;
 import downtoearth.states.MultiplayerState;
 import fontyspublisher.IRemotePropertyListener;
 import fontyspublisher.IRemotePublisherForDomain;
@@ -41,7 +39,6 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         Contestant data = (Contestant)evt.getNewValue();
-        state.dataIn(data);
     }
     
     /**
@@ -128,7 +125,7 @@ public class GameCommunicator extends UnicastRemoteObject implements IRemoteProp
      * @param property  color of draw event
      * @param drawEvent draw event
      */
-    public void broadcast(final String property, final Contestant data) {
+    public synchronized void broadcast(final String property, final Contestant data) {
         if (connected) {
             threadPool.execute(new Runnable() {
                 @Override

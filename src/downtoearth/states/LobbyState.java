@@ -30,12 +30,12 @@ public class LobbyState extends BasicGameState {
     
     @Override
     public int getID() {
-       return 5;
+       return 4;
     }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        join = new Button(container.getWidth()/2, (container.getHeight() / 2)-60, "res/startbtn.png");
+        join = new Button(container.getWidth()/2, (container.getHeight() / 2)-60, "res/Buttons/startbtn.png");
         
         Font awtfont = new Font("Arial", Font.PLAIN, 24);
         TrueTypeFont f = new TrueTypeFont(awtfont, false);
