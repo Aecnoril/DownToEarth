@@ -70,17 +70,31 @@ public class ServerAPI {
      */
     public static class Response{
         
+<<<<<<< HEAD
         private boolean success;
         private int statusCode;
         private String responseMessage;
+=======
+        private final boolean success;
+        private final int statusCode;
+        private final String response;
+        private final Error error;
+>>>>>>> endpoint
         
         /**
          * Create error response
          * @param error the error
          */
+<<<<<<< HEAD
         public Response(){
             this.statusCode = statusCode;
+=======
+        public Response(Error error){
+            this.statusCode = -1;
+            this.error = error;
+>>>>>>> endpoint
             this.success = false;
+            this.response = null;
         }
         
         /**
@@ -92,6 +106,7 @@ public class ServerAPI {
             this.statusCode = statusCode;
             this.responseMessage = response;
             this.success = true;
+            this.error = null;
         }
         
         /**
@@ -108,6 +123,14 @@ public class ServerAPI {
          */
         public int getStatusCode(){
             return statusCode;
+        }
+        
+        /**
+         * Get the occurred error
+         * @return the error that occurred
+         */
+        public Error getError() {
+            return error;
         }
         
         /**

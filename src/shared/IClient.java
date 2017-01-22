@@ -28,12 +28,20 @@ public interface IClient extends Remote {
      */
     public RemotePlayer getPlayer() throws RemoteException;
     
+<<<<<<< HEAD
     /**
      * updates all the opponent players position health and action
      * @param opponents 
      * @throws java.rmi.RemoteException 
      */
     public void updatePlayers(List<RemotePlayer> opponents) throws RemoteException;
+=======
+    public void updatePlayers(CopyOnWriteArrayList<RemotePlayer> opponents) throws RemoteException;
+    
+    public void attackPlayer(RemotePlayer p) throws RemoteException;
+    
+    public void recieveDamage() throws RemoteException;
+>>>>>>> endpoint
 
     /**
      * sends a message

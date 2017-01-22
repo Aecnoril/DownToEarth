@@ -30,21 +30,28 @@ import org.newdawn.slick.geom.Rectangle;
 public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
+<<<<<<< HEAD
     private List<Observer> observers;
+=======
+    
+    public float xa, ya;
+    private final List<Observer> OBSERVERS;
+>>>>>>> endpoint
     
     private int thirst;
     private int hunger;
     private byte dir;
-    private Camera cam;
+    private final Camera CAM;
+    private Client c;
     private boolean moving;
-    private Coordinate coordinate;
+    private final Coordinate coordinate;
     private boolean attack;
     private Rectangle colBox;
     private Rectangle attBox;
-    private World w;
+    private final World w;
     
-    private AnimationManager aManager;
-    private SpriteManager sManager;
+    private final AnimationManager AMANAGER;
+    private final SpriteManager SMANAGER;
 
     public int getThirst() {
         return thirst;
@@ -121,10 +128,18 @@ public class Player extends LivingEntity{
         this.coordinate.setX(x);
         this.coordinate.setY(y);
     }
+    
+    public void setClient(Client c){
+        this.c = c;
+    }
 
+<<<<<<< HEAD
     public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
         float xa = 0;
         float ya = 0;
+=======
+    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{   
+>>>>>>> endpoint
         moving = false;
         
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}
@@ -132,15 +147,18 @@ public class Player extends LivingEntity{
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(tiles, entities)){
-            if(xa != 0){
-                this.coordinate.setX(this.coordinate.getXint()+ xa);
+
+        if(!collision(tiles, entities, opponents)){
+            float newX = this.coordinate.getXint() + xa;
+            if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
+                this.coordinate.setX(newX);
             }
-            if(ya != 0){
-                this.coordinate.setY(this.coordinate.getYint() + ya);
+            float newY = this.coordinate.getYint() + ya;
+            if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
+                this.coordinate.setY(newY);
             }
 
-            cam.setCoordinate(this.coordinate);
+            CAM.setCoordinate(this.coordinate);
         }
         else{
             moving = false;
@@ -150,19 +168,19 @@ public class Player extends LivingEntity{
     public void render(GameContainer con) throws SlickException{
         if(moving){
             moving = false;
-            aManager.DrawAnimation(this.dir, con);
+            AMANAGER.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
+            SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
         }
         
         if(attack){
-            aManager.DrawAttack(this.dir, con);
+            AMANAGER.DrawAttack(this.dir, con);
             attack = false;
         }
     }
 
-    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+    public boolean collision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{
         switch(dir){
              case DirectionType.NORTH:
                  colBox = new Rectangle(540-13, 360-14, 26, 1);
@@ -188,6 +206,11 @@ public class Player extends LivingEntity{
         for(NPC npc : entities)
         {
             if(this.getColBox().intersects(npc.getBounds())){
+                return true;
+            }
+        }      
+        for(Opponent opponent: opponents){
+            if(this.getColBox().intersects(opponent.getBounds())){
                 return true;
             }
         }
@@ -255,9 +278,9 @@ public class Player extends LivingEntity{
     
     public void attackOpponent(RemotePlayer opponent)
     {
-        System.out.println("Attack!");
-        int hp = opponent.getHealth() - 10;
-        opponent.setHealth(hp);
+        c.attackPlayer(opponent);
+        opponent.setHealth(opponent.getHealth() - 10);
+        System.out.println("player attacked: " + opponent.getId());
     }
 }
 

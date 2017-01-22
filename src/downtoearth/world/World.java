@@ -31,8 +31,14 @@ public class World implements Serializable{
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;
+<<<<<<< HEAD
     private ArrayList<ItemEntity> itemEnts;
     private transient List<Opponent> opponents;
+=======
+    public ArrayList<ItemEntity> itemEnts;
+    public List<Opponent> opponents;
+    private SpriteManager sManager;
+>>>>>>> endpoint
 
     float[][] heightMap;
 
@@ -56,8 +62,13 @@ public class World implements Serializable{
         return null;
     }
     
+<<<<<<< HEAD
     public void setOpponent(List<Opponent> o){
         this.opponents = o;
+=======
+    public Size getMapSize(){
+        return new Size(map.getWidth(), map.getHeight());
+>>>>>>> endpoint
     }
 
     public List<NPC> getMobs() {
@@ -123,7 +134,7 @@ public class World implements Serializable{
             tiles.add(new Tile(500, 1320, TileType.TREE, "tree1"));
             tiles.add(new Tile(510, 1420, TileType.TREE, "tree2"));
             tiles.add(new Tile(540, 1345, TileType.TREE, "tree3"));
-            //mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "Assets/SpriteSheets/NinjaBob2.png"));
+            mobs.add(new NPC("Test", new Coordinate(400, 300), 100, MobType.Sheep, "res/tigersprite.png", this, true , 178, 1000000, 10000));
         } catch (SlickException e) {
             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
@@ -149,6 +160,12 @@ public class World implements Serializable{
         drawMobs(startX, startY, stopX, stopY);
         
         drawItems(startX, startY, stopX, stopY);
+<<<<<<< HEAD
+=======
+        
+        drawOpponents(startX, startY, stopX, stopY);
+
+>>>>>>> endpoint
     }
     
     public void drawMobs(int startX, int startY, int stopX, int stopY){
@@ -184,8 +201,8 @@ public class World implements Serializable{
     public void drawOpponents(int startX, int startY, int stopX, int stopY){
         if (!opponents.isEmpty()) {
             for (Opponent o : opponents) {
-                if (o.getLocation().getX() >= -16 && o.getLocation().getX() <= 1080) {
-                    if (o.getLocation().getY() >= -16 && o.getLocation().getY() <= 720) {
+                if (o.getLocation().getX() >= startX && o.getLocation().getX() <= stopX) {
+                    if (o.getLocation().getY() >= startY && o.getLocation().getY() <= stopY) {
                         o.draw(startX, startY);
                     }
                 }
@@ -194,13 +211,13 @@ public class World implements Serializable{
     }
 
     public void update(Input input) throws SlickException {
-        this.p.move(input, this.tiles, this.mobs);
+        this.p.move(input, this.tiles, this.mobs, this.opponents);
         this.p.attack(this.tiles, this.mobs, this.opponents, input);
         for (ItemEntity t : this.itemEnts) {
             t.move(input);
         }
         for (NPC n : this.mobs) {
-            n.move(input);
+            n.move(input, this.tiles, this.mobs, this.opponents);
         }
     }
     

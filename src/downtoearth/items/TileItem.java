@@ -31,6 +31,7 @@ public class TileItem extends Item{
         super(name, type, durability, breakChange);
     }
     
+<<<<<<< HEAD:src/downtoearth/items/TileItem.java
     /**
      * draws the tile item at the mouse location
      * @throws SlickException 
@@ -42,6 +43,14 @@ public class TileItem extends Item{
         
         tile = new Tile(location.getXint(), location.getYint(), this.type, this.name);
         World.placeTileItem(tile);
+=======
+    public Tile place() throws SlickException{
+        Tile tile;
+        location = GameState.w.getPlayer().getCoordinate();
+        
+        tile = new Tile((int)location.x, (int)location.y, this.type, this.name);
+        return tile;
+>>>>>>> endpoint:src/downtoearth/Items/TileItem.java
     }  
      
     @Override

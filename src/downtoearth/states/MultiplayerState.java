@@ -32,7 +32,17 @@ public class MultiplayerState extends BasicGameState{
     private CraftingScreen cs;
     private StateBasedGame game;
     private static int mapSize = 5012;
+<<<<<<< HEAD
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+=======
+    private static NoiseGen noiseGen = new NoiseGen();
+    private String id = UUID.randomUUID().toString();
+    
+    private GameContainer container;
+    private Map map;
+    
+    private GameCommunicator com;
+>>>>>>> endpoint
      
     private RemotePlayer player;
     private Random random;
@@ -56,16 +66,25 @@ public class MultiplayerState extends BasicGameState{
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
+<<<<<<< HEAD
             this.client = new Client(Integer.toString(random.nextInt(100)), "145.93.84.202");
+=======
+            this.client = new Client(Integer.toString(random.nextInt(100)), "localhost", w.getPlayer());
+>>>>>>> endpoint
             w.getPlayer().setSpawnPoint(client.getPlayer().getCoords().getXint(), client.getPlayer().getCoords().getYint());
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
         }
+        map = new Map(300,100);
+        
+        this.w.getPlayer().setClient(client);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 
+
+        
         try {
             w.setOpponent(client.getOpponents());
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);       
@@ -88,6 +107,11 @@ public class MultiplayerState extends BasicGameState{
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
     }
 
     @Override
@@ -95,6 +119,9 @@ public class MultiplayerState extends BasicGameState{
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
+        client.movePlayer(w.getPlayer());
     }
 
     @Override

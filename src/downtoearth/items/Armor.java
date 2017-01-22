@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
  */
 public class Armor extends Item{
     
-    private double damageReduction;
+    private final double DAMAGE_REDUCTION;
     
     /**
      * Creates a new piece of armour with the given parameters
@@ -28,7 +28,7 @@ public class Armor extends Item{
      */
     public Armor(String name, byte type, double durability, double breakChange, double damageReduction) throws SlickException {
         super(name, type, durability, breakChange);
-        this.damageReduction = damageReduction;
+        this.DAMAGE_REDUCTION = damageReduction;
     }
 
     @Override

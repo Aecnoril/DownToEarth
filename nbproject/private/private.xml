@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+<<<<<<< HEAD
+=======
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/items/Item.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/Player.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/states/GameState.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/items/TileItem.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/world/World.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/Entity.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/entities/ItemEntity.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/enums/TileType.java</file>
-            <file>file:/D:/School/J2/S1/Software/DownToEarth/src/downtoearth/world/Tile.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/states/MultiplayerState.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/DownToEarth.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/entities/NPC.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/world/World.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/entities/Player.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/world/Tile.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/entities/Opponent.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/enums/MobType.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/database/ServerAPI.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/test/downtoearth/gameUtil/CameraTest.java</file>
+            <file>file:/Volumes/Data/NetBeans/PTS3%20-%20Down%20To%20Earth/src/downtoearth/states/GameState.java</file>
         </group>
+>>>>>>> ace11cc3ae615bfc938a74ff455f2d13138296da
     </open-files>
+>>>>>>> 6e7c1786d7a17255594346455d1ba15e0d161ef1
 </project-private>

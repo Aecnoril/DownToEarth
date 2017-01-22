@@ -67,8 +67,17 @@ public class RemotePlayer implements Serializable{
         return new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
     }
     
+<<<<<<< HEAD
     public byte getDir(){
         return this.dir;
+=======
+    public RemotePlayer(String id, Coordinate coords, int health){
+        this.id = id;
+        this.coords = coords;
+        this.health = health;
+        this.bounds = new Rectangle(coords.getXint() + 2 , coords.getYint() + 2, 28, 28);
+        this.dir = DirectionType.NORTH;
+>>>>>>> endpoint
     }
     
     public boolean getMoving(){

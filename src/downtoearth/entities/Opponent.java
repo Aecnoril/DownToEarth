@@ -61,6 +61,19 @@ public class Opponent {
             if(player.getAttacking()){
                 aManager.DrawAttack(player.getDir(), player.getCoords());
                 player.setAttacking(false);
+=======
+            if(PLAYER.moving){
+                PLAYER.moving = false;
+                aManager.DrawAnimation(PLAYER.dir, PLAYER.getCoords());
+            }else{
+                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.dir);
+                SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX -16, PLAYER.getCoords().getYint() - posY -16);
+            }
+
+            if(PLAYER.attack){
+                aManager.DrawAttack(PLAYER.dir, PLAYER.getCoords());
+                PLAYER.attack = false;
+>>>>>>> endpoint
             }
         }catch(Exception e){
             Logger.getLogger(Opponent.class.getName()).log(Level.SEVERE, null, e);

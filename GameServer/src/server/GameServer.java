@@ -7,69 +7,59 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.*;
 
-/**
- * Game server for Down to Earth
- * @author Vernoxius
- */
 public class GameServer extends UnicastRemoteObject implements IServer {
 
     private static int portNumber = 1099;
     private static String bindingName = "DownToEarth";
     private ArrayList<IClient> clients;
-    private static ArrayList<Coordinate> spawnpoints = new ArrayList<>();
-    
+    private static ArrayList<Coordinate> spawnpoints;
+
     private int count = 0;
-    
-    /**
-     * Adds the clients that want to connect  as the server is created to the server
-     * @throws RemoteException 
-     */
+
     public GameServer() throws RemoteException {
         clients = new ArrayList<>();
+        this.spawnpoints = new ArrayList<Coordinate>();
     }
-    
-    /**
-     * main class to start the server
-     * @param args
-     * @throws UnknownHostException 
-     */
+
     public static void main(String[] args) throws UnknownHostException {
         Registry registry;
-        
-        try{
+
+        try {
             GameServer rmiServer = new GameServer();
             registry = LocateRegistry.createRegistry(portNumber);
             registry.rebind(bindingName, rmiServer);
-            Logger.getLogger("RMI server runs...");
+            System.out.println("RMI server runs...");
         } catch (RemoteException ex) {
             Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         InetAddress localhost = InetAddress.getLocalHost();
-        Logger.getLogger("Server: IP Address: " + localhost.getHostAddress());
+        System.out.println("Server: IP Address: " + localhost.getHostAddress());
     }
 
     @Override
     public void clientJoin(IClient client) throws RemoteException {
         this.clients.add(client);
-        updatePlayers();
-        Logger.getLogger(client.getClientName() + " joined the server!");
+        //updatePlayers();
+        System.out.println(client.getClientName() + " joined the server!");
     }
 
     @Override
     public void clientLeave(IClient client) throws RemoteException {
         this.clients.remove(client);
-        Logger.getLogger(client.getClientName() + " left the server!");
+        System.out.println(client.getClientName() + " left the server!");
     }
 
     @Override
     public IClient getClientByName(String clientName) throws RemoteException {
-        for(IClient client : this.clients) {
-            if(client.getClientName().equalsIgnoreCase(clientName)){
+        for (IClient client : this.clients) {
+            if (client.getClientName().equalsIgnoreCase(clientName)) {
                 return client;
             }
         }
@@ -78,67 +68,87 @@ public class GameServer extends UnicastRemoteObject implements IServer {
 
     @Override
     public int getClientListIndex(String clientName) throws RemoteException {
-        for(int i = 0; i < this.clients.size(); i++) {
-            if(this.clients.get(i).getClientName().equals(clientName)) {
+        for (int i = 0; i < this.clients.size(); i++) {
+            if (this.clients.get(i).getClientName().equals(clientName)) {
                 return i;
             }
         }
-        
+
         return 0;
     }
 
     @Override
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException {
-        spawnpoints = new ArrayList<>();
-        spawnpoints.add(new Coordinate(780,1541));
-        spawnpoints.add(new Coordinate(1137,2985));
-        spawnpoints.add(new Coordinate(2291,2483));
-        spawnpoints.add(new Coordinate(3962,2392));
-        spawnpoints.add(new Coordinate(4205,3623));
-        
+        spawnpoints = new ArrayList<Coordinate>();
+        spawnpoints.add(new Coordinate(780, 1541));
+        spawnpoints.add(new Coordinate(1137, 2985));
+        spawnpoints.add(new Coordinate(2291, 2483));
+        spawnpoints.add(new Coordinate(3962, 2392));
+        spawnpoints.add(new Coordinate(4205, 3623));
+
         RemotePlayer player = new RemotePlayer(client.getClientName(), spawnpoints.get(count), 100);
         count++;
-        updatePlayers();
+        //updatePlayers();
         return player;
     }
 
     @Override
     public void updateTiles(String message) throws RemoteException {
-        for(IClient client : this.clients) {
+        for (IClient client : this.clients) {
             updateTiles(message);
         }
     }
 
+    @Override
     public synchronized void updatePlayers() throws RemoteException {
-        for(IClient client : this.clients) {
-            ArrayList<RemotePlayer> opponents = new ArrayList<>();
-            for(IClient c : this.clients){ 
-                if(!client.getClientName().equalsIgnoreCase(c.getClientName())){
-                    opponents.add(c.getPlayer());
+        for (IClient client : this.clients) {
+            CopyOnWriteArrayList<RemotePlayer> opponents = new CopyOnWriteArrayList<RemotePlayer>();
+            for (IClient c : this.clients) {
+                if (!client.getClientName().equalsIgnoreCase(c.getClientName())) {
+                    if (c.getPlayer() != null) {
+                        opponents.add(c.getPlayer());
+                    }
+                    else
+                    {
+                        System.out.println(client.getClientName() + " Could not find player: " + c.getClientName());
+                    }
                 }
             }
             client.updatePlayers(opponents);
         }
     }
+    
+    @Override
+    public void attackPlayer(RemotePlayer player){
+        for(IClient client : this.clients){
+            try{
+                if(client.getPlayer().getId().equalsIgnoreCase(player.getId())){
+                    client.recieveDamage();
+                }
+            }catch(Exception e){
+                Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }
 
     @Override
     public void updateMobs(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 
     @Override
     public void pickupItem(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 
     @Override
     public void dropItem(String message) throws RemoteException {
-        for(IClient client : this.clients) {
-            
+        for (IClient client : this.clients) {
+
         }
     }
 }

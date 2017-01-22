@@ -50,6 +50,10 @@ public interface IServer extends Remote{
      * @param message
      * @throws RemoteException 
      */
+=======
+    public void updatePlayers() throws RemoteException;
+    
+>>>>>>> endpoint
     public void pickupItem(String message) throws RemoteException;
     
     /**
@@ -59,12 +63,17 @@ public interface IServer extends Remote{
      */
     public void dropItem(String message) throws RemoteException;
     
+<<<<<<< HEAD
     /**
      * grabs the next spawnpoint in the list and adds this as spawnpoint then it updates all players
      * @param client
      * @return
      * @throws RemoteException 
      */
+=======
+    public void attackPlayer(RemotePlayer player) throws RemoteException;
+    
+>>>>>>> endpoint
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException;
 
     /**

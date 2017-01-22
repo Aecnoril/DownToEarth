@@ -15,27 +15,27 @@ import org.newdawn.slick.SlickException;
  */
 public class Tool extends Item{
     
-    private int damage;
-    private int environmentDamage;
-    private int attackSpeed;
+    private final int DAMAGE;
+    private final int ENVIRONMENTDAMAGE;
+    private final int ATTACKSPEED;
     
     public int getDamage(){
-        return damage;
+        return DAMAGE;
     }
     
     public int getEnvironmentDamage(){
-        return environmentDamage;
+        return ENVIRONMENTDAMAGE;
     }
     
     public int getAttackSpeed(){
-        return attackSpeed;
+        return ATTACKSPEED;
     }
     
-    public Tool(String name, byte type, double durability, double breakChange, int damage, int environdamage, int attackSpeed) throws SlickException {
+    public Tool(String name, byte type, double durability, double breakChange, int damage, int environDamage, int attackSpeed) throws SlickException {
         super(name, type, durability, breakChange);
-        this.damage = damage;
-        this.environmentDamage = environmentDamage;
-        this.attackSpeed = attackSpeed;
+        this.DAMAGE = damage;
+        this.ENVIRONMENTDAMAGE = environDamage;
+        this.ATTACKSPEED = attackSpeed;
     }
     
     @Override

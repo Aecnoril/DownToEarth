@@ -19,11 +19,17 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState {
 
+<<<<<<< HEAD
     private World w;
+=======
+    public static World w;
+>>>>>>> endpoint
     private Inventory inv;
     private CraftingScreen cs;
-    private static int mapSize = 5012;
-    private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
+    private static final int mapSize = 5012;
+    private static final NoiseGen noiseGen = new NoiseGen();
+    private Map map;
+    private Camera cam;
 
     public static void main(String[] args) {
         System.out.println("hoi");
@@ -36,15 +42,21 @@ public class GameState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        noiseGen.resized(mapSize, mapSize);
         w = new World(new Coordinate(mapSize, mapSize));
         inv = new Inventory(25, 100, 1025, 500, new Color(122, 118, 118));
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
+        map = new Map(300,100);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
         
+        g.setBackground(new Color(20, 19, 156));
+        g.clear();
+        
         try {
+            g.setBackground(new Color(20, 19, 156));
             w.draw(gc.getWidth(), gc.getHeight(), gc, g);
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,6 +77,12 @@ public class GameState extends BasicGameState {
         if (this.cs.isCsOpen()) {
             this.cs.render(g);
         }
+        
+        if (this.map.isMapOpen())
+        {
+            this.map.render(g);
+        }
+        
     }
 
     @Override
@@ -72,11 +90,15 @@ public class GameState extends BasicGameState {
         w.update(gc.getInput());
         inv.ePressed(gc);
         cs.cPressed(gc);
+        map.mPressed(gc);  
+        map.setCamera(w.getPlayer().getCamera());
     }
 
     @Override
-    public void mouseWheelMoved(int change) {          
-        double res = Math.floor(change * 0.15);
-        cs.setScroll((float)res);
+    public void mouseWheelMoved(int change) {   
+        if(cs.isCsOpen()){
+            double res = Math.floor(change * 0.15);
+            cs.setScroll((float)res); 
+        }   
     }
 }

@@ -38,6 +38,7 @@ public interface IServer extends Remote{
      */
     public void updateMobs(String message) throws RemoteException;
     
+<<<<<<< HEAD
     /**
      * updates the list of opponents on all the connected clients
      * @throws RemoteException 
@@ -50,6 +51,10 @@ public interface IServer extends Remote{
      * @param message
      * @throws RemoteException 
      */
+=======
+    public void updatePlayers() throws RemoteException;
+    
+>>>>>>> endpoint
     public void pickupItem(String message) throws RemoteException;
     
     /**
@@ -66,6 +71,8 @@ public interface IServer extends Remote{
      * @throws RemoteException 
      */
     public RemotePlayer spawnPlayer(IClient client) throws RemoteException;
+    
+    public void attackPlayer(RemotePlayer player) throws RemoteException;
 
     /**
      * @param clientName
