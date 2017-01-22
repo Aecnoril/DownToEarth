@@ -6,19 +6,18 @@
 package downtoearth.entities;
 
 import downtoearth.Items.Item;
-import downtoearth.Multiplayer.Contestant;
+import downtoearth.Multiplayer.Client;
+import shared.RemotePlayer;
 import downtoearth.enums.DirectionType;
 import downtoearth.enums.SpriteLocation;
 import downtoearth.gameUtil.AnimationManager;
 import downtoearth.gameUtil.Camera;
-import downtoearth.gameUtil.Coordinate;
 import downtoearth.gameUtil.SoundManager;
+import shared.Coordinate;
 import downtoearth.gameUtil.SpriteManager;
 import downtoearth.interfaces.Observer;
-import downtoearth.interfaces.Subject;
 import downtoearth.world.Tile;
 import downtoearth.world.World;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.GameContainer;
@@ -30,7 +29,7 @@ import org.newdawn.slick.geom.Rectangle;
  *
  * @author Demian
  */
-public class Player extends LivingEntity implements Subject{
+public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
@@ -41,6 +40,7 @@ public class Player extends LivingEntity implements Subject{
     private int hunger;
     private byte dir;
     private Camera cam;
+    private Client c;
     private boolean moving;
     private Coordinate coordinate;
     private boolean attack;
@@ -115,11 +115,11 @@ public class Player extends LivingEntity implements Subject{
         super(name, location, hitPoints, path);
         this.observers = new ArrayList<Observer>();
         this.aManager = new AnimationManager(32 ,32);
-        this.sManager = new SpriteManager("res/playerSprite.png");
-        this.cam = new Camera(1080, 720);
-        this.dir = DirectionType.NORTH;
+        this.sManager = new SpriteManager("res/playersprite.png");
+        this.dir = DirectionType.NORTH; 
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
+        this.cam = new Camera(1080, 720, this.coordinate);
         this.w = w;
         sm = new SoundManager();
     }
@@ -128,8 +128,12 @@ public class Player extends LivingEntity implements Subject{
         this.coordinate.setX(x);
         this.coordinate.setY(y);
     }
+    
+    public void setClient(Client c){
+        this.c = c;
+    }
 
-    public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
+    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{   
         moving = false;
         xa = 0;
         ya = 0;
@@ -139,17 +143,18 @@ public class Player extends LivingEntity implements Subject{
         if(input.isKeyDown(Input.KEY_S)){ dir = DirectionType.SOUTH; ya = 1.3f; moving = true;}
         if(input.isKeyDown(Input.KEY_A)){ dir = DirectionType.WEST; xa = -1.3f; moving = true;}
         
-        if(!collision(tiles, entities)){
-            if(xa != 0){
-                this.setCamX(this.getCamX() + xa);
-                notifyObservers();
+
+        if(!collision(tiles, entities, opponents)){
+            float newX = this.coordinate.getXint() + xa;
+            if(xa != 0 && newX >= 0 && newX <= this.w.getMapSize().width){
+                this.coordinate.setX(newX);
             }
-            if(ya != 0){
-                this.setCamY(this.getCamY() + ya);
-                notifyObservers();
+            float newY = this.coordinate.getYint() + ya;
+            if(ya != 0 && newY >= 0 && newY <= this.w.getMapSize().height){
+                this.coordinate.setY(newY);
             }
 
-            this.coordinate = cam.getCoordinate();
+            cam.setCoordinate(this.coordinate);
         }
         else{
             moving = false;
@@ -171,7 +176,7 @@ public class Player extends LivingEntity implements Subject{
         }
     }
 
-    public boolean collision(List<Tile> tiles, List<NPC> entities) throws SlickException{
+    public boolean collision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{
         switch(dir){
              case DirectionType.NORTH:
                  colBox = new Rectangle(540-13, 360-14, 26, 1);
@@ -199,11 +204,16 @@ public class Player extends LivingEntity implements Subject{
             if(this.getColBox().intersects(npc.getBounds())){
                 return true;
             }
+        }      
+        for(Opponent opponent: opponents){
+            if(this.getColBox().intersects(opponent.getBounds())){
+                return true;
+            }
         }
         return false;
     }   
     
-    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
+    public void attackCollision(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents, Input input) throws SlickException
     {
         final int RANGE = 10;
         switch(dir){
@@ -243,10 +253,10 @@ public class Player extends LivingEntity implements Subject{
                      }
                  }
              }
-             for(Contestant o : opponents)
+             for(Opponent o : opponents)
              {
-                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getId() == null ? this.name != null : !o.getId().equals(this.name))){
-                     this.attackOpponent(o);
+                 if(this.getAttackBox().intersects(o.getBounds()) && (o.getName()== null ? this.name != null : !o.getName().equals(this.name))){
+                     this.attackOpponent(o.getPlayer());
                      break;
                  }
              }
@@ -254,7 +264,7 @@ public class Player extends LivingEntity implements Subject{
         }    
     }
     
-    public void attack(List<Tile> tiles, List<NPC> entities, List<Contestant> opponents, Input input) throws SlickException
+    public void attack(List<Tile> tiles, List<NPC> entities, List<Opponent> opponents, Input input) throws SlickException
     {
         attackCollision(tiles, entities, opponents, input);
     }
@@ -263,30 +273,11 @@ public class Player extends LivingEntity implements Subject{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public void attackOpponent(Contestant opponent)
+    public void attackOpponent(RemotePlayer opponent)
     {
-        System.out.println("Attack!");
-        int hp = opponent.getHealth() - 10;
-        opponent.setHealth(hp);
-        w.attackOpponent(opponent);
-    }
-
-    @Override
-    public void register(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void unregister(Observer o) {
-        int index = observers.indexOf(o);
-        observers.remove(index);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer ob : observers){
-            ob.update(this);
-        }
+        c.attackPlayer(opponent);
+        opponent.setHealth(opponent.getHealth() - 10);
+        System.out.println("player attacked: " + opponent.getId());
     }
 }
 
