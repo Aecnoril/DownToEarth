@@ -38,18 +38,14 @@ public class Inventory {
      * @param height
      * @param c
      */
-    public Inventory(int x, int y, int width, int height, Color c) {
+    public Inventory(int x, int y, int width, int height, Color c) throws SlickException {
         rectangle = new Rectangle(c, x, y, width, height);
         this.invOpen = false;
 
-        try {
-            items.add(new TileItem("item1", Tooltype.WOODENSWORD, 10, 10));
-            items.add(new TileItem("item2", Tooltype.STONESWORD, 10, 10));
-            items.add(new TileItem("item3", Tooltype.STEELSWORD, 10, 10));
-            items.add(new TileItem("item4", Tooltype.GEMSWORD, 10, 10));
-        } catch (SlickException ex) {
-            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        items.add(new TileItem("item1", Tooltype.WOODENSWORD, 10, 10));
+        items.add(new TileItem("item2", Tooltype.STONESWORD, 10, 10));
+        items.add(new TileItem("item3", Tooltype.STEELSWORD, 10, 10));
+        items.add(new TileItem("item4", Tooltype.GEMSWORD, 10, 10));
         this.generateInventory();
     }
 

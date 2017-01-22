@@ -1,6 +1,7 @@
 package downtoearth.Multiplayer;
 
 import downtoearth.entities.Opponent;
+import downtoearth.entities.Player;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -17,23 +18,14 @@ import shared.*;
 public class Client extends UnicastRemoteObject implements IClient {
 
     private IServer server;
-<<<<<<< HEAD:src/downtoearth/multiplayer/Client.java
-    private RemotePlayer player;
-    private List<RemotePlayer> otherClients;
     private List<Opponent> opponents;
     private String name;  
-    
-    public Client(String name, String ip) throws RemoteException{
-=======
+    private CopyOnWriteArrayList<RemotePlayer> otherClients;
     private RemotePlayer remotePlayer;
     private Player player;
-    private CopyOnWriteArrayList<RemotePlayer> otherClients;
-    public List<Opponent> opponents;
-    private String name;
-
+    
     public Client(String name, String ip, Player p) throws RemoteException {
 
->>>>>>> endpoint:src/downtoearth/Multiplayer/Client.java
         this.name = name;
 
         try {
@@ -69,17 +61,10 @@ public class Client extends UnicastRemoteObject implements IClient {
     public RemotePlayer getPlayer() throws RemoteException {
         return this.remotePlayer;
     }
-
     @Override
-<<<<<<< HEAD:src/downtoearth/multiplayer/Client.java
-    public void updatePlayers(List<RemotePlayer> otherClients){
-        this.otherClients = otherClients;
-        if(!opponents.isEmpty()){
-=======
     public synchronized void updatePlayers(CopyOnWriteArrayList<RemotePlayer> otherClients) {
         this.otherClients = otherClients;
         if (!opponents.isEmpty()) {
->>>>>>> endpoint:src/downtoearth/Multiplayer/Client.java
             this.opponents.clear();
         }
         for (RemotePlayer p : this.otherClients) {
@@ -88,7 +73,6 @@ public class Client extends UnicastRemoteObject implements IClient {
             } catch (SlickException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
     
@@ -103,13 +87,17 @@ public class Client extends UnicastRemoteObject implements IClient {
     
     @Override
     public void recieveDamage() throws RemoteException {
-        this.player.hitPoints =- 10;
+        try {
+            this.player.loseHp(10);
+        } catch (SlickException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("player damaged");
     }
 
     public void movePlayer(Player player) {
                this.remotePlayer.setCoords(player.getCoordinate().getXint(), player.getCoordinate().getYint());
-               this.remotePlayer.dir = player.getDir();
+               this.remotePlayer.setDir(player.getDir());
         try {
             this.server.updatePlayers();
         } catch (RemoteException ex) {
@@ -117,11 +105,7 @@ public class Client extends UnicastRemoteObject implements IClient {
         }
     }
 
-<<<<<<< HEAD:src/downtoearth/multiplayer/Client.java
     public List<Opponent> getOpponents() throws RemoteException {
         return this.opponents;
     }
-=======
-    
->>>>>>> endpoint:src/downtoearth/Multiplayer/Client.java
 }

@@ -3,10 +3,13 @@ package downtoearth.states;
 
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
+
 import downtoearth.entities.ItemEntity;
+import downtoearth.Inventory.Map;
+import downtoearth.gameUtil.Camera;
 import shared.Coordinate;
 import downtoearth.world.World;
-import downtoearth.world.worldGen.WorldGen;
+import downtoearth.world.worldGen.NoiseGen;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState {
 
-<<<<<<< HEAD
-    private World w;
-=======
     public static World w;
->>>>>>> endpoint
     private Inventory inv;
     private CraftingScreen cs;
     private static final int mapSize = 5012;

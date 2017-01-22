@@ -5,6 +5,7 @@
  */
 package downtoearth.entities;
 
+import downtoearth.Multiplayer.Client;
 import downtoearth.items.Item;
 import shared.RemotePlayer;
 import downtoearth.enums.DirectionType;
@@ -30,13 +31,8 @@ import org.newdawn.slick.geom.Rectangle;
 public class Player extends LivingEntity{
     
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
-<<<<<<< HEAD
-    private List<Observer> observers;
-=======
     
-    public float xa, ya;
     private final List<Observer> OBSERVERS;
->>>>>>> endpoint
     
     private int thirst;
     private int hunger;
@@ -62,27 +58,27 @@ public class Player extends LivingEntity{
     }
     
     public Camera getCamera(){
-        return this.cam;
+        return this.CAM;
     }
     
     public float getCamX(){
-        return this.cam.getCoordinate().getX();
+        return this.CAM.getCoordinate().getX();
     }
     
     public float getCamY(){
-        return this.cam.getCoordinate().getY();
+        return this.CAM.getCoordinate().getY();
     }
     
     public void setCamX(float value){
-        cam.getCoordinate().setX(value);
+        CAM.getCoordinate().setX(value);
     }
     
     public void setCamY(float value){
-        cam.getCoordinate().setY(value);
+        CAM.getCoordinate().setY(value);
     }
     
     public Coordinate getCoordinate(){
-        return this.cam.getCoordinate();
+        return this.CAM.getCoordinate();
     }
     
     public Rectangle getBounds(){
@@ -114,13 +110,13 @@ public class Player extends LivingEntity{
     
     public Player(String name, Coordinate location, int hitPoints, String path, World w) throws SlickException {
         super(name, location, hitPoints, path);
-        this.observers = new ArrayList<Observer>();
-        this.aManager = new AnimationManager(32 ,32);
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.OBSERVERS = new ArrayList<Observer>();
+        this.AMANAGER = new AnimationManager(32 ,32);
+        this.SMANAGER = new SpriteManager("res/playerSprite.png");
         this.dir = DirectionType.NORTH;
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
-        this.cam = new Camera(1080, 720, this.coordinate);
+        this.CAM = new Camera(1080, 720, this.coordinate);
         this.w = w;
     }
     
@@ -133,13 +129,10 @@ public class Player extends LivingEntity{
         this.c = c;
     }
 
-<<<<<<< HEAD
-    public void move(Input input, List<Tile> tiles, List<NPC> entities) throws SlickException{   
+        
+    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{  
         float xa = 0;
         float ya = 0;
-=======
-    public void move(Input input, List<Tile> tiles, List<NPC> entities, List<Opponent> opponents) throws SlickException{   
->>>>>>> endpoint
         moving = false;
         
         if(input.isKeyDown(Input.KEY_D)){ dir = DirectionType.EAST; xa = 1.3f; moving = true;}

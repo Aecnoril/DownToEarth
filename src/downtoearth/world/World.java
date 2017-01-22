@@ -1,10 +1,12 @@
 package downtoearth.world;
 
+import com.sun.glass.ui.Size;
 import downtoearth.entities.Player;
 import downtoearth.entities.ItemEntity;
 import downtoearth.entities.NPC;
 import downtoearth.entities.Opponent;
 import downtoearth.enums.*;
+import downtoearth.gameUtil.SpriteManager;
 import shared.Coordinate;
 import downtoearth.states.MultiplayerState;
 import java.io.IOException;
@@ -31,14 +33,9 @@ public class World implements Serializable{
     private List<Tile> removeTiles;
     private List<NPC> mobs;
     private List<NPC> removeMobs;
-<<<<<<< HEAD
     private ArrayList<ItemEntity> itemEnts;
     private transient List<Opponent> opponents;
-=======
-    public ArrayList<ItemEntity> itemEnts;
-    public List<Opponent> opponents;
     private SpriteManager sManager;
->>>>>>> endpoint
 
     float[][] heightMap;
 
@@ -62,13 +59,12 @@ public class World implements Serializable{
         return null;
     }
     
-<<<<<<< HEAD
     public void setOpponent(List<Opponent> o){
         this.opponents = o;
-=======
+    }
+    
     public Size getMapSize(){
         return new Size(map.getWidth(), map.getHeight());
->>>>>>> endpoint
     }
 
     public List<NPC> getMobs() {
@@ -160,12 +156,8 @@ public class World implements Serializable{
         drawMobs(startX, startY, stopX, stopY);
         
         drawItems(startX, startY, stopX, stopY);
-<<<<<<< HEAD
-=======
         
         drawOpponents(startX, startY, stopX, stopY);
-
->>>>>>> endpoint
     }
     
     public void drawMobs(int startX, int startY, int stopX, int stopY){

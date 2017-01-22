@@ -17,12 +17,7 @@ public class DownToEarth extends StateBasedGame {
      * Creates the game
      * @param name 
      */
-    public DownToEarth(String name){
-=======
-public class DownToEarth extends StateBasedGame {
-
     public DownToEarth(String name) {
->>>>>>> endpoint
         super(name);
     }
 

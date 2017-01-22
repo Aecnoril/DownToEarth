@@ -37,6 +37,6 @@ public class Armor extends Item{
     }
     
     public double getDamageReduction(){
-        return this.damageReduction;
+        return this.DAMAGE_REDUCTION;
     }
 }

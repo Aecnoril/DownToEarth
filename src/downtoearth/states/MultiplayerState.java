@@ -6,16 +6,20 @@
 package downtoearth.states;
 
 import downtoearth.Multiplayer.Client;
+import downtoearth.Multiplayer.GameCommunicator;
 import downtoearth.states.gui.Inventory;
 import downtoearth.states.gui.CraftingScreen;
 import shared.RemotePlayer;
 import downtoearth.entities.ItemEntity;
 import shared.Coordinate;
 import downtoearth.world.World;
+import downtoearth.world.worldGen.NoiseGen;
 import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import downtoearth.Inventory.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
@@ -32,9 +36,7 @@ public class MultiplayerState extends BasicGameState{
     private CraftingScreen cs;
     private StateBasedGame game;
     private static int mapSize = 5012;
-<<<<<<< HEAD
     private static WorldGen worldGen = new WorldGen(new Coordinate(mapSize, mapSize));
-=======
     private static NoiseGen noiseGen = new NoiseGen();
     private String id = UUID.randomUUID().toString();
     
@@ -42,7 +44,6 @@ public class MultiplayerState extends BasicGameState{
     private Map map;
     
     private GameCommunicator com;
->>>>>>> endpoint
      
     private RemotePlayer player;
     private Random random;
@@ -66,11 +67,7 @@ public class MultiplayerState extends BasicGameState{
         cs = new CraftingScreen(25, 100, 1025, 500, new Color(122, 118, 118));
         
         try {
-<<<<<<< HEAD
-            this.client = new Client(Integer.toString(random.nextInt(100)), "145.93.84.202");
-=======
             this.client = new Client(Integer.toString(random.nextInt(100)), "localhost", w.getPlayer());
->>>>>>> endpoint
             w.getPlayer().setSpawnPoint(client.getPlayer().getCoords().getXint(), client.getPlayer().getCoords().getYint());
         } catch (RemoteException ex) {
             Logger.getLogger(MultiplayerState.class.getName()).log(Level.SEVERE, null, ex);
