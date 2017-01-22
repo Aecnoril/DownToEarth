@@ -33,22 +33,22 @@ public class Player extends LivingEntity{
     //<editor-fold defaultstate="collapsed" desc="Fields & properties">
     
     public float xa, ya;
-    private List<Observer> observers;
+    private final List<Observer> OBSERVERS;
     
     private int thirst;
     private int hunger;
     private byte dir;
-    private Camera cam;
+    private final Camera CAM;
     private Client c;
     private boolean moving;
-    private Coordinate coordinate;
+    private final Coordinate coordinate;
     private boolean attack;
     private Rectangle colBox;
     private Rectangle attBox;
-    private World w;
+    private final World w;
     
-    private AnimationManager aManager;
-    private SpriteManager sManager;
+    private final AnimationManager AMANAGER;
+    private final SpriteManager SMANAGER;
 
     public int getThirst() {
         return thirst;
@@ -59,27 +59,27 @@ public class Player extends LivingEntity{
     }
     
     public Camera getCamera(){
-        return this.cam;
+        return this.CAM;
     }
     
     public float getCamX(){
-        return this.cam.getCoordinate().getX();
+        return this.CAM.getCoordinate().getX();
     }
     
     public float getCamY(){
-        return this.cam.getCoordinate().getY();
+        return this.CAM.getCoordinate().getY();
     }
     
     public void setCamX(float value){
-        cam.getCoordinate().setX(value);
+        CAM.getCoordinate().setX(value);
     }
     
     public void setCamY(float value){
-        cam.getCoordinate().setY(value);
+        CAM.getCoordinate().setY(value);
     }
     
     public Coordinate getCoordinate(){
-        return this.cam.getCoordinate();
+        return this.CAM.getCoordinate();
     }
     
     public Rectangle getBounds(){
@@ -111,13 +111,13 @@ public class Player extends LivingEntity{
     
     public Player(String name, Coordinate location, int hitPoints, String path, World w) throws SlickException {
         super(name, location, hitPoints, path);
-        this.observers = new ArrayList<Observer>();
-        this.aManager = new AnimationManager(32 ,32);
-        this.sManager = new SpriteManager("res/playersprite.png");
+        this.OBSERVERS = new ArrayList<>();
+        this.AMANAGER = new AnimationManager(32 ,32);
+        this.SMANAGER = new SpriteManager("res/playersprite.png");
         this.dir = DirectionType.NORTH; 
         this.moving = false;
         this.coordinate = new Coordinate(540,360);
-        this.cam = new Camera(1080, 720, this.coordinate);
+        this.CAM = new Camera(1080, 720, this.coordinate);
         this.w = w;
     }
     
@@ -151,7 +151,7 @@ public class Player extends LivingEntity{
                 this.coordinate.setY(newY);
             }
 
-            cam.setCoordinate(this.coordinate);
+            CAM.setCoordinate(this.coordinate);
         }
         else{
             moving = false;
@@ -161,14 +161,14 @@ public class Player extends LivingEntity{
     public void render(GameContainer con) throws SlickException{
         if(moving){
             moving = false;
-            aManager.DrawAnimation(this.dir, con);
+            AMANAGER.DrawAnimation(this.dir, con);
         }else{
             SpriteLocation pos = DirectionType.getStandingSprite(dir);
-            sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
+            SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), (con.getWidth()/2)-16, (con.getHeight()/2)-16);
         }
         
         if(attack){
-            aManager.DrawAttack(this.dir, con);
+            AMANAGER.DrawAttack(this.dir, con);
             attack = false;
         }
     }

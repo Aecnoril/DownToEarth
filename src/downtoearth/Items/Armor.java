@@ -15,11 +15,11 @@ import org.newdawn.slick.SlickException;
  */
 public class Armor extends Item{
     
-    private double damageReduction;
+    private final double DAMAGE_REDUCTION;
     
     public Armor(String name, byte type, double durability, double breakChange, double damageReduction) throws SlickException {
         super(name, type, durability, breakChange);
-        this.damageReduction = damageReduction;
+        this.DAMAGE_REDUCTION = damageReduction;
     }
 
     @Override

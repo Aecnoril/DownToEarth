@@ -31,15 +31,13 @@ public class Client extends UnicastRemoteObject implements IClient {
         try {
             String lookUpName = "rmi://" + ip + "/DownToEarth";
             this.server = (IServer) Naming.lookup(lookUpName);
-            this.opponents = new ArrayList<Opponent>();
-            this.otherClients = new CopyOnWriteArrayList<RemotePlayer>();
+            this.opponents = new ArrayList<>();
+            this.otherClients = new CopyOnWriteArrayList<>();
             this.server.clientJoin(this);
             this.remotePlayer = server.spawnPlayer(this);
             this.server.updatePlayers();
             this.player = p;
-        } catch (NotBoundException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -67,7 +65,7 @@ public class Client extends UnicastRemoteObject implements IClient {
     @Override
     public synchronized void updatePlayers(CopyOnWriteArrayList<RemotePlayer> otherClients) {
         this.otherClients = otherClients;
-        if (opponents.size() != 0) {
+        if (!opponents.isEmpty()) {
             this.opponents.clear();
         }
         for (RemotePlayer p : this.otherClients) {
