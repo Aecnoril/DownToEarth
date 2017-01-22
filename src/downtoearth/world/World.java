@@ -145,11 +145,6 @@ public class World implements Serializable {
         int stopY = p.getCamera().getCenterPosY() + (con.getHeight() / 2);
         
         p.render(con);
-        if(p.getAttackBox() != null)
-        {
-                    g.draw(p.getAttackBox());
-
-        }
 
         drawTiles(startX, startY, stopX, stopY);
 
@@ -158,15 +153,6 @@ public class World implements Serializable {
         drawItems(startX, startY, stopX, stopY);
 
         drawOpponents(startX, startY, stopX, stopY);
-        if (!opponents.isEmpty()) {
-            for (Opponent o : opponents) {
-                if (o.getLocation().getX() >= startX && o.getLocation().getX() <= stopX) {
-                    if (o.getLocation().getY() >= startY && o.getLocation().getY() <= stopY) {
-                        g.draw(o.getBounds());
-                    }
-                }
-            }
-        }
 
     }
 

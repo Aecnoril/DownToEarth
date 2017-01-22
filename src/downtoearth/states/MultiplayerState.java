@@ -18,6 +18,7 @@ import downtoearth.world.worldGen.WorldGen;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Random;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
