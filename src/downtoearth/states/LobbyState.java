@@ -24,6 +24,7 @@ public class LobbyState extends BasicGameState {
     
     private Button join;
     private TextField ipBox;
+    
     public static void main(String[] args) {
         // TODO code application logic here
     }

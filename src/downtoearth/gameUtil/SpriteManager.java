@@ -16,14 +16,14 @@ import org.newdawn.slick.SpriteSheet;
 public class SpriteManager{
     private final int resolution = 32;
     private final int size = 32;
-    private SpriteSheet sprites;
+    private final SpriteSheet sprites;
     
     public SpriteManager(String path) throws SlickException{
         Image spritesheet = new Image(path); 
         sprites = new SpriteSheet(spritesheet, resolution, resolution);
     }
 	
-	public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
+    public SpriteManager(String path, int width, int height, int spacing, int margin) throws SlickException{
         Image spritesheet = new Image(path);
         sprites = new SpriteSheet(spritesheet, width, height, spacing, margin);
     }

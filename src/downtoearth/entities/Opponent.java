@@ -21,48 +21,48 @@ import shared.RemotePlayer;
  * @author Demian
  */
 public class Opponent {
-    private RemotePlayer player;
-    private SpriteManager sManager;
+    private final RemotePlayer PLAYER;
+    private final SpriteManager SMANAGER;
     private AnimationManager aManager;
-    private Rectangle bounds;
+    private final Rectangle BOUNDS;
     
     public Coordinate getLocation(){
-        return player.getCoords();
+        return PLAYER.getCoords();
     }
     
     public String getName(){
-        return player.getId();
+        return PLAYER.getId();
     }
     
     public Rectangle getBounds(){
-        return bounds;
+        return BOUNDS;
     }
     
     public RemotePlayer getPlayer(){
-        return player;
+        return PLAYER;
     }
     
     public Opponent(RemotePlayer player) throws SlickException{
-        this.player = player;
-        this.bounds = new Rectangle(player.getCoords().getXint() + 2 , player.getCoords().getYint() + 2, 28, 28);
-        this.sManager = new SpriteManager("res/playerSprite.png");
+        this.PLAYER = player;
+        this.BOUNDS = new Rectangle(getLocation().getXint() - 16 , getLocation().getYint() -16, 28, 28);
+        this.SMANAGER = new SpriteManager("res/playersprite.png");
     }
     
     public void draw(int posX, int posY){
-        bounds.setX(player.getCoords().getX()+2 - posX);
-        bounds.setY(player.getCoords().getY()+2 - posY);
+        BOUNDS.setX(getLocation().getX()-16 - posX);
+        BOUNDS.setY(getLocation().getY() -14 - posY);
         try{
-            if(player.moving){
-                player.moving = false;
-                aManager.DrawAnimation(player.dir, player.getCoords());
+            if(PLAYER.moving){
+                PLAYER.moving = false;
+                aManager.DrawAnimation(PLAYER.dir, PLAYER.getCoords());
             }else{
-                SpriteLocation pos = DirectionType.getStandingSprite(player.dir);
-                sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), player.getCoords().getXint() - posX -16, player.getCoords().getYint() - posY -16);
+                SpriteLocation pos = DirectionType.getStandingSprite(PLAYER.dir);
+                SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), PLAYER.getCoords().getXint() - posX -16, PLAYER.getCoords().getYint() - posY -16);
             }
 
-            if(player.attack){
-                aManager.DrawAttack(player.dir, player.getCoords());
-                player.attack = false;
+            if(PLAYER.attack){
+                aManager.DrawAttack(PLAYER.dir, PLAYER.getCoords());
+                PLAYER.attack = false;
             }
         }catch(Exception e){
             Logger.getLogger(Opponent.class.getName()).log(Level.SEVERE, null, e);

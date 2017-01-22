@@ -20,11 +20,11 @@ import shared.Coordinate;
       
       private int width, height;
       
-      private SpriteSheet northSheet, westSheet, eastSheet, southSheet;
-      private SpriteSheet northAtt, eastAtt, westAtt, southAtt;
-      private Animation northAnim, westAnim, eastAnim, southAnim;
-      private Animation northAttAnim, westAttAnim, eastAttAnim, southAttAnim;
-      private byte dir;
+      private final SpriteSheet northSheet, westSheet, eastSheet, southSheet;
+      private final SpriteSheet northAtt, eastAtt, westAtt, southAtt;
+      private final Animation northAnim, westAnim, eastAnim, southAnim;
+      private final Animation northAttAnim, westAttAnim, eastAttAnim, southAttAnim;
+      private final byte dir;
       
       public boolean isStopped(){
           if(!northAttAnim.isStopped()){

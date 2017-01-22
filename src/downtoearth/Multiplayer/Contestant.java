@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
  * @author Demian
  */
 public class Contestant implements Serializable{
-    private String id;
+    private final String ID;
     private int x;
     private int y;
     private int health;
@@ -21,7 +21,7 @@ public class Contestant implements Serializable{
     private boolean dead;
 
     public String getId() {
-        return id;
+        return ID;
     }
 
     public int getX() {
@@ -69,7 +69,7 @@ public class Contestant implements Serializable{
     
     
     public Contestant(String id, int x, int y, int health){
-        this.id = id;
+        this.ID = id;
         this.x = x;
         this.y = y;
         this.health = health;

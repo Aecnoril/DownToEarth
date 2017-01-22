@@ -21,23 +21,23 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class ItemEntity extends Entity {
     
-    private SpriteManager sManager;
-    private Rectangle bounds;
-    private Item ti;
+    private final SpriteManager SMANAGER;
+    private final Rectangle BOUNDS;
+    private final Item TI;
     
     public Rectangle getBounds() {
-        return bounds;
+        return BOUNDS;
     }
     
     public Item getItem(){
-        return ti;
+        return TI;
     }
     
     public ItemEntity(String name, Coordinate location, int hitPoints, String path, Item ti) throws SlickException {
         super(name, location, hitPoints, path);
-        this.bounds = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
-        this.sManager = new SpriteManager("res/TestItems.png");
-        this.ti = ti;
+        this.BOUNDS = new Rectangle(location.getXint() + 2 , location.getYint() + 2, 28, 28);
+        this.SMANAGER = new SpriteManager("res/TestItems.png");
+        this.TI = ti;
     }
     
     public void move(Input input){     
@@ -73,13 +73,13 @@ public class ItemEntity extends Entity {
         else if(input.isKeyDown(Input.KEY_A)){
             super.location.setX(super.location.getX() + (SPEED * 4));
         }
-        bounds.setX(super.location.getX()+2);
-        bounds.setY(super.location.getY()+2);
+        BOUNDS.setX(super.location.getX()+2);
+        BOUNDS.setY(super.location.getY()+2);
     }
     
     public void draw() {
-        SpriteLocation pos = Tooltype.getSpriteLocation(ti.getType());
-        sManager.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint(), location.getYint());
+        SpriteLocation pos = Tooltype.getSpriteLocation(TI.getType());
+        SMANAGER.drawSprite(pos.getSpriteX(), pos.getSpriteY(), location.getXint(), location.getYint());
     }
     
     

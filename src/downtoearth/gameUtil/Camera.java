@@ -5,7 +5,7 @@ import shared.Coordinate;
 public class Camera {
     
     private Coordinate c;
-    private int width, height;
+    private final int width, height;
     
     public Camera(int width, int height, Coordinate c){
         this.width= width;
