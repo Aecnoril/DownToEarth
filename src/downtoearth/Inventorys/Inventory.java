@@ -231,8 +231,14 @@ public class Inventory {
         for (InventorySlot is : this.inventorySlots) {
             if (is.detectMouse(gc.getInput())) {
                 if (gc.getInput().isMousePressed(gc.getInput().MOUSE_RIGHT_BUTTON)) {
-                    items.remove(is.getItem());
-                    is.setItem(null);
+                    if (is.getItemQuantity() == 1) {
+                        items.remove(is.getItem());
+                        is.setItem(null);
+                    }
+                    else{
+                       items.remove(is.getItem());
+                       is.setItemQuantity(is.getItemQuantity()-1);
+                    }
                 } else if (gc.getInput().isMousePressed(gc.getInput().MOUSE_LEFT_BUTTON)) {
                     if (selectedSlot != null && is.getItem() != null) {
                         Item i = (Item) selectedSlot.getItem();
